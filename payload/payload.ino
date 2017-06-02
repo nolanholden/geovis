@@ -4,7 +4,7 @@
 /* 
  * BMP180 setup instructions:
  * ----------------------------------------
- * Connect BMP180 V-in   to 3.3V (NOT 5.0V)
+ * Connect BMP180 V-in   to 3.3V or 5.0V
  * Connect BMP180 GND    to Ground
  * Connect BMP180 SCL    to Analog 5
  * Connect BMP180 SDA    to Analog 4
@@ -59,7 +59,7 @@ void printBaroData() {
   Serial.print(bmp.readAltitude());
   Serial.println(" meters");
   Serial.print("Indicated altitude with sensor pressure adjustment =  ");
-  Serial.print(bmp.readAltitude((float)bmp.readPressure()));
+  Serial.print(bmp.readAltitude( 101400 /* (float)bmp.readPressure() */));
   Serial.println(" meters");
 
   Serial.println();
