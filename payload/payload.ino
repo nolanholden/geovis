@@ -22,7 +22,7 @@ void setup() {
 }
   
 void printBaroData() {
-  
+
     // Get temperature.
     Serial.print("Temperature = ");
     Serial.print(barometer.readTemperature());
@@ -46,7 +46,8 @@ void printBaroData() {
     Serial.println(" meters");
 
     // TODO:
-    // Density altitude: pressure altitude corrected for nonstandard temperature
+    // Density altitude:
+    // pressure altitude corrected for nonstandard temperature
     // High density altitude (High, Hot, and Humid) means decreased performance.
 
     // Get indicated altitude:
