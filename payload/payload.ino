@@ -1,8 +1,4 @@
-#include <Wire.h>
-#include <Adafruit_BMP085.h>
-
-/* 
- * BMP180 setup instructions:
+/* BMP180 setup for Arduino UNO:
  * ----------------------------------------
  * Connect BMP180 V-in   to 3.3V or 5.0V
  * Connect BMP180 GND    to Ground
@@ -11,61 +7,81 @@
  * ----------------------------------------
 */
 
+#include <Wire.h>
+#include <Adafruit_BMP085.h>
+
+
 Adafruit_BMP085 bmp;
   
 void setup() {
-  Serial.begin(2000000); // bits/second
+  // Start serial communication.
+  Serial.begin(9600); // in bits/second
+
+  // Start the BMP-180. Trap the thread if no sensor is found.
   if (!bmp.begin()) {
-  	Serial.println("No BMP085 sensor found. Program will not proceed.");
+  	Serial.println("No BMP sensor found. Program will not proceed.");
   	while (1) { /* Trap the thread. */ }
   }
 }
+
+void writeBmpData() {}
+
+struct BmpData {
   
-void printBaroData() {
+  // Temperature.
+  // // UNIT: degrees Celcius
+  float temperature;
+
+  // Pressure at the sensor.
+  // UNIT: pascal (N/m^2)
+  int32_t ambient_pressure;
+  
+  // Pressure altitude: altitude with altimeter setting at 101325 Pascals == 1013.25 millibars
+  // == 29.92 inches mercury (i.e., std. pressure) // For pressure conversions, visit NOAA 
+  // at: https://www.weather.gov/media/epz/wxcalc/pressureConversion.pdf.
+  // (Pressure altitude is NOT correct for non-standard pressure or temperature.)
+  // UNIT: meters
+  float pressure_altitude;
+
+  // Only if a humidity sensor is viable, TODO (Nolan Holden):
+  // Add density altitude:
+  // pressure altitude corrected for nonstandard temperature.
+  // Remember: higher density altitude (High, Hot, and Humid) means decreased performance.
+
+  BmpData(float _temperature, int32_t _ambient_pressure, float _pressure_altitude) {
+    temperature = _temperature;
+    ambient_pressure = _ambient_pressure;
+    pressure_altitude = _pressure_altitude;
+  }
+};
+
+BmpData& getBmpData(void) {
+  return BmpData(bmp.readTemperature(), bmp.readPressure(), bmp.readAltitude());
+}
+
+void printBmpData(void) {
 
   // Get temperature.
   Serial.print("Temperature = ");
   Serial.print(bmp.readTemperature());
-  Serial.println(" *C");
+  Serial.println(" °C");
 
   // Get pressure at sensor.
   Serial.print("Pressure = ");
   Serial.print(bmp.readPressure());
   Serial.println(" Pa");
 
-  // Calculate pressure at 0 MSL. (0 meters mean sea-level)
-  Serial.print("Calculated pressure at 0 MSL = ");
-  Serial.print(bmp.readSealevelPressure());
-  Serial.println(" Pa");
 
-  // Get pressure altitude:
-  // altitude with (default) altimeter setting at 101325 Pascals == 1013.25 millibars
-  // == 29.92 inches mercury (i.e., std. pressure)
   Serial.print("Pressure altitude = ");
   Serial.print(bmp.readAltitude());
   Serial.println(" meters");
 
-  // TODO:
-  // Density altitude:
-  // pressure altitude corrected for nonstandard temperature
-  // High density altitude (High, Hot, and Humid) means decreased performance.
 
-  // Get indicated altitude:
-  // pressure altitude corrected for non-standard pressure, with 
-  // altimeter setting (in Pascals) as argument 
-  // (29.92 inches mercury == 101325 Pascals == 1013.25 millibars)
-  // For pressure conversions, visit NOAA at: https://www.weather.gov/media/epz/wxcalc/pressureConversion.pdf.
-  Serial.print("Indicated altitude =                                  ");
-  Serial.print(bmp.readAltitude());
-  Serial.println(" meters");
-  Serial.print("Indicated altitude with sensor pressure adjustment =  ");
-  Serial.print(bmp.readAltitude( 101400 /* (float)bmp.readPressure() */));
-  Serial.println(" meters");
 
   Serial.println();
 }
 
 void loop() {
   printBaroData();
-  delay(200);
+  delay(1000);
 }
