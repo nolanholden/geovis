@@ -10,7 +10,17 @@
 #include <Wire.h>
 #include <Adafruit_BMP085.h>
 
+// begin SD card libraries
+#include <BlockDriver.h>
+#include <FreeStack.h>
+#include <MinimumSerial.h>
+#include <SdFat.h>
+#include <SdFatConfig.h>
+#include <SysCall.h>
+// end SD card libraries
 
+File file; // file object
+SdFatSdio sd_card; // MicroSD card
 Adafruit_BMP085 bmp;
   
 void setup() {
