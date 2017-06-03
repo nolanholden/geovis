@@ -1,5 +1,4 @@
 #include <Wire.h>
-#include <Adafruit_BMP085.h>
 
 // begin SD card libraries
 #include <BlockDriver.h>
@@ -10,23 +9,17 @@
 #include <SysCall.h>
 // end SD card libraries
 
+#include "Bmp180.h" // RCR header
+
 File file; // file object
-SdFatSdio sd_card; // MicroSD card
-Adafruit_BMP085 bmp;
+//SdFatSdio sd_card; // MicroSD card
   
 void setup() {
   // Start serial communication.
   Serial.begin(9600); // in bits/second
 }
 
-void writeBmpData() {}
-
-BmpData& getBmpData(void) {
-  return BmpData(bmp.readTemperature(), bmp.readPressure(), bmp.readAltitude());
-}
-
 void printBmpData(void) {
-  BmpData& bmp_data = getBmpData();
 
   Serial.print("Temperature = ");
   Serial.print(bmp_data.temperature);
