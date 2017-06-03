@@ -18,6 +18,8 @@
 * ----------------------------------------
 */
 
+#include "Setupable.h"
+
 namespace rcr {
 namespace level1payload {
 
