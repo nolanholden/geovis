@@ -63,6 +63,10 @@ struct BmpData {
     ambient_pressure = _ambient_pressure;
     pressure_altitude = _pressure_altitude;
   }
+
+  // Disallow copying and moving.
+  BmpData(const BmpData&) = delete;
+  BmpData& operator=(const BmpData&) = delete;
 };
 
 BmpData& getBmpData(void) {
@@ -70,28 +74,23 @@ BmpData& getBmpData(void) {
 }
 
 void printBmpData(void) {
+  BmpData& bmp_data = getBmpData();
 
-  // Get temperature.
   Serial.print("Temperature = ");
-  Serial.print(bmp.readTemperature());
+  Serial.print(bmp_data.temperature);
   Serial.println(" °C");
 
-  // Get pressure at sensor.
-  Serial.print("Pressure = ");
-  Serial.print(bmp.readPressure());
+  Serial.print("Ambient pressure = ");
+  Serial.print(bmp_data.ambient_pressure);
   Serial.println(" Pa");
 
-
   Serial.print("Pressure altitude = ");
-  Serial.print(bmp.readAltitude());
+  Serial.print(bmp_data.pressure_altitude);
   Serial.println(" meters");
-
-
-
   Serial.println();
 }
 
 void loop() {
-  printBaroData();
+  printBmpData();
   delay(1000);
 }
