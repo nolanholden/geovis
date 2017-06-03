@@ -13,7 +13,10 @@
 
 File file; // file object
 //SdFatSdio sd_card; // MicroSD card
-  
+
+namespace rcr {
+namespace level1payload {
+
 void setup() {
   // Start serial communication.
   Serial.begin(9600); // in bits/second
@@ -39,3 +42,6 @@ void loop() {
   printBmpData();
   delay(1000);
 }
+
+} // namespace level1_payload
+} // namespace rcr
