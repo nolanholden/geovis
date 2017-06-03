@@ -43,7 +43,7 @@ class Bmp180 {
   Bmp180& operator=(const Bmp180&) = delete;
 
  private:
-  Adafruit_BMP085 bmp;
+  Adafruit_BMP085 bmp_;
 };
 
 } // namespace level1_payload
