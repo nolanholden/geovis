@@ -3,7 +3,7 @@
 namespace rcr {
 namespace level1payload {
 
-Bmp180::Bmp180(void) {
+void Bmp180::Setup(void) {
   // Start the BMP-180. Trap the thread if no sensor is found.
   if (!bmp_.begin()) {
     Serial.println("No BMP sensor found. Program will not proceed.");
