@@ -11,11 +11,12 @@
 
 #include "Bmp180.h" // RCR header
 
-File file; // file object
-//SdFatSdio sd_card; // MicroSD card
-
 namespace rcr {
 namespace level1payload {
+
+Bmp180 bmp;
+File file; // file object
+//SdFatSdio sd_card; // MicroSD card
 
 void setup() {
   // Start serial communication.
@@ -25,15 +26,15 @@ void setup() {
 void printBmpData(void) {
 
   Serial.print("Temperature = ");
-  Serial.print(bmp_data.temperature);
+  Serial.print(bmp.temperature());
   Serial.println(" °C");
 
   Serial.print("Ambient pressure = ");
-  Serial.print(bmp_data.ambient_pressure);
+  Serial.print(bmp.ambient_pressure());
   Serial.println(" Pa");
 
   Serial.print("Pressure altitude = ");
-  Serial.print(bmp_data.pressure_altitude);
+  Serial.print(bmp.pressure_altitude());
   Serial.println(" meters");
   Serial.println();
 }
