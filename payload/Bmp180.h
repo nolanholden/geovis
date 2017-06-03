@@ -25,7 +25,7 @@ namespace level1payload {
 // Compatable with (at least) the BMP085 and BMP180.
 class Bmp180 {
  public:
-  Bmp180(void);
+  Bmp180(void) {}
 
   // Temperature.
   // // UNIT: degrees Celcius
