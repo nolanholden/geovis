@@ -1,30 +1,45 @@
 #include <Wire.h>
 
-// begin SD card libraries
+// SD card libraries
 #include <BlockDriver.h>
-#include <FreeStack.h>
+//#include <FreeStack.h>
 #include <MinimumSerial.h>
 #include <SdFat.h>
 #include <SdFatConfig.h>
 #include <SysCall.h>
-// end SD card libraries
 
-#include "Bmp180.h" // RCR header
+// RCR headers
+#include "Setupable.h"
+#include "Bmp180.h"
 
-namespace rcr {
-namespace level1payload {
+// To shorten RCR namespace, use namespace alias "custom".
+namespace custom = rcr::level1payload;
 
-Bmp180 bmp;
+custom::Bmp180 bmp;
 File file; // file object
 //SdFatSdio sd_card; // MicroSD card
 
+// Array of pointers to Setupable-implementing objects which require 
+// initialization logic to take place in setup() function.
+// For more info, see "Setupable.h".
+custom::Setupable* setupables[] = { &bmp };
+
 void setup() {
+  // Illuminate LED.
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
+  
   // Start serial communication.
-  Serial.begin(9600); // in bits/second
+  Serial.begin(9600); // bits/second does not matter for Teensy 3.6
+  Serial.println("In setup.");
+
+  // Setup the custom data structures.
+  for (custom::Setupable* obj : setupables) {
+    obj->Setup();
+  }
 }
 
 void printBmpData(void) {
-
   Serial.print("Temperature = ");
   Serial.print(bmp.temperature());
   Serial.println(" °C");
@@ -44,5 +59,3 @@ void loop() {
   delay(1000);
 }
 
-} // namespace level1_payload
-} // namespace rcr
