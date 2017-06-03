@@ -7,7 +7,7 @@
 	#include "WProgram.h"
 #endif
 
-#include <Adafruit_BMP085_Library\Adafruit_BMP085.h>
+#include <Adafruit_BMP085.h>
 
 /* BMP180 setup:
 * ----------------------------------------
