@@ -23,9 +23,12 @@ namespace level1payload {
 
 // Encapsulates a BMP180 sensor and providing selected access to its interface.
 // Compatable with (at least) the BMP085 and BMP180.
-class Bmp180 {
+class Bmp180 : public Setupable {
  public:
   Bmp180(void) {}
+
+  // See interface Setupable.
+  void Setup(void);
 
   // Temperature.
   // // UNIT: degrees Celcius
