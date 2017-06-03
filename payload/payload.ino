@@ -1,12 +1,3 @@
-/* BMP180 setup for Arduino UNO:
- * ----------------------------------------
- * Connect BMP180 V-in   to 3.3V or 5.0V
- * Connect BMP180 GND    to Ground
- * Connect BMP180 SCL    to Analog 5
- * Connect BMP180 SDA    to Analog 4
- * ----------------------------------------
-*/
-
 #include <Wire.h>
 #include <Adafruit_BMP085.h>
 
