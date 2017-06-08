@@ -28,15 +28,29 @@ void setup() {
   // Illuminate LED.
   pinMode(13, OUTPUT);
   digitalWrite(13, HIGH);
-  
-  // Start serial communication.
-  Serial.begin(9600); // bits/second does not matter for Teensy 3.6
-  Serial.println("In setup.");
 
-  // Setup the custom data structures.
+  // Give time to open serial monitor.
+  delay(2000);
+  
+  // Start serial communication. 
+  Serial.begin(9600); // bits/second does not matter for Teensy 3.6
+  Serial.print("In setup");
+  delay(512);
+  Serial.print(".");
+  delay(512);
+  Serial.print(".");
+  delay(512);
+  Serial.println(".");
+  Serial.println();
+  
+  // Setup() the custom data structures.
   for (custom::Setupable* obj : setupables) {
     obj->Setup();
   }
+
+  Serial.println();
+  Serial.println("SETUP COMPLETE.");
+  Serial.println();
 }
 
 void printBmpData(void) {
