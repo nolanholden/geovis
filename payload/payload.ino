@@ -17,11 +17,11 @@ namespace custom = rcr::level1payload;
 
 custom::Bmp180 bmp;
 File file; // file object
-//SdFatSdio sd_card; // MicroSD card
+SdFatSdio sd_card; // MicroSD card
 
 // Array of pointers to Setupable-implementing objects which require 
 // initialization logic to take place in setup() function.
-// For more info, see "Setupable.h".
+// For more info, see "setupable.h".
 custom::Setupable* setupables[] = { &bmp };
 
 void setup() {
@@ -42,6 +42,15 @@ void setup() {
   delay(512);
   Serial.println(".");
   Serial.println();
+  delay(512);
+
+  // Setup MicroSD card I/O.
+  if(!sd_card.begin()) {
+    Serial.println("ERROR: SD card could not be found.");
+  }
+  else {
+    Serial.println("SD card ready.");
+  }
   
   // Setup() the custom data structures.
   for (custom::Setupable* obj : setupables) {
@@ -51,6 +60,22 @@ void setup() {
   Serial.println();
   Serial.println("SETUP COMPLETE.");
   Serial.println();
+}
+
+void write_to_sd(void) {
+  auto log_path = "nolan-tests\\nolan-test.log";
+  sd_card.remove(log_path); // remove file from last time.
+
+  File file = sd_card.open(log_path, FILE_WRITE); // Open a new file for writing.
+  
+  // Initiate file for writing.
+  if(!file) {
+    Serial.println("File could not be initialized."); 
+  }
+  else {
+    file.println("I'm text in a file!");
+    file.close(); // Close when finished.
+  }
 }
 
 void printBmpData(void) {
@@ -68,8 +93,14 @@ void printBmpData(void) {
   Serial.println();
 }
 
+bool written = false;
+
 void loop() {
   printBmpData();
+  if (!written) {
+    write_to_sd();
+    written = true;
+  }
   delay(1000);
 }
 
