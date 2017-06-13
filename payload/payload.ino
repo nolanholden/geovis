@@ -4,7 +4,7 @@
 
 // SD card libraries
 #include <BlockDriver.h>
-#include <FreeStack.h> // something is wrong with this library.
+//#include <FreeStack.h> // something is wrong with this library.
 #include <MinimumSerial.h>
 #include <SdFat.h>
 #include <SdFatConfig.h>
@@ -16,8 +16,11 @@
 //#include <Adafruit_BNO055.h>
 #include <Adafruit_BME280.h>
 
+#include <string>
+
 // RCR headers
-#include "Setupable.h"
+#include "setupable.h"
+#include "setup.h"
 
 FILE file; // file manager
 SdFatSdio sd_card; // SD card manager
@@ -32,20 +35,10 @@ namespace custom = rcr::level1payload;
 // For more info, see "setupable.h".
 //custom::Setupable* setupables[] = {  };
 
-// Setup the object. Swallow any errors.
-template<typename T>
-void setup_general(T obj, char* error_message, char* success_message) {
-  if (!obj.begin()) {
-    Serial.println(error_message);
-    // Swallow the error; fault tolerance is required.
-  }
-  Serial.println(success_message);
-  Serial.println();
-}
 
-void setup_objects(void) {
-  setup_general<SdFatSdio>(sd_card, "ERROR: SD card could not be found or setup...",  "Success: SD card ready.");
-  setup_general<Adafruit_BME280>(bme, "Could not find a valid BME280 sensor...",      "Success: BME280 ready.");
+void setup_objects() {
+  custom::setup<>(sd_card, "ERROR: SD card could not be found or setup...", "Success: SD card ready.");
+  custom::setup<>(bme, "Could not find a valid BME280 sensor...", "Success: BME280 ready.");
 }
 
 void setup() {
