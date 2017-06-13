@@ -8,23 +8,21 @@
 #endif
 
 #include <Adafruit_Sensor.h>
-#include <Wire.h>
+#include <i2c_t3.h> // I2C for teensy (replaces wire.h)
 #include <SPI.h>
 
 // SD card libraries
 #include <BlockDriver.h>
-#include <FreeStack.h> // something is wrong with this library.
 #include <MinimumSerial.h>
 #include <SdFat.h>
 #include <SdFatConfig.h>
 #include <SysCall.h>
+//#include <FreeStack.h> // something is wrong with this library.
 
 // Sensor libraries.
 #include <Adafruit_BME280.h>
 #include <Adafruit_GPS.h>
 #include <Adafruit_BNO055.h>
-//#include <Adafruit_BNO055.h>
-#include <Adafruit_BME280.h>
 
 // RCR headers
 #include "setupable.h"
@@ -102,7 +100,7 @@ void write_to_sd() {
 void printBmeData() {
   Serial.print("Temperature = ");
   Serial.print(bme.readTemperature());
-  Serial.println(" °C");
+  Serial.println(" ï¿½C");
 
   Serial.print("Ambient pressure = ");
   Serial.print(bme.readPressure());
