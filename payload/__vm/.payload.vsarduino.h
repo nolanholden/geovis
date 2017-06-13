@@ -5,77 +5,56 @@
 			all non-arduino files created by visual micro and all visual studio project or solution files can be freely deleted and are not required to compile a sketch (do not delete your own code!).
 			note: debugger breakpoints are stored in '.sln' or '.asln' files, knowledge of last uploaded breakpoints is stored in the upload.vmps.xml file. Both files are required to continue a previous debug session without needing to compile and upload again
 	
-	Hardware: Arduino/Genuino Uno, Platform=avr, Package=arduino
+	Hardware: Teensy 3.6, Platform=teensy3, Package=teensy
 */
 
 #if defined(_VMICRO_INTELLISENSE)
 
 #ifndef _VSARDUINO_H_
 #define _VSARDUINO_H_
-#define __AVR_ATmega328p__
-#define __AVR_ATmega328P__
-#define F_CPU 16000000L
+#define __HARDWARE_MK66fx1m0__
+#define __HARDWARE_MK66FX1M0__
+#define _VMDEBUG 1
+#define __MK66FX1M0__
+#define TEENSYDUINO 136
 #define ARDUINO 10802
-#define ARDUINO_AVR_UNO
-#define ARDUINO_ARCH_AVR
+#define F_CPU 180000000
+#define USB_SERIAL
+#define LAYOUT_US_ENGLISH
 #define __cplusplus 201103L
-#define __AVR__
-#define __inline__
-#define __asm__(...)
+#define __arm__
+#define __ARM__
 #define __extension__
+#define  __attribute__(x)
+typedef void *__builtin_va_list;
+#define __extension__
+#define __ATTR_PURE__
+#define __ATTR_CONST__
 #define __inline__
+#define __asm__ 
 #define __volatile__
-#define GCC_VERSION 40902
+#define _HAVE_STDC
 
-#define __cplusplus 201103L
-#undef __cplusplus
-#define __cplusplus 201103L
+#define NEW_H
 
-#define volatile(va_arg) 
-#define _CONST
-#define __builtin_va_start
-#define __builtin_va_end
-#define __attribute__(...)
-#define NOINLINE __attribute__((noinline))
-#define prog_void
-#define PGM_VOID_P int
+#include <arduino.h>
+#define __arm__
+#define __ARM__
+#define __extension__
+#define  __attribute__(x)
+typedef void *__builtin_va_list;
+#define __extension__
+#define __ATTR_PURE__
+#define __ATTR_CONST__
+#define __inline__
+#define __asm__ 
+#define __volatile__
 
-
-#ifndef __builtin_constant_p
-	#define __builtin_constant_p __attribute__((__const__))
-#endif
-#ifndef __builtin_strlen
-	#define __builtin_strlen  __attribute__((__const__))
-#endif
+#define __disable_irq() __asm__ volatile("");
+#define __enable_irq()	__asm__ volatile("");
 
 
 #define NEW_H
-typedef void *__builtin_va_list;
-//extern "C" void __cxa_pure_virtual() {;}
-
-typedef int div_t;
-typedef int ldiv_t;
-
-
-typedef void *__builtin_va_list;
-//extern "C" void __cxa_pure_virtual() {;}
-
-
-
-#include <arduino.h>
-#include <pins_arduino.h> 
-#undef F
-#define F(string_literal) ((const PROGMEM char *)(string_literal))
-#undef PSTR
-#define PSTR(string_literal) ((const PROGMEM char *)(string_literal))
-
-
-#define pgm_read_byte(address_short) uint8_t() 
-#define pgm_read_word(address_short) uint16_t() 
-#define pgm_read_dword(address_short) uint32_t()
-#define pgm_read_float(address_short) float()
-#define pgm_read_ptr(address_short)   short()
-
 #include "payload.ino"
 #endif
 #endif

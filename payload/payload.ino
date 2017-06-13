@@ -4,7 +4,7 @@
 
 // SD card libraries
 #include <BlockDriver.h>
-//#include <FreeStack.h> // something is wrong with this library.
+#include <FreeStack.h> // something is wrong with this library.
 #include <MinimumSerial.h>
 #include <SdFat.h>
 #include <SdFatConfig.h>
@@ -33,7 +33,8 @@ namespace custom = rcr::level1payload;
 //custom::Setupable* setupables[] = {  };
 
 // Setup the object. Swallow any errors.
-template <typename T> void setup_general(T obj, char* error_message, char* success_message) {
+template<typename T>
+void setup_general(T obj, char* error_message, char* success_message) {
   if (!obj.begin()) {
     Serial.println(error_message);
     // Swallow the error; fault tolerance is required.
@@ -53,7 +54,7 @@ void setup() {
   digitalWrite(13, HIGH);
 
   // Give time to open serial monitor.
-  delay(2000);
+  delay(3000);
   
   // Start serial communication. 
   Serial.begin(9600); // bits/second does not matter for Teensy 3.6
