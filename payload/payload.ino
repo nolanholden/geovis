@@ -11,12 +11,10 @@ File file; // file manager
 // To shorten RCR namespace, use namespace alias "custom".
 namespace custom = rcr::level1payload;
 
-custom::Bmp180 bmp;
-
 // Array of pointers to Setupable-implementing objects which require 
 // initialization logic to take place in setup() function.
 // For more info, see "setupable.h".
-custom::Setupable* setupables[] = { &bmp };
+//custom::Setupable* setupables[] = {  };
 
 // Setup MicroSD card I/O. Trap the thread if no card is found.
 void setup_sd_card(void) {
