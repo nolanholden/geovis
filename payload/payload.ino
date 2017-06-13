@@ -2,8 +2,6 @@
 
 // RCR headers
 #include "Setupable.h"
-#include "Bmp180.h"
-#include "sdcard.h"
 
 SdFatSdio sd_card; // SD card manager
 File file; // file manager
