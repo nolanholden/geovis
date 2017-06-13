@@ -15,9 +15,11 @@ template<typename T>
 void setup(T& obj, const char* error_message, const char* success_message) {
   if (!obj.begin()) {
     Serial.println(error_message);
-    // Swallow the error; fault tolerance is required.
+    // Swallow the error. Fault tolerance is required.
   }
-  Serial.println(success_message);
+  else {
+    Serial.println(success_message);
+  }
   Serial.println();
 }
 
