@@ -12,7 +12,7 @@ namespace level1payload {
 
 // Setup the object. Swallow any errors.
 template<typename T>
-inline void setup(T& obj, const char* error_message, const char* success_message) {
+inline void setup_object(T& obj, const char* error_message, const char* success_message) {
   if (!obj.begin()) {
     Serial.println(error_message);
     // Swallow the error. Fault tolerance is required.
