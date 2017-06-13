@@ -27,15 +27,9 @@
     <ClInclude Include="Setupable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sdcard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bmp180.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sdcard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
