@@ -27,7 +27,10 @@
     <ClInclude Include="Setupable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="setup.h">
+    <ClInclude Include="payload.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="setup-object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
