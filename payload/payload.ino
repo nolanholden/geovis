@@ -32,12 +32,11 @@ namespace custom = rcr::level1payload;
 // For more info, see "setupable.h".
 //custom::Setupable* setupables[] = {  };
 
-// Setup the object. Trap the thread if no card is found.
+// Setup the object. Swallow any errors.
 template <typename T> void setup_general(T obj, char* error_message, char* success_message) {
   if (!obj.begin()) {
     Serial.println(error_message);
-    Serial.println("PROGRAM WILL NOT PROCEED.");
-    while (1) { /* Trap the thread. */ }
+    // Swallow the error; fault tolerance is required.
   }
   Serial.println(success_message);
   Serial.println();
