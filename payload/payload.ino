@@ -4,7 +4,7 @@
 
 // SD card libraries
 #include <BlockDriver.h>
-//#include <FreeStack.h> // something is wrong with this library.
+#include <FreeStack.h> // something is wrong with this library.
 #include <MinimumSerial.h>
 #include <SdFat.h>
 #include <SdFatConfig.h>
@@ -13,19 +13,16 @@
 // Sensor libraries.
 #include <Adafruit_BME280.h>
 #include <Adafruit_GPS.h>
+#include <Adafruit_BNO055.h>
 //#include <Adafruit_BNO055.h>
 #include <Adafruit_BME280.h>
-
-#include <string>
 
 // RCR headers
 #include "setupable.h"
 #include "setup.h"
 
-FILE file; // file manager
 SdFatSdio sd_card; // SD card manager
 Adafruit_BME280 bme; // I2C connection to BME280
-
 
 // To shorten RCR namespace, use namespace alias "custom".
 namespace custom = rcr::level1payload;
@@ -35,22 +32,7 @@ namespace custom = rcr::level1payload;
 // For more info, see "setupable.h".
 //custom::Setupable* setupables[] = {  };
 
-
-void setup_objects() {
-  custom::setup<>(sd_card, "ERROR: SD card could not be found or setup...", "Success: SD card ready.");
-  custom::setup<>(bme, "Could not find a valid BME280 sensor...", "Success: BME280 ready.");
-}
-
-void setup() {
-  // Illuminate LED.
-  pinMode(13, OUTPUT);
-  digitalWrite(13, HIGH);
-
-  // Give time to open serial monitor.
-  delay(3000);
-  
-  // Start serial communication. 
-  Serial.begin(9600); // bits/second does not matter for Teensy 3.6
+void print_setup_message(void) {
   Serial.print("In setup");
   delay(512);
   Serial.print(".");
@@ -60,6 +42,24 @@ void setup() {
   Serial.println(".");
   Serial.println();
   delay(512);
+}
+
+void setup_objects() {
+  custom::setup<SdFatSdio>(sd_card, 
+    "ERROR: SD card could not be found or setup.", "Success: SD card ready.");
+  custom::setup<Adafruit_BME280>(bme,
+    "ERROR: BME280 sensor could not be found or setup.", "Success: BME280 ready.");
+}
+
+void setup() {
+  // Illuminate LED.
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
+  delay(3000);
+  
+  // Start serial communication. 
+  Serial.begin(9600); // bits/second does not matter for Teensy 3.6
+  print_setup_message();
 
   // Setup objects and verify working condition.
   setup_objects();
@@ -72,7 +72,7 @@ void setup() {
   Serial.println();
   Serial.println("SETUP COMPLETE.");
   Serial.println();
-}
+} // setup()
 
 void write_to_sd(void) {
   auto log_path = "nolan-test.log";
@@ -90,20 +90,25 @@ void write_to_sd(void) {
   }
 }
 
-//void printBmpData(void) {
-//  Serial.print("Temperature = ");
-//  Serial.print(bmp.temperature());
-//  Serial.println(" °C");
-//
-//  Serial.print("Ambient pressure = ");
-//  Serial.print(bmp.ambient_pressure());
-//  Serial.println(" Pa");
-//
-//  Serial.print("Pressure altitude = ");
-//  Serial.print(bmp.pressure_altitude());
-//  Serial.println(" meters");
-//  Serial.println();
-//}
+void printBmeData(void) {
+  Serial.print("Temperature = ");
+  Serial.print(bme.readTemperature());
+  Serial.println(" °C");
+
+  Serial.print("Ambient pressure = ");
+  Serial.print(bme.readPressure());
+  Serial.println(" Pa");
+
+  Serial.print("Relative humidity = ");
+  Serial.print(bme.readHumidity());
+  Serial.println(" percent");
+  Serial.println();
+
+  Serial.print("Pressure altitude = ");
+  Serial.print(bme.readAltitude(1013.25f)); // 101325 Pa (i.e., std pressure)
+  Serial.println(" meters");
+  Serial.println();
+}
 
 bool written = false;
 
