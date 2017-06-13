@@ -1,28 +1,32 @@
 #include <Wire.h>
 
-// SD card libraries
-#include <BlockDriver.h>
-//#include <FreeStack.h>
-#include <MinimumSerial.h>
-#include <SdFat.h>
-#include <SdFatConfig.h>
-#include <SysCall.h>
-
 // RCR headers
 #include "Setupable.h"
 #include "Bmp180.h"
+#include "sdcard.h"
+
+SdFatSdio sd_card; // SD card manager
+File file; // file manager
 
 // To shorten RCR namespace, use namespace alias "custom".
 namespace custom = rcr::level1payload;
 
 custom::Bmp180 bmp;
-File file; // file object
-SdFatSdio sd_card; // MicroSD card
 
 // Array of pointers to Setupable-implementing objects which require 
 // initialization logic to take place in setup() function.
 // For more info, see "setupable.h".
 custom::Setupable* setupables[] = { &bmp };
+
+// Setup MicroSD card I/O. Trap the thread if no card is found.
+void setup_sd_card(void) {
+  if (!sd_card.begin()) {
+    Serial.println("ERROR: SD card could not be found.");
+    while (1) { /* Trap the thread. */ }
+  }
+  Serial.println("SdCard successfully setup.");
+  Serial.println();
+}
 
 void setup() {
   // Illuminate LED.
@@ -44,13 +48,8 @@ void setup() {
   Serial.println();
   delay(512);
 
-  // Setup MicroSD card I/O.
-  if(!sd_card.begin()) {
-    Serial.println("ERROR: SD card could not be found.");
-  }
-  else {
-    Serial.println("SD card ready.");
-  }
+  // Setup objects and verify working condition.
+  setup_sd_card();
   
   // Setup() the custom data structures.
   for (custom::Setupable* obj : setupables) {
@@ -63,7 +62,7 @@ void setup() {
 }
 
 void write_to_sd(void) {
-  auto log_path = "nolan-tests\\nolan-test.log";
+  auto log_path = "nolan-test.log";
   sd_card.remove(log_path); // remove file from last time.
 
   File file = sd_card.open(log_path, FILE_WRITE); // Open a new file for writing.
