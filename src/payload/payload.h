@@ -14,14 +14,13 @@
 #include <lib/SdFat/src/BlockDriver.h>
 #include <lib/SdFat/src/MinimumSerial.h>
 #include <lib/SdFat/src/SysCall.h>
-
-//#include <FreeStack.h> // something is wrong with this library.
+#include <lib/SdFat/src/FreeStack.h> // something is wrong with this library.
 
 // Sensor libraries.
-#include <lib/sensor/Adafruit_Sensor/Adafruit_Sensor.h>
-#include <lib/sensor/Adafruit_GPS/Adafruit_GPS.h>
-#include <lib/sensor/Adafruit_BNO055/Adafruit_BNO055.h>
-#include <lib/sensor/Adafruit_BME280_Library/Adafruit_BME280.h>
+#include <lib/sensors/Adafruit_Sensor/Adafruit_Sensor.h>
+#include <lib/sensors/Adafruit_GPS/Adafruit_GPS.h>
+#include <lib/sensors/Adafruit_BNO055/Adafruit_BNO055.h>
+#include <lib/sensors/Adafruit_BME280_Library/Adafruit_BME280.h>
 
 #include <lib/i2c_t3/i2c_t3.h> // I2C for teensy (replaces wire.h)
 
