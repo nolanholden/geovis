@@ -7,25 +7,25 @@
 	#include "WProgram.h"
 #endif
 
-#include <Adafruit_Sensor.h>
-#include <i2c_t3.h> // I2C for teensy (replaces wire.h)
-#include <SPI.h>
 
 // SD card libraries
-#include <BlockDriver.h>
-#include <MinimumSerial.h>
-#include <SdFat.h>
-#include <SdFatConfig.h>
-#include <SysCall.h>
+#include <lib/SdFat/src/SdFat.h>
+#include <lib/SdFat/src/SdFatConfig.h>
+#include <lib/SdFat/src/BlockDriver.h>
+#include <lib/SdFat/src/MinimumSerial.h>
+#include <lib/SdFat/src/SysCall.h>
+
 //#include <FreeStack.h> // something is wrong with this library.
 
 // Sensor libraries.
-#include <Adafruit_BME280.h>
-#include <Adafruit_GPS.h>
-#include <Adafruit_BNO055.h>
+#include <lib/sensor/Adafruit_Sensor/Adafruit_Sensor.h>
+#include <lib/sensor/Adafruit_GPS/Adafruit_GPS.h>
+#include <lib/sensor/Adafruit_BNO055/Adafruit_BNO055.h>
+#include <lib/sensor/Adafruit_BME280_Library/Adafruit_BME280.h>
+
+#include <lib/i2c_t3/i2c_t3.h> // I2C for teensy (replaces wire.h)
 
 // RCR headers
-#include "setupable.h"
 #include "setup-object.h"
 
 namespace rcr {
@@ -68,13 +68,8 @@ inline void setup() {
   Serial.begin(9600); // bits/second does not matter for Teensy 3.6
   print_setup_message();
 
-  // Setup objects and verify working condition.
+  // Setup objects / verify working condition.
   setup_objects();
-  
-  // Setup() the custom data structures.
-  //for (custom::Setupable* obj : setupables) {
-  //  obj->Setup();
-  //}
 
   Serial.println();
   Serial.println("SETUP COMPLETE.");
