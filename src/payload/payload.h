@@ -7,22 +7,21 @@
 	#include "WProgram.h"
 #endif
 
+// Sensor libraries.
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
+#include <Adafruit_BNO055.h>
+#include <Adafruit_GPS.h>
 
 // SD card libraries
-#include <lib/SdFat/src/SdFat.h>
-#include <lib/SdFat/src/SdFatConfig.h>
-#include <lib/SdFat/src/BlockDriver.h>
-#include <lib/SdFat/src/MinimumSerial.h>
-#include <lib/SdFat/src/SysCall.h>
-#include <lib/SdFat/src/FreeStack.h> // something is wrong with this library.
+#include <BlockDriver.h>
+#include <MinimumSerial.h>
+#include <SdFat.h>
+#include <SdFatConfig.h>
+#include <SysCall.h>
+#include <FreeStack.h> // something is wrong with this library.
 
-// Sensor libraries.
-#include <lib/sensors/Adafruit_Sensor/Adafruit_Sensor.h>
-#include <lib/sensors/Adafruit_GPS/Adafruit_GPS.h>
-#include <lib/sensors/Adafruit_BNO055/Adafruit_BNO055.h>
-#include <lib/sensors/Adafruit_BME280_Library/Adafruit_BME280.h>
-
-#include <lib/i2c_t3/i2c_t3.h> // I2C for teensy (replaces wire.h)
+//#include <lib/i2c_t3/i2c_t3.h> // I2C for teensy (replaces wire.h)
 
 // RCR headers
 #include "setup-object.h"
@@ -33,12 +32,7 @@ namespace level1payload {
 SdFatSdio sd_card; // SD card manager
 Adafruit_BME280 bme; // I2C connection to BME280
 
-// Array of pointers to Setupable-implementing objects which require 
-// initialization logic to take place in setup() function.
-// For more info, see "setupable.h".
-//Setupable* setupables[] = {  };
-
-void print_setup_message(void) {
+void print_setup_message() {
   Serial.print("In setup");
   delay(512);
   Serial.print(".");
@@ -86,7 +80,8 @@ void write_to_sd() {
     Serial.println("File could not be initialized."); 
   }
   else {
-    file.println("Writing this to file.");
+    // Write here:
+    // file.println("xxx");
     file.close(); // Close when finished.
   }
 }
@@ -110,13 +105,13 @@ void printBmeData() {
   Serial.println();
 }
 
-bool written = false;
+bool written_once = false;
 
 inline void loop() {
   printBmeData();
-  if (!written) {
+  if (!written_once) {
     write_to_sd();
-    written = true;
+    written_once = true;
   }
   delay(1000);
 }
