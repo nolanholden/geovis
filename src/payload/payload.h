@@ -29,22 +29,23 @@
 namespace rcr {
 namespace level1payload {
 
-static constexpr const char* kBarometricLogPath = "baro.log";
-static constexpr const char* kOrientationLogPath = "9dof.log";
 static constexpr const char* kGpsLogPath = "gps.log";
+static constexpr const char* kOrientationLogPath = "9dof.log";
+static constexpr const char* kBarometricLogPath = "baro.log";
+static constexpr const uint32_t kLoopDelay = 1024; // milliseconds
 
 // File I/O
 File file; // File manager
 SdFatSdio sd_card; // SD card I/O manager
 
 // Sensors
-Adafruit_GPS gps; // GPS sensor
+Adafruit_GPS gps(&Serial1); // GPS sensor
 Adafruit_BNO055 bno; // BNO055 9-DOF sensor
 Adafruit_BME280 bme; // BME280 Barometer (I2C connection)
 
 
-inline void print_setup_message() {
-  Serial.print("In setup");
+inline void print_with_ellipses(const char* message) {
+  Serial.print(message);
   delay(512);
   Serial.print(".");
   delay(512);
@@ -57,7 +58,7 @@ inline void print_setup_message() {
 
 inline void setup_objects() {
   setup_object<SdFatSdio>(sd_card, "SD card");
-  setup_object<Adafruit_GPS>(gps, "GPS sensor");
+  setup_object<Adafruit_GPS>(gps, uint32_t{9600}, "GPS sensor");
   setup_object<Adafruit_BNO055>(bno, "BNO055");
   setup_object<Adafruit_BME280>(bme, "BME280");
 }
@@ -70,7 +71,7 @@ inline void setup() {
   
   // Start serial communication. 
   Serial.begin(9600); // bits/second does not matter for Teensy 3.6
-  print_setup_message();
+  print_with_ellipses("In setup");
 
   // Setup objects / verify working condition.
   setup_objects();
@@ -121,10 +122,10 @@ inline void loop() {
   write_to_sd(kBarometricLogPath, "*C, Pa, %, m");
   append_bme_data(bme_data);
   write_to_sd(kBarometricLogPath, bme_data);
-  delay(1000);
+  delay(kLoopDelay);
 }
 
-// PROVISIONAL; REMOVE BEFORE FLIGHT
+// PROVISIONAL; REMOVE BEFORE FLIGHT =^.^=
 void printBmeData() {
   Serial.print("Temperature = ");
   Serial.print(bme.readTemperature());
