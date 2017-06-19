@@ -11,14 +11,35 @@ namespace rcr {
 namespace level1payload {
 
 // Setup the object. Swallow any errors.
-template<typename T>
-inline void setup_object(T& obj, const char* error_message, const char* success_message) {
-  if (!obj.begin()) {
-    Serial.println(error_message);
+template<typename T, typename TArg>
+inline void setup_object(T& obj, TArg arg, const char* display_name) {
+  if (!obj.begin(arg)) {
+    Serial.print("ERROR: ");
+    Serial.print(display_name);
+    Serial.println(" could not be found or setup.");
+
     // Swallow the error. Fault tolerance is required.
   }
   else {
-    Serial.println(success_message);
+    Serial.print("Success: ");
+    Serial.print(display_name);
+    Serial.println(" ready.");
+  }
+  Serial.println();
+}
+template<typename T>
+inline void setup_object(T& obj, const char* display_name) {
+  if (!obj.begin()) {
+    Serial.print("ERROR: ");
+    Serial.print(display_name);
+    Serial.println(" could not be found or setup.");
+
+    // Swallow the error. Fault tolerance is required.
+  }
+  else {
+    Serial.print("Success: ");
+    Serial.print(display_name);
+    Serial.println(" ready.");
   }
   Serial.println();
 }
