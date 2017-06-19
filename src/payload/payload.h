@@ -29,10 +29,21 @@
 namespace rcr {
 namespace level1payload {
 
-SdFatSdio sd_card; // SD card manager
-Adafruit_BME280 bme; // I2C connection to BME280
+static constexpr const char* kBarometricLogPath = "baro.log";
+static constexpr const char* kOrientationLogPath = "9dof.log";
+static constexpr const char* kGpsLogPath = "gps.log";
 
-void print_setup_message() {
+// File I/O
+File file; // File manager
+SdFatSdio sd_card; // SD card I/O manager
+
+// Sensors
+Adafruit_GPS gps; // GPS sensor
+Adafruit_BNO055 bno; // BNO055 9-DOF sensor
+Adafruit_BME280 bme; // BME280 Barometer (I2C connection)
+
+
+inline void print_setup_message() {
   Serial.print("In setup");
   delay(512);
   Serial.print(".");
@@ -44,11 +55,11 @@ void print_setup_message() {
   delay(512);
 }
 
-void setup_objects() {
-  setup_object<SdFatSdio>(sd_card, 
-    "ERROR: SD card could not be found or setup.", "Success: SD card ready.");
-  setup_object<Adafruit_BME280>(bme,
-    "ERROR: BME280 sensor could not be found or setup.", "Success: BME280 ready.");
+inline void setup_objects() {
+  setup_object<SdFatSdio>(sd_card, "SD card");
+  setup_object<Adafruit_GPS>(gps, "GPS sensor");
+  setup_object<Adafruit_BNO055>(bno, "BNO055");
+  setup_object<Adafruit_BME280>(bme, "BME280");
 }
 
 inline void setup() {
@@ -69,27 +80,55 @@ inline void setup() {
   Serial.println();
 } // setup()
 
-void write_to_sd() {
-  auto log_path = "nolan-test.log";
-  sd_card.remove(log_path); // remove file from last time.
+void write_to_sd(const char* path, const String& content) {
+  // Open a (new/existing) file for writing.
+  file = sd_card.open(path, FILE_WRITE);
 
-  File file = sd_card.open(log_path, FILE_WRITE); // Open a new file for writing.
-  
   // Initiate file for writing.
   if(!file) {
     Serial.println("File could not be initialized."); 
+    // Swallow the error.
   }
   else {
-    // Write here:
-    // file.println("xxx");
+    file.println(content);
     file.close(); // Close when finished.
   }
 }
 
+void append_bme_data(String& string_to_append) {
+  // Temperature (*C)
+  string_to_append += bme.readTemperature();
+  string_to_append += ",";
+
+  // Ambient pressure (Pascals)
+  string_to_append += bme.readPressure();
+  string_to_append += ",";
+
+  // Relative humidity (%)
+  string_to_append += bme.readHumidity();
+  string_to_append += ",";
+
+  // Pressure altitude (meters)
+  string_to_append += bme.readAltitude(1013.25f); // 101325 Pa (std pressure)
+}
+
+void append_bno_data(String& string_to_append) {
+}
+
+String bme_data = "";
+inline void loop() {
+  bme_data = "";
+  write_to_sd(kBarometricLogPath, "*C, Pa, %, m");
+  append_bme_data(bme_data);
+  write_to_sd(kBarometricLogPath, bme_data);
+  delay(1000);
+}
+
+// PROVISIONAL; REMOVE BEFORE FLIGHT
 void printBmeData() {
   Serial.print("Temperature = ");
   Serial.print(bme.readTemperature());
-  Serial.println(" �C");
+  Serial.println(" *C");
 
   Serial.print("Ambient pressure = ");
   Serial.print(bme.readPressure());
@@ -105,16 +144,6 @@ void printBmeData() {
   Serial.println();
 }
 
-bool written_once = false;
-
-inline void loop() {
-  printBmeData();
-  if (!written_once) {
-    write_to_sd();
-    written_once = true;
-  }
-  delay(1000);
-}
 
 } // namespace level1_payload
 } // namespace rcr
