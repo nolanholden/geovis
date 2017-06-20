@@ -1,5 +1,5 @@
-#ifndef RCR_LEVEL1PAYLOAD_SETUP_H_
-#define RCR_LEVEL1PAYLOAD_SETUP_H_
+#ifndef RCR_LEVEL1PAYLOAD_SETUPOBJECTS_H_
+#define RCR_LEVEL1PAYLOAD_SETUPOBJECTS_H_
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
@@ -47,4 +47,4 @@ inline void setup_object(T& obj, const char* display_name) {
 } // namespace level1_payload
 } // namespace rcr
 
-#endif // RCR_LEVEL1PAYLOAD_SETUP_H_
+#endif // RCR_LEVEL1PAYLOAD_SETUPOBJECTS_H_
