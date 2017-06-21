@@ -87,7 +87,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bmp180.h" />
+    <ClInclude Include="data-acquisition-interface.h" />
+    <ClInclude Include="novelty-printouts.h" />
     <ClInclude Include="payload.h" />
+    <ClInclude Include="sampling.h" />
     <ClInclude Include="Setupable.h" />
     <ClInclude Include="setup-object.h" />
     <ClInclude Include="__vm\.payload.vsarduino.h" />

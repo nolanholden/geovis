@@ -33,6 +33,15 @@
     <ClInclude Include="setup-object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sampling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="novelty-printouts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="data-acquisition-interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bmp180.cpp">

@@ -23,14 +23,13 @@
 #include <SdFat.h>
 #include <SdFatConfig.h>
 #include <SysCall.h>
-//#include <FreeStack.h> // something is wrong with this library.
+#include <FreeStack.h> // something is wrong with this library.
 
 //#include <lib/i2c_t3/i2c_t3.h> // I2C for teensy (replaces wire.h)
 
 // RCR headers
 #include "data-acquisition-interface.h"
 #include "novelty-printouts.h"
-#include "sampling.h" // Inertial Measurement Unit vector sampling utilities
 #include "setup-object.h"
 
 namespace rcr {
@@ -38,12 +37,10 @@ namespace level1payload {
 
 // TODO: setup runtime filename resolution. (likely use millis())
 // File path names
-static constexpr const char* kBarometricLogPath = "baro.log";
-static constexpr const char* kOrientationLogPath = "imu.log";
-static constexpr const char* kGpsLogPath = "gps.log";
+static constexpr const char* kLogPath = "flight.log";
 
 static constexpr const char* kBarometricCsvHeader = "*C,Pa,%,m,";
-static constexpr const char* kOrientationCsvHeader = "x,y,z,Lx,Ly,Lg,Gx,Gy,Gz,";
+static constexpr const char* kImuCsvHeader = "x(heading),y(roll),z(pitch),Lx,Ly,Lg,Gx,Gy,Gz,";
 static constexpr const char* kGpsCsvHeader = "TODO"; // TODO: determine this.
 
 
@@ -101,11 +98,10 @@ inline void setup() {
   {
     String csv_header = "";
     csv_header += kBarometricCsvHeader;
-    csv_header += kOrientationCsvHeader;
+    csv_header += kImuCsvHeader;
     csv_header += kGpsCsvHeader;
-    write_to_sd(kBarometricLogPath, csv_header);
+    write_to_sd(kLogPath, csv_header);
   }
-  Serial.println("SUCCESS: files ready.");
 
   Serial.println();
   Serial.println("SETUP COMPLETE.");
@@ -119,13 +115,18 @@ inline void loop() {
   // Get a line of data.
   line = "";
   append_barometric_data(bme, line);
+  Serial.println(kBarometricCsvHeader);
+  Serial.println(line);
+  line = "";
   append_inertial_data(bno, line);
+  Serial.println(kImuCsvHeader);
+  Serial.println(line);
 
   // Print it to the file(s).
-  write_to_sd(kBarometricLogPath, line);
+  //write_to_sd(kLogPath, line);
 
   // Wait a moment.
-  delay(kLoopDelay);
+  delay(8);
 }
 
 } // namespace level1_payload

@@ -25,7 +25,6 @@ inline void setup_object(T& obj, TArg arg, const char* display_name) {
     Serial.print(display_name);
     Serial.println(" ready.");
   }
-  Serial.println();
 }
 template<typename T>
 inline void setup_object(T& obj, const char* display_name) {
