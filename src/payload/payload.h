@@ -28,6 +28,7 @@
 //#include <lib/i2c_t3/i2c_t3.h> // I2C for teensy (replaces wire.h)
 
 // RCR headers
+#include "novelty-printouts.h"
 #include "sampling.h" // Inertial Measurement Unit vector sampling utilities
 #include "setup-object.h"
 
@@ -58,18 +59,6 @@ Adafruit_GPS gps(&Serial1); // GPS sensor
 Adafruit_BNO055 bno; // BNO055 9-DOF sensor
 Adafruit_BME280 bme; // BME280 Barometer (I2C connection)
 
-
-inline void print_with_ellipses(const char* message) {
-  Serial.print(message);
-  delay(512);
-  Serial.print(".");
-  delay(512);
-  Serial.print(".");
-  delay(512);
-  Serial.println(".");
-  Serial.println();
-  delay(512);
-}
 
 void write_to_sd(const char* path, const String& content) {
   // Open a (new/existing) file for writing.
@@ -173,26 +162,6 @@ inline void loop() {
 
   // Wait a moment.
   delay(kLoopDelay);
-}
-
-// PROVISIONAL; REMOVE BEFORE FLIGHT =^.^=
-void printBmeData() {
-  Serial.print("Temperature = ");
-  Serial.print(bme.readTemperature());
-  Serial.println(" *C");
-
-  Serial.print("Ambient pressure = ");
-  Serial.print(bme.readPressure());
-  Serial.println(" Pa");
-
-  Serial.print("Relative humidity = ");
-  Serial.print(bme.readHumidity());
-  Serial.println(" percent");
-
-  Serial.print("Pressure altitude = ");
-  Serial.print(bme.readAltitude(1013.25f)); // 101325 Pa (i.e., std pressure)
-  Serial.println(" meters");
-  Serial.println();
 }
 
 } // namespace level1_payload
