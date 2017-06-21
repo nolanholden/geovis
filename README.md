@@ -1,7 +1,9 @@
-# payload-level1-rocket
+# Level-1 High-Power Rocket Payload
 Data acquisition payload for a Level 1 High-Power Rocket certification launch
 
-## Formulas:
+*This project draws much inspiration and several resources from River City Rocketry's [Variable Drag System](https://github.com/jtcass01/vds2_0) and Shane Tully's [Osprey](https://github.com/shanet/osprey/) project.*
+
+## Notable formulas:
 
 ![](https://raw.githubusercontent.com/nolanholden/payload-level1-rocket/8447a1cbf741a6a57f07a59d258492eb7169c5b9/misc/pressure-altitude.png)
 
