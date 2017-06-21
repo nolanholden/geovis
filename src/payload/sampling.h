@@ -11,12 +11,11 @@ namespace rcr {
 namespace level1payload {
 
 // TODO: Is possible overflow an issue?
-// Sample the IMU sensor a given number of times and return the mean.
-template <size_t SampleSize>
-imu::Vector<3> sample_vector(
-    imu::Vector<3> (*get_vector_func)(Adafruit_BNO055::adafruit_vector_type_t),
-    Adafruit_BNO055::adafruit_vector_type_t vector_type,
-    size_t sample_size = 1) {
+// Gets the mean x,y,z values of the given IMU vector for a given number of samples.
+template <int SampleSize>
+imu::Vector<3> sample_imu(
+    Adafruit_BNO055& bno,
+    Adafruit_BNO055::adafruit_vector_type_t vector_type) {
   // Resultant vector of arithmetic-mean x,y,z values.
   auto mean_vector = imu::Vector<3>();
   
@@ -24,15 +23,15 @@ imu::Vector<3> sample_vector(
   mean_vector.x() = mean_vector.y() = mean_vector.z() = 0.0;
 
   // Sample the IMU sensor.
-  auto imu_vectors = std::vector<imu::Vector<3>>(SampleSize);
+  auto imu_vectors = std::vector<imu::Vector<3>>(static_cast<size_t>(SampleSize));
   for (auto i = 0; i < SampleSize; ++i) {
     imu_vectors.push_back(
-      std::move(get_vector_func(vector_type))
+      std::move(bno.getVector(vector_type))
     );
   }
 
   // Compute the mean.
-  auto sample_size_double = static_cast<double>(sample_size);
+  auto sample_size_double = static_cast<double>(SampleSize);
   for (auto& v : imu_vectors) {
     mean_vector.x() += v.x() / sample_size_double;
     mean_vector.y() += v.y() / sample_size_double;
