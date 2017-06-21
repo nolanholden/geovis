@@ -20,7 +20,9 @@ imu::Vector<3> sample_imu(
   auto mean_vector = imu::Vector<3>();
   
   // Ensure x,y,z == 0.0
-  mean_vector.x() = mean_vector.y() = mean_vector.z() = 0.0;
+  mean_vector.x() = 0.0;
+  mean_vector.y() = 0.0;
+  mean_vector.z() = 0.0;
 
   // Sample the IMU sensor.
   auto imu_vectors = std::vector<imu::Vector<3>>(static_cast<size_t>(SampleSize));
@@ -33,11 +35,16 @@ imu::Vector<3> sample_imu(
   // Compute the mean.
   auto sample_size_double = static_cast<double>(SampleSize);
   for (auto& v : imu_vectors) {
-    mean_vector.x() += v.x() / sample_size_double;
-    mean_vector.y() += v.y() / sample_size_double;
-    mean_vector.z() += v.z() / sample_size_double;
+    //Serial.println(v.x());
+    mean_vector.x() += v.x();
+    mean_vector.y() += v.y();
+    mean_vector.z() += v.z();
   }
-
+  mean_vector.x() /= sample_size_double;
+  mean_vector.y() /= sample_size_double;
+  mean_vector.z() /= sample_size_double;
+  
+  //Serial.println(mean_vector.x());
   return mean_vector;
 }
 
