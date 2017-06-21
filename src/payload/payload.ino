@@ -13,7 +13,7 @@
 #include <SdFat.h>
 #include <SdFatConfig.h>
 #include <SysCall.h>
-//#include <FreeStack.h> // something is wrong with this library.
+#include <FreeStack.h> // something is wrong with this library.
 
 
 void setup() {
