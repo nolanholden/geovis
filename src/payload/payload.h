@@ -8,6 +8,7 @@
 #endif
 
 #include <string>
+#include <sstream>
 #include <vector>
 
 // Sensor libraries.
@@ -27,17 +28,22 @@
 //#include <lib/i2c_t3/i2c_t3.h> // I2C for teensy (replaces wire.h)
 
 // RCR headers
-#include "setup-object.h"
 #include "sampling.h" // Inertial Measurement Unit vector sampling utilities
+#include "setup-object.h"
 
 namespace rcr {
 namespace level1payload {
 
 // TODO: setup runtime filename resolution. (likely use millis())
 // File path names
-static constexpr const char* kGpsLogPath = "gps.log";
-static constexpr const char* kOrientationLogPath = "imu.log";
 static constexpr const char* kBarometricLogPath = "baro.log";
+static constexpr const char* kOrientationLogPath = "imu.log";
+static constexpr const char* kGpsLogPath = "gps.log";
+
+static constexpr const char* kBarometricCsvHeader = "*C,Pa,%,m,";
+static constexpr const char* kOrientationCsvHeader = "x,y,z,Lx,Ly,Lg,Gx,Gy,Gz,";
+static constexpr const char* kGpsCsvHeader = "TODO"; // TODO: determine this.
+
 
 // Main loop delay (milliseconds)
 static constexpr const uint32_t kLoopDelay = 1024;
@@ -106,14 +112,23 @@ void append_barometric_data(String& string_to_append) {
   string_to_append += bme.readAltitude(1013.25f); // 101325 Pa (std pressure)
 }
 
-// 9DOF data (inertial / orientation) from BNO055.
+// 9DOF data (inertial & orientation) from BNO055.
 void append_inertial_data(String& string_to_append) {
+  std::stringstream stream; // TODO: test computational cost of various string implementations here.
 
-  // Linear acceleration vector.
-  auto linear = bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
-  
-  // Gravitational accelleration vector.
-  auto gravity = bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
+  // Orientation "vector"
+  auto euler = sample_imu<3>(bno, Adafruit_BNO055::VECTOR_EULER);
+  stream << euler.x() << "," << euler.y() << "," << euler.z() << ",";
+
+  // Linear acceleration vector
+  auto linear = sample_imu<3>(bno, Adafruit_BNO055::VECTOR_LINEARACCEL);
+  stream << linear.x() << "," << linear.y() << "," << linear.z() << ",";
+
+  // Gravitational accelleration vector
+  auto gravity = sample_imu<3>(bno, Adafruit_BNO055::VECTOR_GRAVITY);
+  stream << gravity.x() << "," << gravity.y() << "," << gravity.z() << ",";
+
+  string_to_append += stream.str().c_str();
 }
 
 inline void setup() {
@@ -128,9 +143,15 @@ inline void setup() {
 
   setup_objects();
 
-  // Initialize output files.
+  // Initialize output file(s).
   Serial.println("Setting up output files...");
-  write_to_sd(kBarometricLogPath, "*C, Pa, %, m");
+  {
+    String csv_header = "";
+    csv_header += kBarometricCsvHeader;
+    csv_header += kOrientationCsvHeader;
+    csv_header += kGpsCsvHeader;
+    write_to_sd(kBarometricLogPath, csv_header);
+  }
   Serial.println("SUCCESS: files ready.");
 
   Serial.println();
@@ -138,11 +159,19 @@ inline void setup() {
   print_with_ellipses("Starting loop");
 } // setup()
 
-String bme_data = "";
+// Line of csv data.
+String line = "";
+
 inline void loop() {
-  bme_data = "";
-  append_barometric_data(bme_data);
-  write_to_sd(kBarometricLogPath, bme_data);
+  // Get a line of data.
+  line = "";
+  append_barometric_data(line);
+  append_inertial_data(line);
+
+  // Print it to the file(s).
+  write_to_sd(kBarometricLogPath, line);
+
+  // Wait a moment.
   delay(kLoopDelay);
 }
 
