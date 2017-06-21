@@ -28,6 +28,7 @@
 //#include <lib/i2c_t3/i2c_t3.h> // I2C for teensy (replaces wire.h)
 
 // RCR headers
+#include "data-acquisition-interface.h"
 #include "novelty-printouts.h"
 #include "sampling.h" // Inertial Measurement Unit vector sampling utilities
 #include "setup-object.h"
@@ -83,43 +84,6 @@ inline void setup_objects() {
   setup_object<Adafruit_BME280>(bme, "BME280");
 }
 
-// Barometric data (altitude) from BME280.
-void append_barometric_data(String& string_to_append) {
-  // Temperature (*C)
-  string_to_append += bme.readTemperature();
-  string_to_append += ",";
-
-  // Ambient pressure (Pascals)
-  string_to_append += bme.readPressure();
-  string_to_append += ",";
-
-  // Relative humidity (%)
-  string_to_append += bme.readHumidity();
-  string_to_append += ",";
-
-  // Pressure altitude (meters)
-  string_to_append += bme.readAltitude(1013.25f); // 101325 Pa (std pressure)
-}
-
-// 9DOF data (inertial & orientation) from BNO055.
-void append_inertial_data(String& string_to_append) {
-  std::stringstream stream; // TODO: test computational cost of various string implementations here.
-
-  // Orientation "vector"
-  auto euler = sample_imu<3>(bno, Adafruit_BNO055::VECTOR_EULER);
-  stream << euler.x() << "," << euler.y() << "," << euler.z() << ",";
-
-  // Linear acceleration vector
-  auto linear = sample_imu<3>(bno, Adafruit_BNO055::VECTOR_LINEARACCEL);
-  stream << linear.x() << "," << linear.y() << "," << linear.z() << ",";
-
-  // Gravitational accelleration vector
-  auto gravity = sample_imu<3>(bno, Adafruit_BNO055::VECTOR_GRAVITY);
-  stream << gravity.x() << "," << gravity.y() << "," << gravity.z() << ",";
-
-  string_to_append += stream.str().c_str();
-}
-
 inline void setup() {
   // Illuminate LED.
   pinMode(13, OUTPUT);
@@ -154,8 +118,8 @@ String line = "";
 inline void loop() {
   // Get a line of data.
   line = "";
-  append_barometric_data(line);
-  append_inertial_data(line);
+  append_barometric_data(bme, line);
+  append_inertial_data(bno, line);
 
   // Print it to the file(s).
   write_to_sd(kBarometricLogPath, line);
