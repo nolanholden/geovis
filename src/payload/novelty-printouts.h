@@ -11,7 +11,8 @@ namespace rcr {
 namespace level1payload {
 
 // Print message with a delayed, trailing ellipses.
-inline void print_with_ellipses(const char* message) {
+template <typename T>
+inline void print_with_ellipses(T message) {
   Serial.print(message);
   delay(512);
   Serial.print(".");
