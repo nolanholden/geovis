@@ -5,10 +5,6 @@ VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "payload", "payload.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Adafruit_GPS_Library", "..\..\..\..\..\..\Documents\Arduino\libraries\Adafruit_GPS_Library\Adafruit_GPS_Library.vcxitems", "{5C15CDC5-64C9-42D8-9AC9-52CAAE3E9C7C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Adafruit_Unified_Sensor", "..\..\..\..\..\..\Documents\Arduino\libraries\Adafruit_Unified_Sensor\Adafruit_Unified_Sensor.vcxitems", "{AC0C788D-01A3-4904-80E8-ADFEB16183F0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

@@ -86,17 +86,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bmp180.h" />
+    <ClInclude Include="barometer.h" />
     <ClInclude Include="data-acquisition-interface.h" />
+    <ClInclude Include="kalman.h" />
     <ClInclude Include="novelty-printouts.h" />
     <ClInclude Include="payload.h" />
     <ClInclude Include="sampling.h" />
-    <ClInclude Include="Setupable.h" />
+    <ClInclude Include="sensor.h" />
     <ClInclude Include="setup-object.h" />
     <ClInclude Include="__vm\.payload.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Bmp180.cpp" />
+    <ClCompile Include="barometer.cpp" />
+    <ClCompile Include="sensor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
