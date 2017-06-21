@@ -1,7 +1,6 @@
 #include "payload.h" // C++ file which acts as a surrogate this .ino program.
 
 // Must include libraries here for use in headers.
-
 // Sensors:
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
