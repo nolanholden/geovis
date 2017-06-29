@@ -7,28 +7,25 @@
 	#include "WProgram.h"
 #endif
 
-#include <Adafruit_BMP085.h>
+#include "sensor.h"
 
-#include "Setupable.h"
+#include <Adafruit_BME280.h>
+
+#include <memory>
 
 namespace rcr {
 namespace level1payload {
 
-// Encapsulates a BMP180 sensor and providing selected access to its interface.
-// Compatable with (at least) the BMP085 and BMP180.
-class Bmp180 : public Setupable {
+class Barometer : public virtual Sensor {
  public:
-  Bmp180(void) {}
-
-  // See interface Setupable.
-  void Setup(void);
+  Barometer(void) {}
 
   // Temperature.
   // // UNIT: degrees Celcius
   float temperature(void);
 
   // Pressure at the sensor.
-  // UNIT: pascal (N/m^2)
+  // UNIT: Pascal (N/m^2)
   int32_t ambient_pressure(void);
   
   // Pressure altitude: altitude with altimeter setting at 101325 Pascals == 1013.25 millibars
@@ -43,12 +40,8 @@ class Bmp180 : public Setupable {
   // pressure altitude corrected for nonstandard temperature.
   // Remember: higher density altitude (High, Hot, and Humid) means decreased performance.
 
-  // Disallow copying and moving.
-  Bmp180(const Bmp180&) = delete;
-  Bmp180& operator=(const Bmp180&) = delete;
-
  private:
-  Adafruit_BMP085 bmp_;
+   std::shared_ptr<Adafruit_BME280> bmp_;
 };
 
 } // namespace level1_payload
