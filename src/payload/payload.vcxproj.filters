@@ -39,18 +39,21 @@
     <ClInclude Include="sensor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="barometer.h">
+    <ClInclude Include="kalman.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="kalman.h">
+    <ClInclude Include="gps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="barometer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="barometer.cpp">
+    <ClCompile Include="sensor.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="sensor.cpp">
+    <ClCompile Include="gps.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
