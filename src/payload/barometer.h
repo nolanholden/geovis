@@ -41,7 +41,7 @@ class Barometer : public virtual Sensor {
   // Remember: higher density altitude (High, Hot, and Humid) means decreased performance.
 
  private:
-   std::shared_ptr<Adafruit_BME280> bmp_;
+  static std::shared_ptr<Adafruit_BME280> bmp_;
 };
 
 } // namespace level1_payload
