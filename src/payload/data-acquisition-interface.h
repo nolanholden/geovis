@@ -65,6 +65,19 @@ static void append_inertial_data(Adafruit_BNO055& bno, String& string_to_append)
   string_to_append += line;
 }
 
+template <typename T>
+static void append_gps_data(T& gps, String& string_to_append) {
+  String line = "";
+  line += gps.getLatitude();
+  line += ",";
+  line += gps.getLongitude();
+  line += ",";
+  line += gps.getAltitude();
+  line += ",";
+
+  string_to_append += line;
+}
+
 } // namespace level1_payload
 } // namespace rcr
 
