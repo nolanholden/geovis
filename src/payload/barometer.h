@@ -1,5 +1,5 @@
-#ifndef RCR_LEVEL1PAYLOAD_BMP180_H_
-#define RCR_LEVEL1PAYLOAD_BMP180_H_
+#ifndef RCR_LEVEL1PAYLOAD_BAROMETER_H_
+#define RCR_LEVEL1PAYLOAD_BAROMETER_H_
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
@@ -47,4 +47,4 @@ class Barometer : public virtual Sensor {
 } // namespace level1_payload
 } // namespace rcr
 
-#endif // RCR_LEVEL1PAYLOAD_BMP180_H_
+#endif // RCR_LEVEL1PAYLOAD_BAROMETER_H_
