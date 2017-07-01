@@ -8,8 +8,7 @@
 #endif
 
 #include <string>
-#include <sstream>
-#include <vector>
+#include <memory>
 
 // Sensor libraries.
 #include <Adafruit_Sensor.h>
@@ -23,40 +22,31 @@
 #include <SdFat.h>
 #include <SdFatConfig.h>
 #include <SysCall.h>
-#include <FreeStack.h> // something is wrong with this library.
+//#include <FreeStack.h> // something is wrong with this library.
 
 //#include <lib/i2c_t3/i2c_t3.h> // I2C for teensy (replaces wire.h)
 
 // RCR headers
+#include "bme.h"
+#include "constants.h"
 #include "data-acquisition-interface.h"
+#include "gps.h"
 #include "novelty-printouts.h"
 #include "setup-object.h"
 
 namespace rcr {
 namespace level1payload {
 
-// TODO: setup runtime filename resolution. (likely use millis())
-// File path names
-static constexpr const char* kLogPath = "flight.log";
-
-static constexpr const char* kBarometricCsvHeader = "*C,Pa,%,m,";
-static constexpr const char* kImuCsvHeader = "x(heading),y(roll),z(pitch),Lx,Ly,Lg,Gx,Gy,Gz,";
-static constexpr const char* kGpsCsvHeader = "TODO"; // TODO: determine this.
-
-
-// Main loop delay (milliseconds)
-static constexpr const uint32_t kLoopDelay = 1024;
-
-
 // File I/O
-File file; // File manager
+File file; // File I/O manager
 SdFatSdio sd_card; // SD card I/O manager
 
 // Sensors
-Adafruit_GPS gps(&Serial1); // GPS sensor
-Adafruit_BNO055 bno; // BNO055 9-DOF sensor
-Adafruit_BME280 bme; // BME280 Barometer (I2C connection)
-
+//Adafruit_GPS gps(&Serial1); // GPS sensor
+//Adafruit_BNO055 bno; // BNO055 9-DOF sensor
+//Adafruit_BME280 bme; // BME280 Barometer (I2C connection)
+Bme bme;
+Gps gps;
 
 void write_to_sd(const char* path, const String& content) {
   // Open a (new/existing) file for writing.
@@ -75,10 +65,21 @@ void write_to_sd(const char* path, const String& content) {
 
 // Setup objects / verify working condition.
 inline void setup_objects() {
+  // SD card
   setup_object<SdFatSdio>(sd_card, "SD card");
-  setup_object<Adafruit_GPS>(gps, uint32_t{9600}, "GPS sensor");
-  setup_object<Adafruit_BNO055>(bno, "BNO055");
-  setup_object<Adafruit_BME280>(bme, "BME280");
+
+  // GPS sensor
+  Serial.println(gps.Init() ? "GPS OK" : "GPS init failed.");
+  //setup_object<Adafruit_GPS>(gps, uint32_t{9600}, "GPS sensor");
+  //gps.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA); // request RMC & GGA
+  //gps.sendCommand(PMTK_SET_NMEA_UPDATE_5HZ);
+  //gps.sendCommand(PMTK_API_SET_FIX_CTL_5HZ);
+
+  // IMU
+  //setup_object<Adafruit_BNO055>(bno, "BNO055");
+  Adafruit_BME280
+  // Barometer & hygrometer
+  //setup_object<Adafruit_BME280>(bme, "BME280");
 }
 
 inline void setup() {
@@ -87,11 +88,13 @@ inline void setup() {
   digitalWrite(13, HIGH);
   delay(3000);
 
-  // Start serial communication. 
+  // Start serial communication.
   Serial.begin(9600); // bits/second does not matter for Teensy 3.6
   print_with_ellipses("In setup");
 
+  // Initialize DAQ objects.
   setup_objects();
+  bme.Init();
 
   // Initialize output file(s).
   Serial.println("Setting up output files...");
@@ -113,20 +116,28 @@ String line = "";
 
 inline void loop() {
   // Get a line of data.
+  //line = "";
+  //append_barometric_data(bme, line);
+  //Serial.println(kBarometricCsvHeader);
+  //Serial.println(line);
+  //line = "";
+  //append_inertial_data(bno, line);
+  //Serial.println(kImuCsvHeader);
+  //Serial.println(line);
+
+  Serial.println(gps.getSpeed());
+  Serial1.println(gps.getLatitude());
+  Serial1.println(gps.getAltitude());
   line = "";
-  append_barometric_data(bme, line);
-  Serial.println(kBarometricCsvHeader);
-  Serial.println(line);
-  line = "";
-  append_inertial_data(bno, line);
-  Serial.println(kImuCsvHeader);
+  append_gps_data(gps, line);
+  Serial.println(kGpsCsvHeader);
   Serial.println(line);
 
   // Print it to the file(s).
   //write_to_sd(kLogPath, line);
 
   // Wait a moment.
-  delay(8);
+  delay(512);
 }
 
 } // namespace level1_payload
