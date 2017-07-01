@@ -7,6 +7,8 @@
 	#include "WProgram.h"
 #endif
 
+#include <vector>
+
 namespace rcr {
 namespace level1payload {
 
