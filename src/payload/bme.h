@@ -11,18 +11,24 @@
 
 #include <Adafruit_BME280.h>
 
+constexpr float KALMAN_PROCESS_NOISE = 0.01;
+constexpr float KALMAN_MEASUREMENT_NOISE = 0.25;
+constexpr float KALMAN_ERROR = 1.0;
+
+
 namespace rcr {
 namespace level1payload {
 
 class Bme : public virtual Sensor {
  public:
-  Bme() {}
+  Bme();
 
   bool Init();
 
   // Pressure at the sensor.
   // [Pascal] (N/m^2)
   float ambient_pressure();
+  float ambient_pressure_raw();
   
   // Realtive Humidity
   // [%]
@@ -34,6 +40,7 @@ class Bme : public virtual Sensor {
   // (Pressure altitude is NOT correct for non-standard pressure or temperature.)
   // [meters]
   float pressure_altitude();
+  float pressure_altitude_raw(); // unfiltered
 
   // Temperature.
   // [degrees Celcius]
@@ -47,6 +54,9 @@ class Bme : public virtual Sensor {
 
  private:
   static Adafruit_BME280 bme_;
+
+  kalman_t altitude_;
+  kalman_t pressure_;
 };
 
 } // namespace level1_payload
