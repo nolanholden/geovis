@@ -16,7 +16,7 @@ class Sensor {
  public:
   Sensor() {}
   Sensor(float process_noise, float measurement_noise, float error);
-  virtual int Init() = 0;
+  virtual bool Init() = 0;
 
   // Prevent base-call d'tor memory leak.
   virtual ~Sensor() noexcept {}
