@@ -6,9 +6,7 @@ namespace level1payload {
 constexpr const char* kLogPath = "flight.log";
 
 // CSV file headers:
-constexpr const char* kBarometricCsvHeader = "*C,Pa,%,m,";
 constexpr const char* kImuCsvHeader = "x(heading),y(roll),z(pitch),Lx,Ly,Lg,Gx,Gy,Gz,";
-constexpr const char* kGpsCsvHeader = "lat,long,alt";
 
 // Main loop delay (milliseconds)
 constexpr const uint32_t kLoopDelay = 1024;

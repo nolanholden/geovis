@@ -24,7 +24,7 @@ class Bme : public virtual Sensor {
   // [Pascal] (N/m^2)
   float ambient_pressure();
   float ambient_pressure_raw(); // unfiltered
-  
+
   // Realtive Humidity
   // [%]
   float humidity();
@@ -39,11 +39,31 @@ class Bme : public virtual Sensor {
 
   // Temperature.
   // [degrees Celcius]
-  float temperature(void);
+  float temperature();
 
   // TODO: Add density altitude:
-  // pressure altitude corrected for nonstandard temperature.
+  // (pressure altitude corrected for nonstandard temperature.)
   // Remember: higher density altitude (High, Hot, and Humid) means decreased performance.
+
+  static constexpr const char* CsvHeader = "*C,Pa,%,m,";
+
+  void GetCsvLine(String* string_to_append) {
+    // Temperature (*C)
+    *string_to_append += temperature();
+    *string_to_append += ",";
+
+    // Ambient pressure (Pascals)
+    *string_to_append += ambient_pressure();
+    *string_to_append += ",";
+
+    // Relative humidity (%)
+    *string_to_append += humidity();
+    *string_to_append += ",";
+
+    // Pressure altitude (meters)
+    *string_to_append += pressure_altitude(); // 101325 Pa (std pressure)
+    *string_to_append += ",";
+  }
 
   ~Bme() {}
 
