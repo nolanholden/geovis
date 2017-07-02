@@ -15,11 +15,11 @@ template <typename T>
 inline void print_with_ellipses(T message) {
   Serial.print(message);
   delay(512);
-  Serial.print(".");
+  Serial.print(" .");
   delay(512);
-  Serial.print(".");
+  Serial.print(" .");
   delay(512);
-  Serial.println(".");
+  Serial.println(" .");
   delay(512);
 }
 
