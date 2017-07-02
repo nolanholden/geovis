@@ -29,8 +29,8 @@
 // RCR headers
 #include "atmospheric-sensor.h"
 #include "constants.h"
-#include "data-acquisition-interface.h"
 #include "gps.h"
+#include "inertial-measurement-unit.h"
 #include "novelty-printouts.h"
 #include "setup-object.h"
 
@@ -40,6 +40,7 @@ namespace level1payload {
 // Sensors:
 AtmosphericSensor atmospheric_sensor; // Barometer/Thermometer/Hygometer
 Gps gps;                              // GPS module
+InertialMeasurementUnit imu;
 
 // File I/O:
 File file; // File I/O manager
@@ -71,7 +72,8 @@ inline void setup_objects() {
     Serial.println("GPS initialization failed.");
 
   // IMU
-  //setup_object<Adafruit_BNO055>(bno, "BNO055");
+  if (!imu.Init())
+    Serial.println("IMU initialization failed.");
 
   // Barometer/Thermometer/Hygometer
   if (!atmospheric_sensor.Init())
@@ -109,23 +111,30 @@ inline void setup() {
 String line = "";
 
 inline void loop() {
-  // Get a line of data.
-  //line = "";
-  //append_barometric_data(bme, line);
-  //Serial.println(kBarometricCsvHeader);
-  //Serial.println(line);
-  //line = "";
-  //append_inertial_data(bno, line);
-  //Serial.println(kImuCsvHeader);
-  //Serial.println(line);
-
+  // Testing items
   Serial.println(gps.getSpeed());
   Serial1.println(gps.getLatitude());
   Serial1.println(gps.getAltitude());
+
   line = "";
-  append_gps_data(gps, line);
-  Serial.println(kGpsCsvHeader);
+  atmospheric_sensor.GetCsvLine(&line);
+  Serial.println(atmospheric_sensor.kCsvHeader);
   Serial.println(line);
+
+  line = "";
+  imu.GetCsvLine(&line);
+  Serial.println(imu.kCsvHeader);
+  Serial.println(line);
+
+  line = "";
+  gps.GetCsvLine(&line);
+  Serial.println(gps.kCsvHeader);
+  Serial.println(line);
+
+
+
+  // Get a line of data.
+  // ...
 
   // Print it to the file(s).
   //write_to_sd(kLogPath, line);
