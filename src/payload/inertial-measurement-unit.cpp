@@ -2,24 +2,27 @@
 
 #include "constants.h"
 
+#include <vector>
+#include <utility>
+
 namespace rcr {
 namespace level1payload {
 
 InertialMeasurementUnit::InertialMeasurementUnit()
   : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR) {
-  heading_ = kalmanInit(0);
-  roll_    = kalmanInit(0);
-  pitch_   = kalmanInit(0);
+  euler_x_   = kalmanInit(0);
+  euler_y_   = kalmanInit(0);
+  euler_z_   = kalmanInit(0);
 
   // Linear accelleration:
-  Lx_     = kalmanInit(0);;
-  Ly_     = kalmanInit(0);;
-  Lg_     = kalmanInit(0);;
+  linear_x_  = kalmanInit(0);;
+  linear_y_  = kalmanInit(0);;
+  linear_z_  = kalmanInit(0);;
 
   // Gravitational accelleration:
-  Gx_     = kalmanInit(0);;
-  Gy_     = kalmanInit(0);;
-  Gz_     = kalmanInit(0);;
+  gravity_x_ = kalmanInit(0);;
+  gravity_y_ = kalmanInit(0);;
+  gravity_z_ = kalmanInit(0);;
 }
 
 bool InertialMeasurementUnit::Init() {
@@ -70,19 +73,19 @@ void InertialMeasurementUnit::GetCsvLine(String* string_to_append) {
 
   // Update respective Kalman filters.
     // (1) Euler vector:
-  kalmanUpdate(&euler_x_, orientation.x);
-  kalmanUpdate(&euler_y_, orientation.y);
-  kalmanUpdate(&euler_z_, orientation.z);
+  kalmanUpdate(&euler_x_, float{ orientation.x() });
+  kalmanUpdate(&euler_y_, float{ orientation.y() });
+  kalmanUpdate(&euler_z_, float{ orientation.z() });
 
     // (2) Linear accelleration vector:
-  kalmanUpdate(&linear_x_, linear.x);
-  kalmanUpdate(&linear_y_, linear.y);
-  kalmanUpdate(&linear_z_, linear.z);
+  kalmanUpdate(&linear_x_, float{ linear.x() });
+  kalmanUpdate(&linear_y_, float{ linear.y() });
+  kalmanUpdate(&linear_z_, float{ linear.z() });
 
     // (3) Gravitational accelleration vector:
-  kalmanUpdate(&gravity_x_, gravity.x);
-  kalmanUpdate(&gravity_y_, gravity.y);
-  kalmanUpdate(&gravity_z_, gravity.z);
+  kalmanUpdate(&gravity_x_, float{ gravity.x() });
+  kalmanUpdate(&gravity_y_, float{ gravity.y() });
+  kalmanUpdate(&gravity_z_, float{ gravity.z() });
 
   // Return filtered results.
   *string_to_append += euler_x_.value;
