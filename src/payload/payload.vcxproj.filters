@@ -23,13 +23,7 @@
     <ClInclude Include="gps.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="data-acquisition-interface.h">
-      <Filter>Header Files\Solo Headers</Filter>
-    </ClInclude>
     <ClInclude Include="novelty-printouts.h">
-      <Filter>Header Files\Solo Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="sampling.h">
       <Filter>Header Files\Solo Headers</Filter>
     </ClInclude>
     <ClInclude Include="__vm\.payload.vsarduino.h">
@@ -48,7 +42,10 @@
     <ClInclude Include="constants.h">
       <Filter>Header Files\Solo Headers</Filter>
     </ClInclude>
-    <ClInclude Include="bme.h">
+    <ClInclude Include="atmospheric-sensor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inertial-measurement-unit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,7 +59,10 @@
     <ClCompile Include="uart.cpp">
       <Filter>Implementation Files</Filter>
     </ClCompile>
-    <ClCompile Include="bme.cpp">
+    <ClCompile Include="atmospheric-sensor.cpp">
+      <Filter>Implementation Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inertial-measurement-unit.cpp">
       <Filter>Implementation Files</Filter>
     </ClCompile>
   </ItemGroup>

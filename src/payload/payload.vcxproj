@@ -86,22 +86,22 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bme.h" />
+    <ClInclude Include="atmospheric-sensor.h" />
     <ClInclude Include="constants.h" />
-    <ClInclude Include="data-acquisition-interface.h" />
     <ClInclude Include="gps.h" />
+    <ClInclude Include="inertial-measurement-unit.h" />
     <ClInclude Include="kalman.h" />
     <ClInclude Include="novelty-printouts.h" />
     <ClInclude Include="payload.h" />
-    <ClInclude Include="sampling.h" />
     <ClInclude Include="sensor.h" />
     <ClInclude Include="setup-object.h" />
     <ClInclude Include="uart.h" />
     <ClInclude Include="__vm\.payload.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bme.cpp" />
+    <ClCompile Include="atmospheric-sensor.cpp" />
     <ClCompile Include="gps.cpp" />
+    <ClCompile Include="inertial-measurement-unit.cpp" />
     <ClCompile Include="sensor.cpp" />
     <ClCompile Include="uart.cpp" />
   </ItemGroup>
