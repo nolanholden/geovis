@@ -1,4 +1,4 @@
-#include "bme.h"
+#include "atmospheric-sensor.h"
 
 #include "constants.h"
 
