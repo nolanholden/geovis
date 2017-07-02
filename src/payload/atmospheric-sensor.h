@@ -1,5 +1,5 @@
-#ifndef RCR_LEVEL1PAYLOAD_BME_H_
-#define RCR_LEVEL1PAYLOAD_BME_H_
+#ifndef RCR_LEVEL1PAYLOAD_ATMOSPHERICSENSOR_H_
+#define RCR_LEVEL1PAYLOAD_ATMOSPHERICSENSOR_H_
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
@@ -79,4 +79,4 @@ class AtmosphericSensor : public virtual Sensor {
 } // namespace level1_payload
 } // namespace rcr
 
-#endif // RCR_LEVEL1PAYLOAD_BME_H_
+#endif // RCR_LEVEL1PAYLOAD_ATMOSPHERICSENSOR_H_
