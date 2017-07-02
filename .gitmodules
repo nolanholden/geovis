@@ -1,6 +1,3 @@
-[submodule "src/payload/tests/catch"]
-	path = src/payload/tests/catch
-	url = https://github.com/philsquared/Catch
 [submodule "catch"]
 	path = catch
 	url = https://github.com/philsquared/Catch/
