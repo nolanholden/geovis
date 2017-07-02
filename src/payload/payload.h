@@ -69,17 +69,15 @@ inline void setup_objects() {
   setup_object<SdFatSdio>(sd_card, "SD card");
 
   // GPS sensor
-  Serial.println(gps.Init() ? "GPS OK" : "GPS init failed.");
-  //setup_object<Adafruit_GPS>(gps, uint32_t{9600}, "GPS sensor");
-  //gps.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA); // request RMC & GGA
-  //gps.sendCommand(PMTK_SET_NMEA_UPDATE_5HZ);
-  //gps.sendCommand(PMTK_API_SET_FIX_CTL_5HZ);
+  if (!gps.Init())
+    Serial.println("GPS initialization failed.");
 
   // IMU
   //setup_object<Adafruit_BNO055>(bno, "BNO055");
 
-  // Barometer & hygrometer
-  //setup_object<Adafruit_BME280>(bme, "BME280");
+  // Barometer/Thermometer/Hygometer
+  if (!bme.Init())
+    Serial.println("GPS initialization failed.");
 }
 
 inline void setup() {
@@ -94,7 +92,6 @@ inline void setup() {
 
   // Initialize DAQ objects.
   setup_objects();
-  bme.Init();
 
   // Initialize output file(s).
   Serial.println("Setting up output files...");
