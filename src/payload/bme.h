@@ -11,11 +11,6 @@
 
 #include <Adafruit_BME280.h>
 
-constexpr float KALMAN_PROCESS_NOISE = 0.01;
-constexpr float KALMAN_MEASUREMENT_NOISE = 0.25;
-constexpr float KALMAN_ERROR = 1.0;
-
-
 namespace rcr {
 namespace level1payload {
 
@@ -53,7 +48,9 @@ class Bme : public virtual Sensor {
   ~Bme() {}
 
  private:
-  static Adafruit_BME280 bme_;
+  // TODO: We want static, but is creating unknown 
+  // ref (compilation) error in Bme::Init() { ... } .
+  Adafruit_BME280 bme_;
 
   kalman_t altitude_;
   kalman_t pressure_;
