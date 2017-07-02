@@ -45,7 +45,7 @@ class AtmosphericSensor : public virtual Sensor {
   // (pressure altitude corrected for nonstandard temperature.)
   // Remember: higher density altitude (High, Hot, and Humid) means decreased performance.
 
-  static constexpr const char* CsvHeader = "*C,Pa,%,m,";
+  static constexpr const char* kCsvHeader = "*C,Pa,%,m,";
 
   void GetCsvLine(String* string_to_append) {
     // Temperature (*C)
