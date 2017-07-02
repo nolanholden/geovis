@@ -26,6 +26,8 @@ class InertialMeasurementUnit : public virtual Sensor {
   imu::Vector<3> SampleForMeanVector (
     Adafruit_BNO055::adafruit_vector_type_t vector_type);
 
+  static constexpr const char* kCsvHeader = "x(heading),y(roll),z(pitch),Lx,Ly,Lz,Gx,Gy,Gz,";
+
   void GetCsvLine(String* string_to_append);
 
   ~InertialMeasurementUnit() {}
