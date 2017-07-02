@@ -98,8 +98,8 @@ inline void setup() {
   {
     String csv_header = "";
     csv_header += atmospheric_sensor.kCsvHeader;
-    csv_header += kImuCsvHeader;
     csv_header += gps.kCsvHeader;
+    csv_header += imu.kCsvHeader;
     write_to_sd(kLogPath, csv_header);
   }
 
@@ -116,19 +116,22 @@ inline void loop() {
   Serial1.println(gps.getLatitude());
   Serial1.println(gps.getAltitude());
 
+  // Weather
   line = "";
   atmospheric_sensor.GetCsvLine(&line);
   Serial.println(atmospheric_sensor.kCsvHeader);
   Serial.println(line);
 
-  line = "";
-  imu.GetCsvLine(&line);
-  Serial.println(imu.kCsvHeader);
-  Serial.println(line);
-
+  // GPS
   line = "";
   gps.GetCsvLine(&line);
   Serial.println(gps.kCsvHeader);
+  Serial.println(line);
+
+  // IMU
+  line = "";
+  imu.GetCsvLine(&line);
+  Serial.println(imu.kCsvHeader);
   Serial.println(line);
 
 
