@@ -23,7 +23,7 @@ class Bme : public virtual Sensor {
   // Pressure at the sensor.
   // [Pascal] (N/m^2)
   float ambient_pressure();
-  float ambient_pressure_raw();
+  float ambient_pressure_raw(); // unfiltered
   
   // Realtive Humidity
   // [%]
