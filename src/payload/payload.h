@@ -27,7 +27,7 @@
 //#include <lib/i2c_t3/i2c_t3.h> // I2C for teensy (replaces wire.h)
 
 // RCR headers
-#include "bme.h"
+#include "atmospheric-sensor.h"
 #include "constants.h"
 #include "data-acquisition-interface.h"
 #include "gps.h"
@@ -37,16 +37,14 @@
 namespace rcr {
 namespace level1payload {
 
-// File I/O
+// Sensors:
+AtmosphericSensor atmospheric_sensor; // Barometer/Thermometer/Hygometer
+Gps gps;                              // GPS module
+
+// File I/O:
 File file; // File I/O manager
 SdFatSdio sd_card; // SD card I/O manager
 
-// Sensors
-//Adafruit_GPS gps(&Serial1); // GPS sensor
-//Adafruit_BNO055 bno; // BNO055 9-DOF sensor
-//Adafruit_BME280 bme; // BME280 Barometer (I2C connection)
-AtmosphericSensor bme;
-Gps gps;
 
 void write_to_sd(const char* path, const String& content) {
   // Open a (new/existing) file for writing.
@@ -76,7 +74,7 @@ inline void setup_objects() {
   //setup_object<Adafruit_BNO055>(bno, "BNO055");
 
   // Barometer/Thermometer/Hygometer
-  if (!bme.Init())
+  if (!atmospheric_sensor.Init())
     Serial.println("GPS initialization failed.");
 }
 
@@ -97,15 +95,14 @@ inline void setup() {
   Serial.println("Setting up output files...");
   {
     String csv_header = "";
-    csv_header += kBarometricCsvHeader;
+    csv_header += atmospheric_sensor.kCsvHeader;
     csv_header += kImuCsvHeader;
-    csv_header += kGpsCsvHeader;
+    csv_header += gps.kCsvHeader;
     write_to_sd(kLogPath, csv_header);
   }
 
   Serial.println();
-  Serial.println("SETUP COMPLETE.");
-  print_with_ellipses("Starting loop");
+  print_with_ellipses("SETUP COMPLETE");
 } // setup()
 
 // Line of csv data.
