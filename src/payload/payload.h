@@ -45,7 +45,7 @@ SdFatSdio sd_card; // SD card I/O manager
 //Adafruit_GPS gps(&Serial1); // GPS sensor
 //Adafruit_BNO055 bno; // BNO055 9-DOF sensor
 //Adafruit_BME280 bme; // BME280 Barometer (I2C connection)
-Bme bme;
+AtmosphericSensor bme;
 Gps gps;
 
 void write_to_sd(const char* path, const String& content) {

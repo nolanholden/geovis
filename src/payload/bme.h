@@ -14,9 +14,9 @@
 namespace rcr {
 namespace level1payload {
 
-class Bme : public virtual Sensor {
+class AtmosphericSensor : public virtual Sensor {
  public:
-  Bme();
+  AtmosphericSensor();
 
   bool Init();
 
@@ -65,11 +65,11 @@ class Bme : public virtual Sensor {
     *string_to_append += ",";
   }
 
-  ~Bme() {}
+  ~AtmosphericSensor() {}
 
  private:
   // TODO: We want static, but is creating unknown 
-  // ref (compilation) error in Bme::Init() { ... } .
+  // ref (compilation) error in AtmosphericSensor::Init() { ... } .
   Adafruit_BME280 bme_;
 
   kalman_t altitude_;
