@@ -77,7 +77,7 @@ inline void setup_objects() {
 
   // IMU
   //setup_object<Adafruit_BNO055>(bno, "BNO055");
-  Adafruit_BME280
+
   // Barometer & hygrometer
   //setup_object<Adafruit_BME280>(bme, "BME280");
 }
