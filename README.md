@@ -26,3 +26,9 @@ Data acquisition payload for a Level 1 High-Power Rocket certification launch
 - Connect BMP180 GND    to Ground
 - Connect BMP180 SCL    to Analog 5
 - Connect BMP180 SDA    to Analog 4
+
+## Miscellaneous information:
+
+#### Adafruit's "Ultimate GPS" module:
+- Default baud rate: 9600 Bd
+- Default sampling rate: 1 Hz
