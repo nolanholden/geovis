@@ -7,40 +7,34 @@ Data acquisition payload for a Level 1 High-Power Rocket certification launch
 
 ![](https://raw.githubusercontent.com/nolanholden/payload-level1-rocket/8447a1cbf741a6a57f07a59d258492eb7169c5b9/misc/pressure-altitude.png)
 
-## Setup for components:
-
-#### BNO055 to Teensy 3.6:
-- Connect BNO055 Vin    to 3-5V
-- Connect BNO055 GND    to Ground
-- Connect BNO055 SCK    to SCL0
-- Connect BNO055 SDI    to SDA0
-
-#### BME280 to Teensy 3.6:
-- Connect BME280 Vin    to 3.3V
-- Connect BME280 GND    to Ground
-- Connect BME280 SCK    to SCL1
-- Connect BME280 SDI    to SDA1
-
-#### BMP180 to Arduino UNO:
-- Connect BMP180 Vin    to 3.3V or 5.0V
-- Connect BMP180 GND    to Ground
-- Connect BMP180 SCL    to Analog 5
-- Connect BMP180 SDA    to Analog 4
-
-## Miscellaneous information:
+## Components Setup:
 
 #### Adafruit's "Ultimate GPS" module:
 - Example wiring between module and Teensy 3.6:
-    - GPS module RX -> Teensy 3.6 pin 1
-    - GPS module TX -> Teensy 3.6 pin 0
-    - Corresponding code:
-      ```
-      Serial1.setRX(0); // default for Serial1; unnecessary, but explicit
-      Serial1.setTX(1); // default for Serial1; unnecessary, but explicit
-      Serial1.begin(9600);
-      // Note: All testing with Teensy 3.6 suggests that baud rates other
-      // than 9600 are incompatible. However, 9600 is ok for 5 Hz GPS
-      // refresh (which itself is very sufficient.)
-      ```
+  - GPS module RX -> Teensy 3.6 TX1 (pin 1)
+  - GPS module TX -> Teensy 3.6 RX1 (pin 0)
+  - Corresponding code:
+    ```
+    Serial1.setRX(0); // default for Serial1; unnecessary, but explicit
+    Serial1.setTX(1); // default for Serial1; unnecessary, but explicit
+    Serial1.begin(9600);
+    // Note: All testing with Teensy 3.6 suggests that baud rates other
+    // than 9600 are incompatible. However, 9600 is ok for 5 Hz GPS
+    // refresh (which itself is very sufficient.)
+    ```
 - Default baud rate: 9600 Bd
-- Default sampling rate: 1 Hz
+- Default GPS sampling rate: 1 Hz
+
+#### BNO055 Inertial Measurement Unit to Teensy 3.6:
+- Example wiring between this IMU and Teensy 3.6:
+  - BNO055 SDA -> Teensy 3.6 SDA0 (pin 18 / Analog 4)
+  - BNO055 SCL -> Teensy 3.6 SCL0 (pin 19 / Analog 5)
+
+#### BME280 Barometer/Thermometer/Hygrometer to Teensy 3.6:
+- Example wiring between BME280 and Teensy 3.6:
+  - BME280 SDI -> Teensy 3.6 SDA0 (pin 18 / Analog 4)
+  - BME280 SCK -> Teensy 3.6 SCL0 (pin 19 / Analog 5)
+
+#### BMP180 Barometer/Thermometer to Arduino UNO:
+- Connect BMP180 SCL    to Analog 5
+- Connect BMP180 SDA    to Analog 4
