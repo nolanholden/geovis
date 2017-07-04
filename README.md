@@ -3,6 +3,45 @@ Data acquisition payload for a Level 1 High-Power Rocket certification launch
 
 *This project draws much inspiration and several resources from River City Rocketry's [Variable Drag System](https://github.com/jtcass01/vds2_0) and Shane Tully's [Osprey](https://github.com/shanet/osprey/) project.*
 
+## Sensors:
+
+#### GPS Receiver Module
+- Geographic coordinates
+  - Latitude
+  - Longitude
+- Altitude
+- Speed
+- Heading, relative to TRUE North
+- Date & Time
+  - Age of last recieved Date-Time
+- Other related metrics
+  - GPS geometric dilution of precision (DOP)
+  - Satellites tracking
+  - Age of last GPS fix
+  - Total NMEA sentences
+  - CHECKSUM EVALUATION
+
+#### Inertial Measurement Unit (accelleration)
+- Gravitational accelleration vector
+- Leonhard Euler angles vector
+  - Heading
+  - Roll
+  - Pitch
+- Linear accelleration vector
+
+#### Barometer to Teensy 3.6:
+- Example wiring between BME280 and Teensy 3.6:
+  - BME280 SDI -> Teensy 3.6 SDA0 (pin 18 / Analog 4)
+  - BME280 SCK -> Teensy 3.6 SCL0 (pin 19 / Analog 5)
+
+#### Thermometer
+- Temperature at sensor
+  - (Altitude correction for non-standard temperature and non-standard lapse rate)
+
+#### Hygrometer
+- Relative humidity
+  - (Density-Altitude calculation)
+
 ## Notable formulas:
 
 ![](https://raw.githubusercontent.com/nolanholden/payload-level1-rocket/8447a1cbf741a6a57f07a59d258492eb7169c5b9/misc/pressure-altitude.png)
