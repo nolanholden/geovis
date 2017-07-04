@@ -30,14 +30,17 @@ Data acquisition payload for a Level 1 High-Power Rocket certification launch
 ## Miscellaneous information:
 
 #### Adafruit's "Ultimate GPS" module:
-- Default baud rate: 9600 Bd
-- Default sampling rate: 1 Hz
 - Example wiring between module and Teensy 3.6:
     - GPS module RX -> Teensy 3.6 pin 1
     - GPS module TX -> Teensy 3.6 pin 0
     - Corresponding code:
       ```
-      Serial1.setRX(0);
-      Serial1.setTX(1);
-      Serial1.begin(GpsBaud);
+      Serial1.setRX(0); // default for Serial1; unnecessary, but explicit
+      Serial1.setTX(1); // default for Serial1; unnecessary, but explicit
+      Serial1.begin(9600);
+      // Note: All testing with Teensy 3.6 suggests that baud rates other
+      // than 9600 are incompatible. However, 9600 is ok for 5 Hz GPS
+      // refresh (which itself is very sufficient.)
       ```
+- Default baud rate: 9600 Bd
+- Default sampling rate: 1 Hz
