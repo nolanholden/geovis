@@ -48,6 +48,9 @@
     <ClInclude Include="inertial-measurement-unit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tinygps-plus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sensor.cpp">
@@ -63,6 +66,9 @@
       <Filter>Implementation Files</Filter>
     </ClCompile>
     <ClCompile Include="inertial-measurement-unit.cpp">
+      <Filter>Implementation Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tinygps-plus.cpp">
       <Filter>Implementation Files</Filter>
     </ClCompile>
   </ItemGroup>

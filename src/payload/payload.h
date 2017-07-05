@@ -39,7 +39,7 @@ namespace level1payload {
 
 // Sensors:
 AtmosphericSensor atmospheric_sensor; // Barometer/Thermometer/Hygometer
-Gps gps;                              // GPS module
+GpsReceiver gps;                              // GPS module
 InertialMeasurementUnit imu;
 
 // File I/O:
@@ -88,7 +88,7 @@ inline void setup() {
 
   // Start serial communication.
   Serial.begin(9600); // bits/second does not matter for Teensy 3.6
-  print_with_ellipses("In setup");
+  Serial.println("In setup.");
 
   // Initialize DAQ objects.
   setup_objects();
@@ -103,8 +103,7 @@ inline void setup() {
     write_to_sd(kLogPath, csv_header);
   }
 
-  Serial.println();
-  print_with_ellipses("SETUP COMPLETE");
+  Serial.println("Setup complete.");
 } // setup()
 
 // Line of csv data.
@@ -112,27 +111,26 @@ String line = "";
 
 inline void loop() {
   // Testing items
-  Serial.println(gps.getSpeed());
-  Serial1.println(gps.getLatitude());
-  Serial1.println(gps.getAltitude());
+  Serial.println(gps.GetCsvLine());
+  gps.smartDelay(400);
 
-  // Weather
-  line = "";
-  atmospheric_sensor.GetCsvLine(&line);
-  Serial.println(atmospheric_sensor.kCsvHeader);
-  Serial.println(line);
+  //// Weather
+  //line = "";
+  //atmospheric_sensor.GetCsvLine(&line);
+  //Serial.println(atmospheric_sensor.kCsvHeader);
+  //Serial.println(line);
 
-  // GPS
-  line = "";
-  gps.GetCsvLine(&line);
-  Serial.println(gps.kCsvHeader);
-  Serial.println(line);
+  //// GPS
+  //line = "";
+  //gps.GetCsvLine(&line);
+  //Serial.println(gps.kCsvHeader);
+  //Serial.println(line);
 
-  // IMU
-  line = "";
-  imu.GetCsvLine(&line);
-  Serial.println(imu.kCsvHeader);
-  Serial.println(line);
+  //// IMU
+  //line = "";
+  //imu.GetCsvLine(&line);
+  //Serial.println(imu.kCsvHeader);
+  //Serial.println(line);
 
 
 
