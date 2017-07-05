@@ -9,11 +9,11 @@ namespace rcr {
 namespace level1payload {
 
 GpsReceiver::GpsReceiver() : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR) {
-  latitude_ = 0;
-  longitude_ = 0;
+  latitude_ = 0.;
+  longitude_ = 0.;
 
-  speed_ = kalmanInit(0);
-  altitude_ = kalmanInit(0);
+  speed_ = kalmanInit(0.);
+  altitude_ = kalmanInit(0.);
 }
 
 bool GpsReceiver::Init() {
@@ -21,7 +21,7 @@ bool GpsReceiver::Init() {
   Serial1.setTX(GPS_TX_PIN);
   Serial1.begin(GPS_BAUD);
 
-  smartDelay(1000);
+  smartDelay(1000ul);
   return true;
 }
 
@@ -33,19 +33,30 @@ double GpsReceiver::getLatitude() {
 }
 
 double GpsReceiver::getLongitude() {
+  smartDelay();
   if (gps_.location.isValid())
     longitude_ = gps_.location.lng();
   return longitude_;
 }
 
 float GpsReceiver::getSpeed() {
+  smartDelay();
   if (gps_.speed.isValid()) {
     kalmanUpdate(&speed_, gps_.speed.knots());
   }
   return speed_.value;
 }
 
+float GpsReceiver::getAltitude() {
+  smartDelay();
+  if (gps_.altitude.isValid()) {
+    kalmanUpdate(&altitude_, gps_.altitude.meters());
+  }
+  return altitude_.value;
+}
+
 inline void GpsReceiver::smartDelay() {
+  smartDelay();
   while (Serial1.available())
     gps_.encode(Serial1.read());
 }
@@ -56,13 +67,6 @@ inline void GpsReceiver::smartDelay(unsigned long ms) {
     while (Serial1.available())
       gps_.encode(Serial1.read());
   } while (millis() - start < ms);
-}
-
-float GpsReceiver::getAltitude() {
-  if (gps_.altitude.isValid()) {
-    kalmanUpdate(&altitude_, gps_.altitude.meters());
-  }
-  return altitude_.value;
 }
 
 String GpsReceiver::getDateString(TinyGPSDate &d) {
@@ -136,68 +140,69 @@ String GpsReceiver::getCstringString(const char *str, int len)
 }
 
 String GpsReceiver::GetCsvLine() {
-String line = "";
+  smartDelay();
+  String line = "";
 
-line += getIntString(gps_.satellites.value(), gps_.satellites.isValid(), 5);
-line += ",";
-line += getIntString(gps_.hdop.value(), gps_.hdop.isValid(), 5);
-line += ",";
-line += getFloatString(gps_.location.lat(), gps_.location.isValid(), 11, 6);
-line += ",";
-line += getFloatString(gps_.location.lng(), gps_.location.isValid(), 12, 6);
-line += ",";
-line += getIntString(gps_.location.age(), gps_.location.isValid(), 5);
-line += ",";
-line += getDateString(gps_.date);
-line += ",";
-line += getTimeString(gps_.time);
-line += ",";
-line += getDateAgeString(gps_.date);
-line += ",";
-line += getFloatString(gps_.altitude.meters(), gps_.altitude.isValid(), 7, 2);
-line += ",";
-line += getFloatString(gps_.course.deg(), gps_.course.isValid(), 7, 2);
-line += ",";
-line += getFloatString(gps_.speed.kmph(), gps_.speed.isValid(), 6, 2);
-line += ",";
-line += getCstringString(gps_.course.isValid() ? TinyGPSPlus::cardinal(gps_.course.deg()) : "*** ", 6);
-line += ",";
+  line += getIntString(gps_.satellites.value(), gps_.satellites.isValid(), 5);
+  line += ",";
+  line += getIntString(gps_.hdop.value(), gps_.hdop.isValid(), 5);
+  line += ",";
+  line += getFloatString(gps_.location.lat(), gps_.location.isValid(), 11, 6);
+  line += ",";
+  line += getFloatString(gps_.location.lng(), gps_.location.isValid(), 12, 6);
+  line += ",";
+  line += getIntString(gps_.location.age(), gps_.location.isValid(), 5);
+  line += ",";
+  line += getDateString(gps_.date);
+  line += ",";
+  line += getTimeString(gps_.time);
+  line += ",";
+  line += getDateAgeString(gps_.date);
+  line += ",";
+  line += getFloatString(gps_.altitude.meters(), gps_.altitude.isValid(), 7, 2);
+  line += ",";
+  line += getFloatString(gps_.course.deg(), gps_.course.isValid(), 7, 2);
+  line += ",";
+  line += getFloatString(gps_.speed.kmph(), gps_.speed.isValid(), 6, 2);
+  line += ",";
+  line += getCstringString(gps_.course.isValid() ? TinyGPSPlus::cardinal(gps_.course.deg()) : "*** ", 6);
+  line += ",";
 
-unsigned long distance_to_pad =
-(unsigned long)TinyGPSPlus::distanceBetween(
-  gps_.location.lat(),
-  gps_.location.lng(),
-  PAD_LAT,
-  PAD_LON) / 1000;
+  unsigned long distance_to_pad =
+  (unsigned long)TinyGPSPlus::distanceBetween(
+    gps_.location.lat(),
+    gps_.location.lng(),
+    PAD_LAT,
+    PAD_LON) / 1000;
 
-line += getIntString(distance_to_pad, gps_.location.isValid(), 9);
-line += ",";
+  line += getIntString(distance_to_pad, gps_.location.isValid(), 9);
+  line += ",";
 
-double course_to_pad = TinyGPSPlus::courseTo(
-  gps_.location.lat(),
-  gps_.location.lng(),
-  PAD_LAT,
-  PAD_LON);
-line += getFloatString(course_to_pad, gps_.location.isValid(), 7, 2);
-line += ",";
+  double course_to_pad = TinyGPSPlus::courseTo(
+    gps_.location.lat(),
+    gps_.location.lng(),
+    PAD_LAT,
+    PAD_LON);
+  line += getFloatString(course_to_pad, gps_.location.isValid(), 7, 2);
+  line += ",";
 
-const char *cardinalToLondon = TinyGPSPlus::cardinal(course_to_pad);
-line += getCstringString(gps_.location.isValid() ? cardinalToLondon : "*** ", 6);
-line += ",";
+  const char *cardinalToLondon = TinyGPSPlus::cardinal(course_to_pad);
+  line += getCstringString(gps_.location.isValid() ? cardinalToLondon : "*** ", 6);
+  line += ",";
 
-line += getIntString(gps_.charsProcessed(), true, 6);
-line += ",";
-line += getIntString(gps_.sentencesWithFix(), true, 10);
-line += ",";
-line += getIntString(gps_.failedChecksum(), true, 9);
-line += ",";
+  line += getIntString(gps_.charsProcessed(), true, 6);
+  line += ",";
+  line += getIntString(gps_.sentencesWithFix(), true, 10);
+  line += ",";
+  line += getIntString(gps_.failedChecksum(), true, 9);
+  line += ",";
 
-if (millis() > 5000 && gps_.charsProcessed() < 10)
-  Serial.println(F("No GPS data received: check wiring"));
+  if (millis() > 5000 && gps_.charsProcessed() < 10)
+    Serial.println(F("No GPS data received: check wiring"));
 
-smartDelay();
+  smartDelay();
 
-return line;
+  return line;
 }
 
 } // namespace level1_payload

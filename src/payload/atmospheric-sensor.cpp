@@ -7,8 +7,8 @@ namespace level1payload {
 
 AtmosphericSensor::AtmosphericSensor()
   : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR) {
-  altitude_ = kalmanInit(0);
-  pressure_ = kalmanInit(0);
+  altitude_ = kalmanInit(0.);
+  pressure_ = kalmanInit(0.);
 }
 
 bool AtmosphericSensor::Init() {

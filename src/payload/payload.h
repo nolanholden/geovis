@@ -39,8 +39,8 @@ namespace level1payload {
 
 // Sensors:
 AtmosphericSensor atmospheric_sensor; // Barometer/Thermometer/Hygometer
-GpsReceiver gps;                              // GPS module
-InertialMeasurementUnit imu;
+GpsReceiver gps;                      // GPS module
+InertialMeasurementUnit imu;          // IMU
 
 // File I/O:
 File file; // File I/O manager
@@ -110,6 +110,8 @@ inline void setup() {
 String line = "";
 
 inline void loop() {
+  while (Serial1.available() > 0)
+    gps.gps_.encode(Serial1.read);
   // Testing items
   Serial.println(gps.GetCsvLine());
   //gps.smartDelay(400ul);

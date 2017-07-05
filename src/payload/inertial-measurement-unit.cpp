@@ -37,9 +37,9 @@ imu::Vector<3> InertialMeasurementUnit::SampleForMeanVector (
   auto mean_vector = imu::Vector<3>();
 
   // Ensure x,y,z == 0.0
-  mean_vector.x() = 0.0;
-  mean_vector.y() = 0.0;
-  mean_vector.z() = 0.0;
+  mean_vector.x() = 0.;
+  mean_vector.y() = 0.;
+  mean_vector.z() = 0.;
 
   // Sample the IMU sensor.
   auto imu_vectors = std::vector<imu::Vector<3>>(static_cast<size_t>(SampleSize));
