@@ -1,5 +1,5 @@
 # Level-1 High-Power Rocket Payload
-Data acquisition payload for a Level 1 High-Power Rocket certification launch
+Flight-path interpretation system for a Level 1 High-Power Rocket certification launch.
 
 *This project draws much inspiration and several resources from River City Rocketry's [Variable Drag System](https://github.com/jtcass01/vds2_0) and Shane Tully's [Osprey](https://github.com/shanet/osprey/) project.*
 
