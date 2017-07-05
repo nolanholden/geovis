@@ -2,8 +2,8 @@
 
 #include "constants.h"
 
-inline constexpr float my_abs(float arg) { return arg < 0 ? -arg : arg; }
-inline constexpr int my_abs(int arg) { return arg < 0 ? -arg : arg; }
+inline constexpr float gps_abs(float arg) { return arg < 0 ? -arg : arg; }
+inline constexpr int gps_abs(int arg) { return arg < 0 ? -arg : arg; }
 
 namespace rcr {
 namespace level1payload {
@@ -93,7 +93,7 @@ String GpsReceiver::getFloatString(float val, bool valid, int len, int prec) {
   }
   else {
     result += String(val, prec);
-    int vi = my_abs((int)val);
+    int vi = gps_abs((int)val);
     int flen = prec + (val < 0.0 ? 2 : 1); // for "." and "-"
     flen += vi >= 1000 ? 4
       : vi >= 100 ? 3
