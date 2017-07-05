@@ -38,9 +38,9 @@ class GpsReceiver : public virtual Sensor {
   // to the GPS module serial.
   void smartDelay(unsigned long ms);
 
- protected:
-  TinyGPSPlus gps_;
+  TinyGPSPlus gps_; // ok to access. User needs access to provide NMEA sentences
 
+ protected:
   double latitude_;
   double longitude_;
   kalman_t speed_;    // knots
