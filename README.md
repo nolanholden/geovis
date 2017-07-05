@@ -1,5 +1,5 @@
-# Level-1 High-Power Rocket Payload
-Flight-path interpretation system for a Level 1 High-Power Rocket certification launch.
+# GEOVIS (hyper-Geographical Omni-attitude Vehicle-path Interpretation System)
+A rocket flight-path interpreter for River City Rocketry.
 
 *This project draws much inspiration and several resources from River City Rocketry's [Variable Drag System](https://github.com/jtcass01/vds2_0) and Shane Tully's [Osprey](https://github.com/shanet/osprey/) project.*
 
