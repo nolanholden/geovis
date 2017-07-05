@@ -21,26 +21,23 @@ bool GpsReceiver::Init() {
   Serial1.setTX(GPS_TX_PIN);
   Serial1.begin(GPS_BAUD);
 
-  smartDelay(1000ul);
+  delay(1000u);
   return true;
 }
 
 double GpsReceiver::getLatitude() {
-  smartDelay();
   if (gps_.location.isValid())
     latitude_ = gps_.location.lat();
   return latitude_;
 }
 
 double GpsReceiver::getLongitude() {
-  smartDelay();
   if (gps_.location.isValid())
     longitude_ = gps_.location.lng();
   return longitude_;
 }
 
 float GpsReceiver::getSpeed() {
-  smartDelay();
   if (gps_.speed.isValid()) {
     kalmanUpdate(&speed_, gps_.speed.knots());
   }
@@ -48,7 +45,6 @@ float GpsReceiver::getSpeed() {
 }
 
 float GpsReceiver::getAltitude() {
-  smartDelay();
   if (gps_.altitude.isValid()) {
     kalmanUpdate(&altitude_, gps_.altitude.meters());
   }
@@ -69,8 +65,6 @@ void GpsReceiver::smartDelay(unsigned long ms) {
 }
 
 String GpsReceiver::getDateString(TinyGPSDate &d) {
-  smartDelay();
-
   if (d.isValid()) {
     char sz[11];
     sprintf(sz, "%02d/%02d/%02d", d.month(), d.day(), d.year());
@@ -79,8 +73,6 @@ String GpsReceiver::getDateString(TinyGPSDate &d) {
   return String{ "**/**/****" }; // same length
 }
 String GpsReceiver::getTimeString(TinyGPSTime &t) {
-  smartDelay();
-
   if (t.isValid()) {
     char sz[9];
     sprintf(sz, "%02d:%02d:%02d", t.hour(), t.minute(), t.second());
@@ -89,7 +81,6 @@ String GpsReceiver::getTimeString(TinyGPSTime &t) {
   return String{ "**:**:**" }; // same length
 }
 String GpsReceiver::getDateAgeString(TinyGPSDate &d) {
-  smartDelay();
   return getIntString(d.age(), d.isValid(), 5);
 }
 String GpsReceiver::getFloatString(float val, bool valid, int len, int prec) {
@@ -111,11 +102,9 @@ String GpsReceiver::getFloatString(float val, bool valid, int len, int prec) {
       result += " ";
   }
 
-  smartDelay();
   return result;
 }
-String GpsReceiver::getIntString(unsigned long val, bool valid, int len)
-{
+String GpsReceiver::getIntString(unsigned long val, bool valid, int len) {
   char sz[32] = "*****************";
   if (valid)
     sprintf(sz, "%ld", val);
@@ -125,21 +114,18 @@ String GpsReceiver::getIntString(unsigned long val, bool valid, int len)
   if (len > 0)
     sz[len - 1] = ' ';
 
-  smartDelay();
   return String{ sz };
 }
-String GpsReceiver::getCstringString(const char *str, int len)
-{
+String GpsReceiver::getCstringString(const char *str, int len) {
   String result = "";
   int slen = strlen(str);
   for (auto i = 0; i<len; ++i)
     result += (i < slen ? str[i] : ' ');
-  smartDelay();
+
   return result;
 }
 
 String GpsReceiver::GetCsvLine() {
-  smartDelay();
   String line = "";
 
   line += getIntString(gps_.satellites.value(), gps_.satellites.isValid(), 5);
@@ -198,8 +184,6 @@ String GpsReceiver::GetCsvLine() {
 
   if (millis() > 5000 && gps_.charsProcessed() < 10)
     Serial.println(F("No GPS data received: check wiring"));
-
-  smartDelay();
 
   return line;
 }
