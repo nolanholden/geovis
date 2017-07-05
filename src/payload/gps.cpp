@@ -55,13 +55,12 @@ float GpsReceiver::getAltitude() {
   return altitude_.value;
 }
 
-inline void GpsReceiver::smartDelay() {
-  smartDelay();
+void GpsReceiver::smartDelay() {
   while (Serial1.available())
     gps_.encode(Serial1.read());
 }
 
-inline void GpsReceiver::smartDelay(unsigned long ms) {
+void GpsReceiver::smartDelay(unsigned long ms) {
   unsigned long start = millis();
   do {
     while (Serial1.available())
