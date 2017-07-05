@@ -32,9 +32,6 @@
     <ClInclude Include="kalman.h">
       <Filter>Header Files\Solo Headers</Filter>
     </ClInclude>
-    <ClInclude Include="setup-object.h">
-      <Filter>Header Files\Solo Headers</Filter>
-    </ClInclude>
     <ClInclude Include="uart.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -63,9 +63,11 @@ void write_to_sd(const char* path, const String& content) {
 }
 
 // Setup objects / verify working condition.
+// Swallow the error. Fault tolerance is required.
 inline void setup_objects() {
   // SD card
-  setup_object<SdFatSdio>(sd_card, "SD card");
+  if (!sd_card.begin())
+    Serial.println("SD card initialization failed.");
 
   // GPS sensor
   if (!gps.Init())
@@ -77,44 +79,45 @@ inline void setup_objects() {
 
   // Barometer/Thermometer/Hygometer
   if (!atmospheric_sensor.Init())
-    Serial.println("GPS initialization failed.");
+    Serial.println("Atmospheric sensor initialization failed.");
 }
 
-inline void setup() {
-  // Illuminate LED.
-  pinMode(13, OUTPUT);
-  digitalWrite(13, HIGH);
-  delay(3000);
-
-  // Start serial communication.
-  Serial.begin(9600); // bits/second does not matter for Teensy 3.6
-  Serial.println("In setup.");
-
-  // Initialize DAQ objects.
-  setup_objects();
-
-  // Initialize output file(s).
-  Serial.println("Setting up output files...");
-  {
-    String csv_header = "";
-    csv_header += atmospheric_sensor.kCsvHeader;
-    csv_header += gps.kCsvHeader;
-    csv_header += imu.kCsvHeader;
-    write_to_sd(kLogPath, csv_header);
-  }
-
-  Serial.println("Setup complete.");
-} // setup()
+//inline void setup() {
+//  // Illuminate LED.
+//  pinMode(13, OUTPUT);
+//  digitalWrite(13, HIGH);
+//  delay(3000);
+//
+//  // Start serial communication.
+//  Serial.begin(9600); // bits/second does not matter for Teensy 3.6
+//  Serial.println("In setup.");
+//
+//  // Initialize DAQ objects.
+//  setup_objects();
+//
+//  // Initialize output file(s).
+//  Serial.println("Setting up output files...");
+//  {
+//    String csv_header = "";
+//    csv_header += atmospheric_sensor.kCsvHeader;
+//    csv_header += gps.kCsvHeader;
+//    csv_header += imu.kCsvHeader;
+//    write_to_sd(kLogPath, csv_header);
+//  }
+//
+//  Serial.println("Setup complete.");
+//} // setup()
 
 // Line of csv data.
 String line = "";
 
 inline void loop() {
-  while (Serial1.available() > 0)
-    gps.gps_.encode(Serial1.read);
+  while (Serial1.available() > 0) {
+    gps.gps_.encode(Serial1.read());
+  }
   // Testing items
   Serial.println(gps.GetCsvLine());
-  //gps.smartDelay(400ul);
+  gps.smartDelay(350ul);
 
   //// Weather
   //line = "";
@@ -143,7 +146,7 @@ inline void loop() {
   //write_to_sd(kLogPath, line);
 
   // Wait a moment.
-  delay(512);
+  //delay(512u);
 }
 
 } // namespace level1_payload
