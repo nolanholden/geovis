@@ -1,5 +1,7 @@
 # GEOVIS (hyper-Geographical Omni-attitude Vehicle-path Interpretation System)
-A rocket flight-path interpreter for River City Rocketry.
+GEOVIS is a rocket flight-path interpreter designed for River City Rocketry.
+
+Contributers and copiers welcome!
 
 *This project draws much inspiration and several resources from River City Rocketry's [Variable Drag System](https://github.com/jtcass01/vds2_0) and Shane Tully's [Osprey](https://github.com/shanet/osprey/) project.*
 
