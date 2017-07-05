@@ -112,7 +112,7 @@ String line = "";
 inline void loop() {
   // Testing items
   Serial.println(gps.GetCsvLine());
-  gps.smartDelay(400);
+  //gps.smartDelay(400ul);
 
   //// Weather
   //line = "";

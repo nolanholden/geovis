@@ -3,13 +3,13 @@
 namespace rcr {
 namespace level1payload {
 
-Sensor::Sensor(float process_noise, float measurement_noise, float error) {
+Sensor::Sensor(double process_noise, double measurement_noise, double error) {
   processNoise_ = process_noise;
   measurementNoise_ = measurement_noise;
   error_ = error;
 }
 
-kalman_t Sensor::kalmanInit(float initialValue) {
+kalman_t Sensor::kalmanInit(double initialValue) {
   kalman_t kalman;
 
   kalman.process_noise = processNoise_;
@@ -20,7 +20,7 @@ kalman_t Sensor::kalmanInit(float initialValue) {
   return kalman;
 }
 
-void Sensor::kalmanUpdate(kalman_t* state, float measurement) {
+void Sensor::kalmanUpdate(kalman_t* state, double measurement) {
   // Prediction update
   state->error = state->error + state->process_noise;
 

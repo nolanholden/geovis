@@ -15,7 +15,7 @@ namespace level1payload {
 class Sensor {
  public:
   Sensor() {}
-  Sensor(float process_noise, float measurement_noise, float error);
+  Sensor(double process_noise, double measurement_noise, double error);
   virtual bool Init() = 0;
 
   // Prevent base-call d'tor memory leak.
@@ -26,13 +26,13 @@ class Sensor {
   Sensor& operator=(const Sensor&) = delete;
 
  protected:
-  kalman_t kalmanInit(float intial_value);
-  void kalmanUpdate(kalman_t* state, float measurement);
+  kalman_t kalmanInit(double intial_value);
+  void kalmanUpdate(kalman_t* state, double measurement);
 
  private:
-  float processNoise_;
-  float measurementNoise_;
-  float error_;
+  double processNoise_;
+  double measurementNoise_;
+  double error_;
 };
 
 } // namespace level1_payload

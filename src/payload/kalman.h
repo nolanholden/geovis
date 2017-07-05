@@ -5,11 +5,11 @@ namespace rcr {
 namespace level1payload {
 
 struct kalman_t {
-  float process_noise;     // process noise covariance
-  float measurement_noise; // measurement noise covariance
-  float value;             // value
-  float error;             // estimation error covariance
-  float gain;              // kalman gain
+  double process_noise;     // process noise covariance
+  double measurement_noise; // measurement noise covariance
+  double value;             // value
+  double error;             // estimation error covariance
+  double gain;              // kalman gain
 };
 
 } // namespace level1_payload
