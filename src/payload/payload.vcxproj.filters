@@ -8,21 +8,14 @@
     <Filter Include="Header Files\Solo Headers">
       <UniqueIdentifier>{b391d031-0023-4cc8-9c8f-228817d0e850}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Implementation Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Header Files\Sensors">
+      <UniqueIdentifier>{bf256648-4fed-4d82-a6c6-5488d73a8fe1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="payload.ino" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sensor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gps.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="novelty-printouts.h">
       <Filter>Header Files\Solo Headers</Filter>
     </ClInclude>
@@ -39,34 +32,40 @@
     <ClInclude Include="constants.h">
       <Filter>Header Files\Solo Headers</Filter>
     </ClInclude>
-    <ClInclude Include="atmospheric-sensor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inertial-measurement-unit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tinygps-plus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="atmospheric-sensor.h">
+      <Filter>Header Files\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="gps.h">
+      <Filter>Header Files\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="inertial-measurement-unit.h">
+      <Filter>Header Files\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="sensor.h">
+      <Filter>Header Files\Sensors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sensor.cpp">
-      <Filter>Implementation Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gps.cpp">
-      <Filter>Implementation Files</Filter>
+    <ClCompile Include="tinygps-plus.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="uart.cpp">
-      <Filter>Implementation Files</Filter>
+      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="atmospheric-sensor.cpp">
-      <Filter>Implementation Files</Filter>
+      <Filter>Header Files\Sensors</Filter>
+    </ClCompile>
+    <ClCompile Include="gps.cpp">
+      <Filter>Header Files\Sensors</Filter>
     </ClCompile>
     <ClCompile Include="inertial-measurement-unit.cpp">
-      <Filter>Implementation Files</Filter>
+      <Filter>Header Files\Sensors</Filter>
     </ClCompile>
-    <ClCompile Include="tinygps-plus.cpp">
-      <Filter>Implementation Files</Filter>
+    <ClCompile Include="sensor.cpp">
+      <Filter>Header Files\Sensors</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
