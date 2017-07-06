@@ -7,14 +7,6 @@
 	#include "WProgram.h"
 #endif
 
-#include <string>
-#include <memory>
-
-// Sensor libraries.
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
-#include <Adafruit_BNO055.h>
-#include <Adafruit_GPS.h>
 
 // SD card libraries
 #include <BlockDriver.h>
@@ -32,7 +24,6 @@
 #include "gps.h"
 #include "inertial-measurement-unit.h"
 #include "novelty-printouts.h"
-#include "setup-object.h"
 
 namespace rcr {
 namespace level1payload {
@@ -82,34 +73,32 @@ inline void setup_objects() {
     Serial.println("Atmospheric sensor initialization failed.");
 }
 
-//inline void setup() {
-//  // Illuminate LED.
-//  pinMode(13, OUTPUT);
-//  digitalWrite(13, HIGH);
-//  delay(3000);
-//
-//  // Start serial communication.
-//  Serial.begin(9600); // bits/second does not matter for Teensy 3.6
-//  Serial.println("In setup.");
-//
-//  // Initialize DAQ objects.
-//  setup_objects();
-//
-//  // Initialize output file(s).
-//  Serial.println("Setting up output files...");
-//  {
-//    String csv_header = "";
-//    csv_header += atmospheric_sensor.kCsvHeader;
-//    csv_header += gps.kCsvHeader;
-//    csv_header += imu.kCsvHeader;
-//    write_to_sd(kLogPath, csv_header);
-//  }
-//
-//  Serial.println("Setup complete.");
-//} // setup()
+inline void setup() {
+  // Illuminate LED.
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
+  delay(3000);
 
-// Line of csv data.
-String line = "";
+  // Start serial communication.
+  Serial.begin(9600); // bits/second does not matter for Teensy 3.6
+  Serial.println("In setup.");
+
+  // Initialize DAQ objects.
+  setup_objects();
+
+  // Initialize output file(s).
+  Serial.println("Setting up output files...");
+  {
+    String csv_header = "";
+    csv_header += atmospheric_sensor.kCsvHeader;
+    csv_header += gps.kCsvHeader;
+    csv_header += imu.kCsvHeader;
+    write_to_sd(kLogPath, csv_header);
+  }
+
+  Serial.println("Setup complete.");
+} // setup()
+
 
 inline void loop() {
   while (Serial1.available() > 0) {
@@ -117,25 +106,19 @@ inline void loop() {
   }
   // Testing items
   Serial.println(gps.GetCsvLine());
-  gps.smartDelay(350ul);
+  gps.smartDelay(200ul);
 
   //// Weather
-  //line = "";
-  //atmospheric_sensor.GetCsvLine(&line);
   //Serial.println(atmospheric_sensor.kCsvHeader);
-  //Serial.println(line);
+  //Serial.println(atmospheric_sensor.GetCsvLine());
 
   //// GPS
-  //line = "";
-  //gps.GetCsvLine(&line);
   //Serial.println(gps.kCsvHeader);
-  //Serial.println(line);
+  //Serial.println(gps.GetCsvLine());
 
   //// IMU
-  //line = "";
-  //imu.GetCsvLine(&line);
   //Serial.println(imu.kCsvHeader);
-  //Serial.println(line);
+  //Serial.println(imu.GetCsvLine());
 
 
 
