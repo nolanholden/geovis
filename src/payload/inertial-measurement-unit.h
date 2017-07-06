@@ -33,9 +33,7 @@ class InertialMeasurementUnit : public virtual Sensor {
   ~InertialMeasurementUnit() {}
 
  private:
-  // TODO: We want static, but is creating unknown 
-  // ref (compilation) error in AtmosphericSensor::Init() { ... } .
-  Adafruit_BNO055 bno_;
+  static Adafruit_BNO055 bno_;
   
   // Orientation (Euler vector):
   kalman_t euler_x_; // heading

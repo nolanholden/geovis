@@ -2,11 +2,13 @@
 
 #include "constants.h"
 
-inline constexpr float gps_abs(float arg) { return arg < 0 ? -arg : arg; }
+inline constexpr float gps_abs(float arg) { return arg < 0.f ? -arg : arg; }
 inline constexpr int gps_abs(int arg) { return arg < 0 ? -arg : arg; }
 
 namespace rcr {
 namespace level1payload {
+
+TinyGPSPlus GpsReceiver::gps_;
 
 GpsReceiver::GpsReceiver() : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR) {
   latitude_ = 0.;
@@ -128,6 +130,8 @@ String GpsReceiver::getCstringString(const char *str, int len) {
 String GpsReceiver::GetCsvLine() {
   String line = "";
 
+  smartDelay();
+
   line += getIntString(gps_.satellites.value(), gps_.satellites.isValid(), 5);
   line += ",";
   line += getIntString(gps_.hdop.value(), gps_.hdop.isValid(), 5);
@@ -181,9 +185,6 @@ String GpsReceiver::GetCsvLine() {
   line += ",";
   line += getIntString(gps_.failedChecksum(), true, 9);
   line += ",";
-
-  if (millis() > 5000 && gps_.charsProcessed() < 10)
-    Serial.println(F("No GPS data received: check wiring"));
 
   return line;
 }

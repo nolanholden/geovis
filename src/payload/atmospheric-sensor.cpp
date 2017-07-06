@@ -5,6 +5,8 @@
 namespace rcr {
 namespace level1payload {
 
+Adafruit_BME280 AtmosphericSensor::bme_;
+
 AtmosphericSensor::AtmosphericSensor()
   : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR) {
   altitude_ = kalmanInit(0.);

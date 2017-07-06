@@ -52,9 +52,7 @@ class AtmosphericSensor : public virtual Sensor {
   ~AtmosphericSensor() {}
 
  private:
-  // TODO: We want static, but is creating unknown 
-  // ref (compilation) error in AtmosphericSensor::Init() { ... } .
-  Adafruit_BME280 bme_;
+  static Adafruit_BME280 bme_;
 
   kalman_t altitude_;
   kalman_t pressure_;

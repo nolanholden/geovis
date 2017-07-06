@@ -8,6 +8,8 @@
 namespace rcr {
 namespace level1payload {
 
+Adafruit_BNO055 InertialMeasurementUnit::bno_;
+
 InertialMeasurementUnit::InertialMeasurementUnit()
   : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR) {
   euler_x_   = kalmanInit(0.);
