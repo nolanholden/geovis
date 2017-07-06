@@ -47,23 +47,7 @@ class AtmosphericSensor : public virtual Sensor {
 
   static constexpr const char* kCsvHeader = "*C,Pa,%,m,";
 
-  void GetCsvLine(String* string_to_append) {
-    // Temperature (*C)
-    *string_to_append += temperature();
-    *string_to_append += ",";
-
-    // Ambient pressure (Pascals)
-    *string_to_append += ambient_pressure();
-    *string_to_append += ",";
-
-    // Relative humidity (%)
-    *string_to_append += humidity();
-    *string_to_append += ",";
-
-    // Pressure altitude (meters)
-    *string_to_append += pressure_altitude(); // 101325 Pa (std pressure)
-    *string_to_append += ",";
-  }
+  String GetCsvLine();
 
   ~AtmosphericSensor() {}
 

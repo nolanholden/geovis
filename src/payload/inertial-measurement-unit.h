@@ -28,7 +28,7 @@ class InertialMeasurementUnit : public virtual Sensor {
 
   static constexpr const char* kCsvHeader = "x(heading),y(roll),z(pitch),Lx,Ly,Lz,Gx,Gy,Gz,";
 
-  void GetCsvLine(String* string_to_append);
+  String GetCsvLine();
 
   ~InertialMeasurementUnit() {}
 

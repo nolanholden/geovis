@@ -44,15 +44,12 @@ imu::Vector<3> InertialMeasurementUnit::SampleForMeanVector (
   // Sample the IMU sensor.
   auto imu_vectors = std::vector<imu::Vector<3>>(static_cast<size_t>(SampleSize));
   for (auto i = 0; i < SampleSize; ++i) {
-    imu_vectors.push_back(
-      std::move(bno_.getVector(vector_type))
-    );
+    imu_vectors.push_back(std::move(bno_.getVector(vector_type)));
   }
 
   // Compute the mean.
   auto sample_size_double = static_cast<double>(SampleSize);
   for (auto& v : imu_vectors) {
-    //Serial.println(v.x());
     mean_vector.x() += v.x();
     mean_vector.y() += v.y();
     mean_vector.z() += v.z();
@@ -61,11 +58,12 @@ imu::Vector<3> InertialMeasurementUnit::SampleForMeanVector (
   mean_vector.y() /= sample_size_double;
   mean_vector.z() /= sample_size_double;
 
-  //Serial.println(mean_vector.x());
   return mean_vector;
 }
 
-void InertialMeasurementUnit::GetCsvLine(String* string_to_append) {
+String InertialMeasurementUnit::GetCsvLine() {
+  String line = "";
+
   //  Sample the IMU.
   auto orientation = SampleForMeanVector<2>(Adafruit_BNO055::VECTOR_EULER);
   auto linear = SampleForMeanVector<2>(Adafruit_BNO055::VECTOR_LINEARACCEL);
@@ -87,27 +85,29 @@ void InertialMeasurementUnit::GetCsvLine(String* string_to_append) {
   kalmanUpdate(&gravity_y_, gravity.y());
   kalmanUpdate(&gravity_z_, gravity.z());
 
-  // Return filtered results.
-  *string_to_append += euler_x_.value;
-  *string_to_append += ",";
-  *string_to_append += euler_y_.value;
-  *string_to_append += ",";
-  *string_to_append += euler_z_.value;
-  *string_to_append += ",";
+  // Return *filtered* results.
+  line += euler_x_.value;
+  line += ",";
+  line += euler_y_.value;
+  line += ",";
+  line += euler_z_.value;
+  line += ",";
 
-  *string_to_append += linear_x_.value;
-  *string_to_append += ",";
-  *string_to_append += linear_y_.value;
-  *string_to_append += ",";
-  *string_to_append += linear_z_.value;
-  *string_to_append += ",";
+  line += linear_x_.value;
+  line += ",";
+  line += linear_y_.value;
+  line += ",";
+  line += linear_z_.value;
+  line += ",";
 
-  *string_to_append += gravity_x_.value;
-  *string_to_append += ",";
-  *string_to_append += gravity_y_.value;
-  *string_to_append += ",";
-  *string_to_append += gravity_z_.value;
-  *string_to_append += ",";
+  line += gravity_x_.value;
+  line += ",";
+  line += gravity_y_.value;
+  line += ",";
+  line += gravity_z_.value;
+  line += ",";
+
+  return line;
 }
 
 } // namespace level1_payload

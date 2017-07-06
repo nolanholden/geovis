@@ -42,5 +42,27 @@ float AtmosphericSensor::temperature() {
   return bme_.readTemperature();
 }
 
+String AtmosphericSensor::GetCsvLine() {
+  String line = "";
+
+  // Temperature (*C)
+  line += temperature();
+  line += ",";
+
+  // Ambient pressure (Pascals)
+  line += ambient_pressure();
+  line += ",";
+
+  // Relative humidity (%)
+  line += humidity();
+  line += ",";
+
+  // Pressure altitude (meters)
+  line += pressure_altitude(); // 101325 Pa (std pressure)
+  line += ",";
+
+  return line;
+}
+
 } // namespace level1_payload
 } // namespace rcr
