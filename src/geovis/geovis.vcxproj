@@ -90,7 +90,6 @@
     <ClInclude Include="geovis.h" />
     <ClInclude Include="sensor.h" />
     <ClInclude Include="tinygps-plus.h" />
-    <ClInclude Include="uart.h" />
     <ClInclude Include="__vm\.geovis.vsarduino.h" />
     <ClInclude Include="__vm\.payload.vsarduino.h" />
   </ItemGroup>
@@ -100,7 +99,6 @@
     <ClCompile Include="inertial-measurement-unit.cpp" />
     <ClCompile Include="sensor.cpp" />
     <ClCompile Include="tinygps-plus.cpp" />
-    <ClCompile Include="uart.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="geovis.ino" />

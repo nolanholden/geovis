@@ -22,9 +22,6 @@
     <ClInclude Include="kalman.h">
       <Filter>Header Files\Solo Headers</Filter>
     </ClInclude>
-    <ClInclude Include="uart.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="constants.h">
       <Filter>Header Files\Solo Headers</Filter>
     </ClInclude>
@@ -50,9 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tinygps-plus.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="uart.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="atmospheric-sensor.cpp">
