@@ -21,7 +21,7 @@
 // RCR headers
 #include "atmospheric-sensor.h"
 #include "constants.h"
-#include "gps.h"
+#include "gps-receiver.h"
 #include "inertial-measurement-unit.h"
 #include "novelty-printouts.h"
 

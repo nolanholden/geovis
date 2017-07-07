@@ -1,4 +1,4 @@
-#include "gps.h"
+#include "gps-receiver.h"
 
 #include "constants.h"
 
