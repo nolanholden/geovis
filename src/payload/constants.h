@@ -6,7 +6,7 @@ namespace level1payload {
 constexpr const char* kLogPath = "flight.log";
 
 // Main loop delay (milliseconds)
-constexpr const uint32_t kLoopDelay = 1024;
+constexpr const unsigned int kLoopDelay = 1024;
 
 // Kalman constants:
 constexpr float KALMAN_PROCESS_NOISE = 0.01;
