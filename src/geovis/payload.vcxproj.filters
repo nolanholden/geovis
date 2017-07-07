@@ -44,6 +44,9 @@
     <ClInclude Include="sensor.h">
       <Filter>Header Files\Sensors</Filter>
     </ClInclude>
+    <ClInclude Include="__vm\.geovis.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tinygps-plus.cpp">
