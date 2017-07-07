@@ -1,5 +1,5 @@
-#ifndef RCR_LEVEL1PAYLOAD_GPS_H
-#define RCR_LEVEL1PAYLOAD_GPS_H
+#ifndef RCR_GEOVIS_GPSRECEIVER_H
+#define RCR_GEOVIS_GPSRECEIVER_H
 
 #include "sensor.h"
 #include "tinygps-plus.h"
@@ -58,4 +58,4 @@ class GpsReceiver : public virtual Sensor {
 } // namespace level1_payload
 } // namespace rcr
 
-#endif // RCR_LEVEL1PAYLOAD_GPS_H
+#endif // RCR_GEOVIS_GPSRECEIVER_H

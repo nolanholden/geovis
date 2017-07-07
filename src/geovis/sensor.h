@@ -1,5 +1,5 @@
-#ifndef RCR_LEVEL1PAYLOAD_SENSOR_H_
-#define RCR_LEVEL1PAYLOAD_SENSOR_H_
+#ifndef RCR_GEOVIS_SENSOR_H_
+#define RCR_GEOVIS_SENSOR_H_
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
@@ -38,4 +38,4 @@ class Sensor {
 } // namespace level1_payload
 } // namespace rcr
 
-#endif // RCR_LEVEL1PAYLOAD_SENSOR_H_
+#endif // RCR_GEOVIS_SENSOR_H_

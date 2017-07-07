@@ -1,5 +1,5 @@
-#ifndef RCR_LEVEL1PAYLOAD_KALMAN_H_
-#define RCR_LEVEL1PAYLOAD_KALMAN_H_
+#ifndef RCR_GEOVIS_KALMAN_H_
+#define RCR_GEOVIS_KALMAN_H_
 
 namespace rcr {
 namespace geovis {
@@ -15,4 +15,4 @@ struct kalman_t {
 } // namespace level1_payload
 } // namespace rcr
 
-#endif // RCR_LEVEL1PAYLOAD_KALMAN_H_
+#endif // RCR_GEOVIS_KALMAN_H_

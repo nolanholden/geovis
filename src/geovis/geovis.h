@@ -1,5 +1,5 @@
-#ifndef RCR_LEVEL1PAYLOAD_PAYLOAD_H_
-#define RCR_LEVEL1PAYLOAD_PAYLOAD_H_
+#ifndef RCR_GEOVIS_GEOVIS_H_
+#define RCR_GEOVIS_GEOVIS_H_
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
@@ -134,4 +134,4 @@ inline void loop() {
 } // namespace level1_payload
 } // namespace rcr
 
-#endif // RCR_LEVEL1PAYLOAD_PAYLOAD_H_
+#endif // RCR_GEOVIS_GEOVIS_H_
