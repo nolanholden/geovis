@@ -87,7 +87,7 @@
     <ClInclude Include="inertial-measurement-unit.h" />
     <ClInclude Include="kalman.h" />
     <ClInclude Include="novelty-printouts.h" />
-    <ClInclude Include="payload.h" />
+    <ClInclude Include="geovis.h" />
     <ClInclude Include="sensor.h" />
     <ClInclude Include="tinygps-plus.h" />
     <ClInclude Include="uart.h" />

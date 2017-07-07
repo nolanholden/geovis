@@ -6,7 +6,7 @@ inline constexpr float gps_abs(float arg) { return arg < 0.f ? -arg : arg; }
 inline constexpr int gps_abs(int arg) { return arg < 0 ? -arg : arg; }
 
 namespace rcr {
-namespace level1payload {
+namespace geovis {
 
 TinyGPSPlus GpsReceiver::gps_;
 

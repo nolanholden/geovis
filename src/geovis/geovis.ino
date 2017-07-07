@@ -1,10 +1,10 @@
 #include "payload.h" // C++ file which acts as a surrogate this .ino program.
 
 void setup() {
-  rcr::level1payload::setup();
+  rcr::geovis::setup();
 }
 
 void loop() {
-  rcr::level1payload::loop();
+  rcr::geovis::loop();
 }
 

@@ -12,7 +12,7 @@
 #include <Adafruit_BNO055.h>
 
 namespace rcr {
-namespace level1payload {
+namespace geovis {
 
 class InertialMeasurementUnit : public virtual Sensor {
  public:

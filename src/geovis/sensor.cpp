@@ -1,7 +1,7 @@
 #include "sensor.h"
 
 namespace rcr {
-namespace level1payload {
+namespace geovis {
 
 Sensor::Sensor(double process_noise, double measurement_noise, double error) {
   processNoise_ = process_noise;

@@ -10,7 +10,7 @@
 #include "kalman.h"
 
 namespace rcr {
-namespace level1payload {
+namespace geovis {
 
 class Sensor {
  public:

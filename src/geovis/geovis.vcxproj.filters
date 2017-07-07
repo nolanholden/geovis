@@ -25,7 +25,6 @@
     <ClInclude Include="uart.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="payload.h" />
     <ClInclude Include="constants.h">
       <Filter>Header Files\Solo Headers</Filter>
     </ClInclude>
@@ -47,6 +46,7 @@
     <ClInclude Include="__vm\.geovis.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="geovis.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tinygps-plus.cpp">

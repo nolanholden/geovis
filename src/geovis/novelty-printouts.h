@@ -8,7 +8,7 @@
 #endif
 
 namespace rcr {
-namespace level1payload {
+namespace geovis {
 
 // Print message with a delayed, trailing ellipses.
 template <typename T>

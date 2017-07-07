@@ -3,7 +3,7 @@
 #include "constants.h"
 
 namespace rcr {
-namespace level1payload {
+namespace geovis {
 
 Adafruit_BME280 AtmosphericSensor::bme_;
 

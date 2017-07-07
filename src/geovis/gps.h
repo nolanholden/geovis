@@ -5,7 +5,7 @@
 #include "tinygps-plus.h"
 
 namespace rcr {
-namespace level1payload {
+namespace geovis {
 
 constexpr double PAD_LAT = 0.123456, PAD_LON = -0.123456;
 

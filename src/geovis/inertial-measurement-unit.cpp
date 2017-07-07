@@ -6,7 +6,7 @@
 #include <utility>
 
 namespace rcr {
-namespace level1payload {
+namespace geovis {
 
 Adafruit_BNO055 InertialMeasurementUnit::bno_;
 

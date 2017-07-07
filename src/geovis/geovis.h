@@ -26,7 +26,7 @@
 #include "novelty-printouts.h"
 
 namespace rcr {
-namespace level1payload {
+namespace geovis {
 
 // Sensors:
 AtmosphericSensor atmospheric_sensor; // Barometer/Thermometer/Hygometer

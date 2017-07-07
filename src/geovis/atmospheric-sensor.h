@@ -12,7 +12,7 @@
 #include <Adafruit_BME280.h>
 
 namespace rcr {
-namespace level1payload {
+namespace geovis {
 
 class AtmosphericSensor : public virtual Sensor {
  public:
