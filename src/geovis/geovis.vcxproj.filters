@@ -31,9 +31,6 @@
     <ClInclude Include="atmospheric-sensor.h">
       <Filter>Header Files\Sensors</Filter>
     </ClInclude>
-    <ClInclude Include="gps.h">
-      <Filter>Header Files\Sensors</Filter>
-    </ClInclude>
     <ClInclude Include="inertial-measurement-unit.h">
       <Filter>Header Files\Sensors</Filter>
     </ClInclude>
@@ -44,6 +41,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="geovis.h" />
+    <ClInclude Include="gps-receiver.h">
+      <Filter>Header Files\Sensors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tinygps-plus.cpp">
@@ -52,13 +52,13 @@
     <ClCompile Include="atmospheric-sensor.cpp">
       <Filter>Header Files\Sensors</Filter>
     </ClCompile>
-    <ClCompile Include="gps.cpp">
-      <Filter>Header Files\Sensors</Filter>
-    </ClCompile>
     <ClCompile Include="inertial-measurement-unit.cpp">
       <Filter>Header Files\Sensors</Filter>
     </ClCompile>
     <ClCompile Include="sensor.cpp">
+      <Filter>Header Files\Sensors</Filter>
+    </ClCompile>
+    <ClCompile Include="gps-receiver.cpp">
       <Filter>Header Files\Sensors</Filter>
     </ClCompile>
   </ItemGroup>

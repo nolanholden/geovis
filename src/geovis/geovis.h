@@ -16,8 +16,6 @@
 #include <SysCall.h>
 //#include <FreeStack.h> // something is wrong with this library.
 
-//#include <lib/i2c_t3/i2c_t3.h> // I2C for teensy (replaces wire.h)
-
 // RCR headers
 #include "atmospheric-sensor.h"
 #include "constants.h"
@@ -72,6 +70,7 @@ inline void setup_objects() {
   if (!atmospheric_sensor.Init())
     Serial.println("Atmospheric sensor initialization failed.");
 }
+
 
 inline void setup() {
   // Illuminate LED.
