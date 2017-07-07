@@ -63,6 +63,11 @@ imu::Vector<3> InertialMeasurementUnit::SampleForMeanVector (
   return mean_vector;
 }
 
+imu::Vector<3> InertialMeasurementUnit::SampleVector(
+    Adafruit_BNO055::adafruit_vector_type_t vector_type) {
+  return bno_.getVector(vector_type);
+}
+
 String InertialMeasurementUnit::GetCsvLine() {
   String line = "";
 

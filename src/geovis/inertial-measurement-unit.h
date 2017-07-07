@@ -20,10 +20,14 @@ class InertialMeasurementUnit : public virtual Sensor {
 
   bool Init();
 
+  // Sample the given type of vector only once.
+  imu::Vector<3> SampleVector(
+    Adafruit_BNO055::adafruit_vector_type_t vector_type);
+
   // TODO: Is possible overflow an issue?
-  // Gets the mean x,y,z values of the given IMU vector for a given number of samples.
+  // Sample the given type of vector, returning the mean values.
   template <int SampleSize>
-  imu::Vector<3> SampleForMeanVector (
+  imu::Vector<3> SampleForMeanVector(
     Adafruit_BNO055::adafruit_vector_type_t vector_type);
 
   static constexpr const char* kCsvHeader = "x(heading),y(roll),z(pitch),Lx,Ly,Lz,Gx,Gy,Gz,";
@@ -37,8 +41,8 @@ class InertialMeasurementUnit : public virtual Sensor {
   
   // Orientation (Euler vector):
   kalman_t euler_x_; // heading
-  kalman_t euler_y_;    // roll
-  kalman_t euler_z_;   // pitch
+  kalman_t euler_y_; // roll
+  kalman_t euler_z_; // pitch
 
   // Linear accelleration:
   kalman_t linear_x_;
