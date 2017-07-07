@@ -13,9 +13,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="payload.ino" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="novelty-printouts.h">
       <Filter>Header Files\Solo Headers</Filter>
     </ClInclude>
@@ -67,5 +64,8 @@
     <ClCompile Include="sensor.cpp">
       <Filter>Header Files\Sensors</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="geovis.ino" />
   </ItemGroup>
 </Project>
