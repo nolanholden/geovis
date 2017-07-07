@@ -1,0 +1,3 @@
+[submodule "src/geovis.tests/googletest"]
+	path = src/geovis.tests/googletest
+	url = https://github.com/google/googletest
