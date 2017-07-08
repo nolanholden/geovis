@@ -12,11 +12,10 @@
 namespace rcr {
 namespace geovis {
 
-class Sensor {
+class Sensor : public virtual Initializable {
  public:
   Sensor() {}
   Sensor(double process_noise, double measurement_noise, double error);
-  virtual bool Init() = 0;
 
   // Prevent base-call d'tor memory leak.
   virtual ~Sensor() noexcept {}
