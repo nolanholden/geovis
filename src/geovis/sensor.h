@@ -7,6 +7,7 @@
 	#include "WProgram.h"
 #endif
 
+#include "initializable.h"
 #include "kalman.h"
 
 namespace rcr {

@@ -9,6 +9,8 @@
 
 #include "initializable.h"
 
+#include <SdFat.h>
+
 namespace rcr {
 namespace geovis {
 

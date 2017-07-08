@@ -10,7 +10,7 @@ class Initializable {
   // Returns true if initialization is successful.
   virtual bool Init() = 0;
 
-  virtual ~Initializable() {}
+  virtual ~Initializable();
 };
 
 } // namespace level1_payload
