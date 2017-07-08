@@ -44,6 +44,12 @@
     <ClInclude Include="gps-receiver.h">
       <Filter>Header Files\Sensors</Filter>
     </ClInclude>
+    <ClInclude Include="initializable.h">
+      <Filter>Header Files\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="logger.h">
+      <Filter>Header Files\Sensors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tinygps-plus.cpp">
@@ -59,6 +65,12 @@
       <Filter>Header Files\Sensors</Filter>
     </ClCompile>
     <ClCompile Include="gps-receiver.cpp">
+      <Filter>Header Files\Sensors</Filter>
+    </ClCompile>
+    <ClCompile Include="logger.cpp">
+      <Filter>Header Files\Sensors</Filter>
+    </ClCompile>
+    <ClCompile Include="initializable.cpp">
       <Filter>Header Files\Sensors</Filter>
     </ClCompile>
   </ItemGroup>

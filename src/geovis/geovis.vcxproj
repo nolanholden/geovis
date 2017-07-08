@@ -85,7 +85,9 @@
     <ClInclude Include="constants.h" />
     <ClInclude Include="gps-receiver.h" />
     <ClInclude Include="inertial-measurement-unit.h" />
+    <ClInclude Include="initializable.h" />
     <ClInclude Include="kalman.h" />
+    <ClInclude Include="logger.h" />
     <ClInclude Include="novelty-printouts.h" />
     <ClInclude Include="geovis.h" />
     <ClInclude Include="sensor.h" />
@@ -97,6 +99,8 @@
     <ClCompile Include="atmospheric-sensor.cpp" />
     <ClCompile Include="gps-receiver.cpp" />
     <ClCompile Include="inertial-measurement-unit.cpp" />
+    <ClCompile Include="initializable.cpp" />
+    <ClCompile Include="logger.cpp" />
     <ClCompile Include="sensor.cpp" />
     <ClCompile Include="tinygps-plus.cpp" />
   </ItemGroup>

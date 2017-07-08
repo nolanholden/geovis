@@ -7,59 +7,39 @@
 	#include "WProgram.h"
 #endif
 
-
-// SD card libraries
-#include <BlockDriver.h>
-#include <MinimumSerial.h>
-#include <SdFat.h>
-#include <SdFatConfig.h>
-#include <SysCall.h>
-//#include <FreeStack.h> // something is wrong with this library.
-
 // RCR headers
 #include "atmospheric-sensor.h"
 #include "constants.h"
 #include "gps-receiver.h"
 #include "inertial-measurement-unit.h"
+#include "logger.h"
 #include "novelty-printouts.h"
 
 namespace rcr {
 namespace geovis {
 
+Logger logger;
+
 // Sensors:
 AtmosphericSensor atmospheric_sensor; // Barometer/Thermometer/Hygometer
-GpsReceiver gps;                      // GPS module
+GpsReceiver gps_receiver;                      // GPS module
 InertialMeasurementUnit imu;          // IMU
 
-// File I/O:
-File file; // File I/O manager
-SdFatSdio sd_card; // SD card I/O manager
-
-
-void write_to_sd(const char* path, const String& content) {
-  // Open a (new/existing) file for writing.
-  file = sd_card.open(path, FILE_WRITE);
-
-  // Write to file (if able).
-  if (!file) {
-    Serial.println("File could not be initialized.");
-    // Swallow the error.
-  }
-  else {
-    file.println(content);
-    file.close(); // Close when finished.
-  }
+inline void blink() {
+  // Illuminate LED.
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
+  gps_receiver.smartDelay(kLoopDelay);
 }
 
-// Setup objects / verify working condition.
-// Swallow the error. Fault tolerance is required.
-inline void setup_objects() {
+// Initialize objects.
+inline void initialize_objects() {
   // SD card
-  if (!sd_card.begin())
+  if (!logger.Init())
     Serial.println("SD card initialization failed.");
 
   // GPS sensor
-  if (!gps.Init())
+  if (!gps_receiver.Init())
     Serial.println("GPS initialization failed.");
 
   // IMU
@@ -73,47 +53,43 @@ inline void setup_objects() {
 
 
 inline void setup() {
-  // Illuminate LED.
-  pinMode(13, OUTPUT);
-  digitalWrite(13, HIGH);
-  delay(3000);
+  blink();
 
   // Start serial communication.
-  Serial.begin(9600); // bits/second does not matter for Teensy 3.6
+  Serial.begin(9600); // baud does not matter for Teensy 3.6
   Serial.println("In setup.");
 
-  // Initialize DAQ objects.
-  setup_objects();
+  // Initialize objects.
+  initialize_objects();
 
   // Initialize output file(s).
-  Serial.println("Setting up output files...");
   {
+    logger.Open(String{ millis() });
     String csv_header = "";
     csv_header += atmospheric_sensor.kCsvHeader;
-    csv_header += gps.kCsvHeader;
+    csv_header += gps_receiver.kCsvHeader;
     csv_header += imu.kCsvHeader;
-    write_to_sd(kLogPath, csv_header);
+    logger.WriteLine(csv_header);
   }
 
   Serial.println("Setup complete.");
-} // setup()
-
+}
 
 inline void loop() {
   while (Serial1.available() > 0) {
-    gps.gps_.encode(Serial1.read());
+    gps_receiver.gps_.encode(Serial1.read());
   }
   // Testing items
-  Serial.println(gps.GetCsvLine());
-  gps.smartDelay(200ul);
+  Serial.println(gps_receiver.GetCsvLine());
+  gps_receiver.smartDelay(200ul);
 
   //// Weather
   //Serial.println(atmospheric_sensor.kCsvHeader);
   //Serial.println(atmospheric_sensor.GetCsvLine());
 
   //// GPS
-  //Serial.println(gps.kCsvHeader);
-  //Serial.println(gps.GetCsvLine());
+  //Serial.println(gps_receiver.kCsvHeader);
+  //Serial.println(gps_receiver.GetCsvLine());
 
   //// IMU
   //Serial.println(imu.kCsvHeader);
@@ -125,10 +101,11 @@ inline void loop() {
   // ...
 
   // Print it to the file(s).
+  //logger.WriteLine(String{ line });
   //write_to_sd(kLogPath, line);
 
   // Wait a moment.
-  //delay(512u);
+  blink();
 }
 
 } // namespace level1_payload
