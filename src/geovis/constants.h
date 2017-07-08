@@ -1,17 +1,13 @@
 namespace rcr {
 namespace geovis {
-  
-// TODO: arrange for runtime filename-resolution. (likely use millis())
-// File path name:
-constexpr const char* kLogPath = "flight.log";
 
 // Main loop delay (milliseconds)
-constexpr const unsigned int kLoopDelay = 1024;
+constexpr const unsigned long kLoopDelay = 256ul;
 
 // Kalman constants:
-constexpr float KALMAN_PROCESS_NOISE = 0.01;
-constexpr float KALMAN_MEASUREMENT_NOISE = 0.25;
-constexpr float KALMAN_ERROR = 1.0f;
+constexpr float KALMAN_PROCESS_NOISE = 0.01f;
+constexpr float KALMAN_MEASUREMENT_NOISE = 0.25f;
+constexpr float KALMAN_ERROR = 1.f;
 
 } // namespace level1_payload
 } // namespace rcr
