@@ -1,6 +1,8 @@
 namespace rcr {
 namespace geovis {
 
+constexpr uint8_t kLedPin = (uint8_t)0;
+
 // Main loop delay (milliseconds)
 constexpr const unsigned long kLoopDelay = 256ul;
 
