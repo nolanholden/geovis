@@ -1,0 +1,13 @@
+# CMake generation dependency list for this directory.
+C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest/googletest/CMakeLists.txt
+C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest/googletest/cmake/internal_utils.cmake
+C:/CMake/share/cmake-3.9/Modules/FindPythonInterp.cmake
+C:/CMake/share/cmake-3.9/Modules/FindPackageHandleStandardArgs.cmake
+C:/CMake/share/cmake-3.9/Modules/FindPackageMessage.cmake
+C:/CMake/share/cmake-3.9/Modules/FindThreads.cmake
+C:/CMake/share/cmake-3.9/Modules/CheckLibraryExists.cmake
+C:/CMake/share/cmake-3.9/Modules/CheckSymbolExists.cmake
+C:/CMake/share/cmake-3.9/Modules/CheckIncludeFile.cmake
+C:/CMake/share/cmake-3.9/Modules/CheckIncludeFile.c.in
+C:/CMake/share/cmake-3.9/Modules/FindPackageHandleStandardArgs.cmake
+C:/CMake/share/cmake-3.9/Modules/FindPackageMessage.cmake

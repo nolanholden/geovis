@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C6ACED65-39E2-33FF-8653-6901D5652AA1}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>gtest_main</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googlemock\gtest\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">gtest_main.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">gtest_main</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googlemock\gtest\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">gtest_main.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">gtest_main</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googlemock\gtest\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">gtest_main.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">gtest_main</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googlemock\gtest\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">gtest_main.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">gtest_main</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\include;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) -J</AdditionalOptions>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4275;4702</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_UNICODE;UNICODE;_WIN32;STRICT;WIN32_LEAN_AND_MEAN;GTEST_HAS_PTHREAD=0;_HAS_EXCEPTIONS=1;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_UNICODE;UNICODE;_WIN32;STRICT;WIN32_LEAN_AND_MEAN;GTEST_HAS_PTHREAD=0;_HAS_EXCEPTIONS=1;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\include;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\include;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\include;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) -J</AdditionalOptions>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4275;4702</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_UNICODE;UNICODE;_WIN32;STRICT;WIN32_LEAN_AND_MEAN;GTEST_HAS_PTHREAD=0;_HAS_EXCEPTIONS=1;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_UNICODE;UNICODE;_WIN32;STRICT;WIN32_LEAN_AND_MEAN;GTEST_HAS_PTHREAD=0;_HAS_EXCEPTIONS=1;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\include;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\include;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\include;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) -J</AdditionalOptions>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4275;4702</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_UNICODE;UNICODE;_WIN32;STRICT;WIN32_LEAN_AND_MEAN;GTEST_HAS_PTHREAD=0;_HAS_EXCEPTIONS=1;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_UNICODE;UNICODE;_WIN32;STRICT;WIN32_LEAN_AND_MEAN;GTEST_HAS_PTHREAD=0;_HAS_EXCEPTIONS=1;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\include;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\include;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\include;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) -J</AdditionalOptions>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4275;4702</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_UNICODE;UNICODE;_WIN32;STRICT;WIN32_LEAN_AND_MEAN;GTEST_HAS_PTHREAD=0;_HAS_EXCEPTIONS=1;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_UNICODE;UNICODE;_WIN32;STRICT;WIN32_LEAN_AND_MEAN;GTEST_HAS_PTHREAD=0;_HAS_EXCEPTIONS=1;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\include;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\include;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest/googletest/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+C:\CMake\bin\cmake.exe -HC:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest -BC:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests --check-stamp-file C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googlemock/gtest/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest/googletest/CMakeLists.txt;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\CMakeLists.txt;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\cmake\internal_utils.cmake;C:\CMake\share\cmake-3.9\Modules\FindPythonInterp.cmake;C:\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;C:\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;C:\CMake\share\cmake-3.9\Modules\FindThreads.cmake;C:\CMake\share\cmake-3.9\Modules\CheckLibraryExists.cmake;C:\CMake\share\cmake-3.9\Modules\CheckSymbolExists.cmake;C:\CMake\share\cmake-3.9\Modules\CheckIncludeFile.cmake;C:\CMake\share\cmake-3.9\Modules\CheckIncludeFile.c.in;C:\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;C:\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googlemock\gtest\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest/googletest/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+C:\CMake\bin\cmake.exe -HC:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest -BC:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests --check-stamp-file C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googlemock/gtest/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest/googletest/CMakeLists.txt;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\CMakeLists.txt;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\cmake\internal_utils.cmake;C:\CMake\share\cmake-3.9\Modules\FindPythonInterp.cmake;C:\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;C:\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;C:\CMake\share\cmake-3.9\Modules\FindThreads.cmake;C:\CMake\share\cmake-3.9\Modules\CheckLibraryExists.cmake;C:\CMake\share\cmake-3.9\Modules\CheckSymbolExists.cmake;C:\CMake\share\cmake-3.9\Modules\CheckIncludeFile.cmake;C:\CMake\share\cmake-3.9\Modules\CheckIncludeFile.c.in;C:\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;C:\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googlemock\gtest\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest/googletest/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+C:\CMake\bin\cmake.exe -HC:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest -BC:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests --check-stamp-file C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googlemock/gtest/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest/googletest/CMakeLists.txt;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\CMakeLists.txt;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\cmake\internal_utils.cmake;C:\CMake\share\cmake-3.9\Modules\FindPythonInterp.cmake;C:\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;C:\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;C:\CMake\share\cmake-3.9\Modules\FindThreads.cmake;C:\CMake\share\cmake-3.9\Modules\CheckLibraryExists.cmake;C:\CMake\share\cmake-3.9\Modules\CheckSymbolExists.cmake;C:\CMake\share\cmake-3.9\Modules\CheckIncludeFile.cmake;C:\CMake\share\cmake-3.9\Modules\CheckIncludeFile.c.in;C:\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;C:\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googlemock\gtest\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest/googletest/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+C:\CMake\bin\cmake.exe -HC:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest -BC:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests --check-stamp-file C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googlemock/gtest/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:/Users/John-lenovo/OneDrive/dev/ws-arduino/geovis/src/geovis.tests/googletest/googletest/CMakeLists.txt;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\CMakeLists.txt;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\cmake\internal_utils.cmake;C:\CMake\share\cmake-3.9\Modules\FindPythonInterp.cmake;C:\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;C:\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;C:\CMake\share\cmake-3.9\Modules\FindThreads.cmake;C:\CMake\share\cmake-3.9\Modules\CheckLibraryExists.cmake;C:\CMake\share\cmake-3.9\Modules\CheckSymbolExists.cmake;C:\CMake\share\cmake-3.9\Modules\CheckIncludeFile.cmake;C:\CMake\share\cmake-3.9\Modules\CheckIncludeFile.c.in;C:\CMake\share\cmake-3.9\Modules\FindPackageHandleStandardArgs.cmake;C:\CMake\share\cmake-3.9\Modules\FindPackageMessage.cmake;C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googlemock\gtest\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googletest\googletest\src\gtest_main.cc"  />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\ZERO_CHECK.vcxproj">
+      <Project>{CF392665-546C-3670-976A-DC2AB7F3FBFA}</Project>
+      <Name>ZERO_CHECK</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\googlemock\gtest\gtest.vcxproj">
+      <Project>{1DA9178A-F652-3993-8C9C-0801B693EA25}</Project>
+      <Name>gtest</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

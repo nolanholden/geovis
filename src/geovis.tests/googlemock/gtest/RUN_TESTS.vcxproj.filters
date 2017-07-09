@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\John-lenovo\OneDrive\dev\ws-arduino\geovis\src\geovis.tests\CMakeFiles\7d0a5b75f9d5e1b96a66bd6f23040781\RUN_TESTS_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{6AD40C32-F0EA-3D9C-9D12-6AE041778D63}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
