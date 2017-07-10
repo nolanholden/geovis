@@ -1,12 +1,8 @@
 #include "logger.h"
 
-// SD card libraries
-#include <BlockDriver.h>
-#include <MinimumSerial.h>
+// SD card library
 #include <SdFat.h>
-#include <SdFatConfig.h>
-#include <SysCall.h>
-//#include <FreeStack.h> // something is wrong with this library.
+#include "debug-settings.h"
 
 namespace rcr {
 namespace geovis {
@@ -15,32 +11,26 @@ File Logger::file_;
 SdFatSdio Logger::sd_card_;
 
 
-Logger::Logger() {}
+Logger::Logger(const char* path) : path_(path) {}
 
 bool Logger::Init() {
   return sd_card_.begin();
 }
 
-bool Logger::Open(String path) {
-  // Open a new file for writing.
-  file_ = sd_card_.open(path, FILE_WRITE);
+bool Logger::Write(const String& text) {
+  // Open a (new/existing) file for writing.
+  file_ = sd_card_.open(path_, FILE_WRITE);
 
+  // Write to file (if able).
   if (file_) {
+    file_.println(text);
+    file_.close(); // Close when finished.
     return true;
-  } // else, swallow the error.
+  }
+#if DEBUG_LOGGER
+  Serial.println("File could not be initialized.");
+#endif
   return false;
-}
-
-void Logger::Write(const String& text) {
-  file_.write(text.c_str());
-}
-
-void Logger::Flush() {
-  file_.flush();
-}
-
-bool Logger::Close() {
-  return file_.close();
 }
 
 Logger::~Logger() {}

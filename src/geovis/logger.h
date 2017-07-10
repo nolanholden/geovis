@@ -16,21 +16,12 @@ namespace geovis {
 
 class Logger : public virtual Initializable {
  public:
-  Logger();
+  Logger(const char* path);
 
   bool Init();
 
-  // Open a new file for writing.
-  bool Open(String path);
-
   // Write text to the end of the file.
-  void Write(const String& text);
-
-  // Flush the write buffer.
-  void Flush();
-
-  // Close the currently open file forever. Returns false if no file is open.
-  bool Close();
+  bool Write(const String& text);
 
   ~Logger();
 
@@ -39,6 +30,8 @@ class Logger : public virtual Initializable {
  protected:
   static File file_; // File I/O manager
   
+  const char* const path_;
+
   static SdFatSdio sd_card_; // SD card I/O manager
 };
 
