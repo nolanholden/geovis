@@ -8,7 +8,8 @@ namespace geovis {
 Adafruit_BME280 AtmosphericSensor::bme_(BME_CS, BME_MOSI, BME_MISO, BME_SCK); // software SPI
 
 AtmosphericSensor::AtmosphericSensor()
-  : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR) {
+  : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR,
+    "Atmospheric Sensor") {
   altitude_ = kalmanInit(0.);
   pressure_ = kalmanInit(0.);
 }

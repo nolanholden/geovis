@@ -10,7 +10,9 @@ namespace geovis {
 
 TinyGPSPlus GpsReceiver::gps_;
 
-GpsReceiver::GpsReceiver() : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR) {
+GpsReceiver::GpsReceiver()
+  : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR
+        , "GPS Receiver") {
   latitude_ = 0.;
   longitude_ = 0.;
 

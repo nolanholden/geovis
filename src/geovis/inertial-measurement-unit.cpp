@@ -12,7 +12,8 @@ namespace geovis {
 Adafruit_BNO055 InertialMeasurementUnit::bno_;
 
 InertialMeasurementUnit::InertialMeasurementUnit()
-  : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR) {
+  : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR,
+    "Inertial Measurement Unit") {
   euler_x_   = kalmanInit(0.);
   euler_y_   = kalmanInit(0.);
   euler_z_   = kalmanInit(0.);

@@ -11,7 +11,10 @@ File Logger::file_;
 SdFatSdio Logger::sd_card_;
 
 
-Logger::Logger(const char* desired_path) : path_(desired_path) {}
+Logger::Logger(const char* desired_path) {
+  path_ = desired_path;
+  display_name_ = "Logger";
+}
 
 bool Logger::Init() {
   if (!sd_card_.begin()) {

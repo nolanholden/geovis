@@ -15,8 +15,8 @@ namespace geovis {
 
 class Sensor : public virtual Initializable {
  public:
-  Sensor() {}
-  Sensor(double process_noise, double measurement_noise, double error);
+  Sensor(double process_noise, double measurement_noise, double error,
+    const char* display_name);
 
   // Prevent base-call d'tor memory leak.
   virtual ~Sensor() noexcept {}

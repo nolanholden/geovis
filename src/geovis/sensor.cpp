@@ -3,10 +3,12 @@
 namespace rcr {
 namespace geovis {
 
-Sensor::Sensor(double process_noise, double measurement_noise, double error) {
+Sensor::Sensor(double process_noise, double measurement_noise, double error,
+    const char* display_name) {
   processNoise_ = process_noise;
   measurementNoise_ = measurement_noise;
   error_ = error;
+  display_name_ = display_name;
 }
 
 kalman_t Sensor::kalmanInit(double initialValue) {

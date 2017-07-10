@@ -3,7 +3,9 @@
 namespace rcr {
 namespace geovis {
 
-bool Initializable::IsFullyInitialized() { return init_result_; }
+const char* Initializable::display_name() const { return display_name_; }
+
+bool Initializable::IsFullyInitialized() const { return init_result_; }
 
 Initializable::~Initializable() {}
 
