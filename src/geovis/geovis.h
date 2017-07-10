@@ -11,6 +11,7 @@
 #include "atmospheric-sensor.h"
 #include "constants.h"
 #include "debug-settings.h"
+#include "geovis-util.h"
 #include "gps-receiver.h"
 #include "inertial-measurement-unit.h"
 #include "logger.h"
@@ -19,7 +20,7 @@
 namespace rcr {
 namespace geovis {
 
-Logger logger;
+Logger logger(kLogPath);
 AtmosphericSensor atmospheric_sensor; // Barometer/Thermometer/Hygometer
 GpsReceiver gps_receiver;             // GPS module
 InertialMeasurementUnit imu;          // IMU
@@ -84,36 +85,28 @@ inline void setup() {
   initialize_objects();
   Serial.println("init setup.");
 
-  // Initialize output file(s).
   {
-    // Set run-time resolved filename.
-    String path = "";
-    path += String{ millis() };
-    path += ".csv";
-    logger.Open(path);
-  }
-  {
-    // Initialize with header for each comma-delimited value.
+    // Initialize log file with header for each comma-delimited value.
     String csv_header = "";
     csv_header += "millis,";                     // first column is time
     csv_header += atmospheric_sensor.kCsvHeader; // Atmospheric data header
     csv_header += gps_receiver.kCsvHeader;       // GPS header
     csv_header += imu.kCsvHeader;                // IMU header
-    csv_header += "\n";
 
     // Write it only once.
-    logger.Write(csv_header);
+    logger.WriteLine(csv_header);
   }
 
   Serial.println("Setup complete.");
 }
 
 inline void fly() {
+  auto keep_logging = true;
+  auto num_Qs = 0;
   static String csv_line = ""; // Set empty each time.
-  static auto count = 0;
 
   // forever // TODO: terminate via radio instruction
-  for (;;) {
+  while (keep_logging) {
     // Get a line of data.
     // - Time
     csv_line += millis();
@@ -141,20 +134,16 @@ inline void fly() {
     Serial.println(csv_line/*imu.GetCsvLine()*/);
 #endif
 
+    // Print the line to the file.
+    logger.WriteLine(csv_line);
 
-    // Print it to the file.
-    csv_line += "\n";
-    logger.Write(csv_line);
-
-    // After a few writes, flush the file buffer. (To ensure data is written.)
-    //auto count_after_five_seconds = 1000 / kLoopDelay * 5;
-    if (++count > 128) {
-      count = 0;
-#if DEBUG_LOGGER
-      Serial.println("XXXXXXXXXXXXX FLUSHING XXXXXXXXXXXXXXX");
-#endif
-      logger.Close();
-      logger.Open(String{ millis() });
+    // Allow user to quit.
+    if (Serial.available > 0) {
+      if (Serial.read() == 'q') {
+        // Let's be sure it was not accidental; require many 'q's;
+        if (++num_Qs > 2) keep_logging = false;
+      }
+      clear_serial_input();
     }
 
     // Wait a moment.
@@ -197,9 +186,7 @@ inline void loop() {
     }
 
     // Clear remaining characters.
-    while (Serial.available() > 0) {
-      Serial.read();
-    }
+    clear_serial_input();
     Serial.flush();
     Serial.clear();
   }

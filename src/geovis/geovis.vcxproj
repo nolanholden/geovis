@@ -84,6 +84,7 @@
     <ClInclude Include="atmospheric-sensor.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="debug-settings.h" />
+    <ClInclude Include="geovis-util.h" />
     <ClInclude Include="gps-receiver.h" />
     <ClInclude Include="inertial-measurement-unit.h" />
     <ClInclude Include="initializable.h" />
