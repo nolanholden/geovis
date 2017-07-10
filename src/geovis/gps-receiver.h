@@ -23,7 +23,7 @@ class GpsReceiver : public virtual Sensor {
   GpsReceiver();
   bool Init();
 
-  static constexpr const char* kCsvHeader = "satsTracking,hdop,lat,lon,fix-age,date,time,date-age,alt(m),gpsCourse,gpsSpeed,gpsCardinalHeading,distanceToPad,ourseToPad,cardinalToPad,CharsRX,SentencesRX,ChecksumFail"; // TODO: determine this.
+  static constexpr const char* kCsvHeader = "satsTracking,hdop,lat,lon,fix-age,date,time,date-age,alt(m),gpsCourse,gpsSpeed,gpsCardinalHeading,distanceToPad,ourseToPad,cardinalToPad,CharsRX,SentencesRX,ChecksumFail,";
   String GetCsvLine();
 
   float getAltitude();

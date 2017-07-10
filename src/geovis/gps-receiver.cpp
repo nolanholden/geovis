@@ -24,7 +24,9 @@ bool GpsReceiver::Init() {
   Serial1.begin(GPS_BAUD);
 
   delay(1000u);
-  return true;
+
+  init_result_ = true;
+  return init_result_;
 }
 
 double GpsReceiver::getLatitude() {

@@ -14,7 +14,8 @@ AtmosphericSensor::AtmosphericSensor()
 }
 
 bool AtmosphericSensor::Init() {
-  return bme_.begin();
+  init_result_ = bme_.begin();
+  return init_result_;
 }
 
 double AtmosphericSensor::ambient_pressure() {

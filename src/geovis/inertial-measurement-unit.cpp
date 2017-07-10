@@ -29,8 +29,8 @@ InertialMeasurementUnit::InertialMeasurementUnit()
 }
 
 bool InertialMeasurementUnit::Init() {
-  bool b = bno_.begin();
-  return b;
+  init_result_ = bno_.begin();
+  return init_result_;
 }
 
 // TODO: Is possible overflow an issue?

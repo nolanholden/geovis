@@ -10,7 +10,11 @@ class Initializable {
   // Returns true if initialization is successful.
   virtual bool Init() = 0;
 
+  virtual bool IsFullyInitialized();
+
   virtual ~Initializable();
+ protected:
+  bool init_result_ = false;
 };
 
 } // namespace geovis
