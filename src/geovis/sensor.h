@@ -18,6 +18,8 @@ class Sensor : public virtual Initializable {
   Sensor(double process_noise, double measurement_noise, double error,
     const char* display_name);
 
+  virtual String GetCsvLine() = 0;
+
   // Prevent base-call d'tor memory leak.
   virtual ~Sensor() noexcept {}
   
