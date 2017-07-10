@@ -11,13 +11,21 @@ File Logger::file_;
 SdFatSdio Logger::sd_card_;
 
 
-Logger::Logger(const char* path) : path_(path) {}
+Logger::Logger(const char* desired_path) : path_(desired_path) {}
 
 bool Logger::Init() {
-  return sd_card_.begin();
+  if (!sd_card_.begin()) return false;
+
+  // Disallow writing into existing files.
+  // Rename the path in this case.
+  while (sd_card_.exists(path_)) {
+    path_ = (String{ path_ } + String{ millis() }).c_str();
+  }
+
+  return true;
 }
 
-bool Logger::Write(const String& text) {
+bool Logger::WriteLine(const String& text) {
   // Open a (new/existing) file for writing.
   file_ = sd_card_.open(path_, FILE_WRITE);
 
@@ -28,7 +36,7 @@ bool Logger::Write(const String& text) {
     return true;
   }
 #if DEBUG_LOGGER
-  Serial.println("File could not be initialized.");
+  Serial.println("File failed to initialized.");
 #endif
   return false;
 }
