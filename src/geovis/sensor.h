@@ -35,7 +35,7 @@ class Sensor : public virtual Initializable {
   double error_;
 };
 
-} // namespace level1_payload
+} // namespace geovis
 } // namespace rcr
 
 #endif // RCR_GEOVIS_SENSOR_H_

@@ -22,7 +22,7 @@ kalman_t Sensor::kalmanInit(double initialValue) {
 
 void Sensor::kalmanUpdate(kalman_t* state, double measurement) {
   // Prediction update
-  state->error = state->error + state->process_noise;
+  state->error += state->process_noise;
 
   // Measurement update
   state->gain = state->error / (state->error + state->measurement_noise);
@@ -30,5 +30,5 @@ void Sensor::kalmanUpdate(kalman_t* state, double measurement) {
   state->error = (1 - state->gain) * state->error;
 }
 
-} // namespace level1_payload
+} // namespace geovis
 } // namespace rcr

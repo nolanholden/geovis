@@ -5,7 +5,7 @@
 namespace rcr {
 namespace geovis {
 
-Adafruit_BME280 AtmosphericSensor::bme_;
+Adafruit_BME280 AtmosphericSensor::bme_(BME_CS, BME_MOSI, BME_MISO, BME_SCK); // software SPI
 
 AtmosphericSensor::AtmosphericSensor()
   : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR) {
@@ -17,7 +17,7 @@ bool AtmosphericSensor::Init() {
   return bme_.begin();
 }
 
-float AtmosphericSensor::ambient_pressure() {
+double AtmosphericSensor::ambient_pressure() {
   kalmanUpdate(&pressure_, bme_.readPressure());
   return pressure_.value;
 }
@@ -30,7 +30,7 @@ float AtmosphericSensor::humidity() {
   return bme_.readHumidity();
 }
 
-float AtmosphericSensor::pressure_altitude() {
+double AtmosphericSensor::pressure_altitude() {
   // @ std. pressure (i.e., 101325 Pa)
   kalmanUpdate(&altitude_, bme_.readAltitude(1013.25f));
   return altitude_.value; 
@@ -52,7 +52,7 @@ String AtmosphericSensor::GetCsvLine() {
   line += ",";
 
   // Ambient pressure (Pascals)
-  line += ambient_pressure();
+  line += ambient_pressure_raw();
   line += ",";
 
   // Relative humidity (%)
@@ -60,11 +60,11 @@ String AtmosphericSensor::GetCsvLine() {
   line += ",";
 
   // Pressure altitude (meters)
-  line += pressure_altitude(); // 101325 Pa (std pressure)
+  line += pressure_altitude_raw(); // 101325 Pa (std pressure)
   line += ",";
 
   return line;
 }
 
-} // namespace level1_payload
+} // namespace geovis
 } // namespace rcr

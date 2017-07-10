@@ -14,6 +14,11 @@
 namespace rcr {
 namespace geovis {
 
+constexpr uint8_t BME_SCK = 13;
+constexpr uint8_t BME_MISO = 12;
+constexpr uint8_t BME_MOSI = 11;
+constexpr uint8_t BME_CS = 10;
+
 class AtmosphericSensor : public virtual Sensor {
  public:
   AtmosphericSensor();
@@ -22,7 +27,7 @@ class AtmosphericSensor : public virtual Sensor {
 
   // Pressure at the sensor.
   // [Pascal] (N/m^2)
-  float ambient_pressure();
+  double ambient_pressure();
   float ambient_pressure_raw(); // unfiltered
 
   // Realtive Humidity
@@ -34,7 +39,7 @@ class AtmosphericSensor : public virtual Sensor {
   // at: https://www.weather.gov/media/epz/wxcalc/pressureConversion.pdf.
   // (Pressure altitude is NOT correct for non-standard pressure or temperature.)
   // [meters]
-  float pressure_altitude();
+  double pressure_altitude();
   float pressure_altitude_raw(); // unfiltered
 
   // Temperature.
@@ -58,7 +63,7 @@ class AtmosphericSensor : public virtual Sensor {
   kalman_t pressure_;
 };
 
-} // namespace level1_payload
+} // namespace geovis
 } // namespace rcr
 
 #endif // RCR_GEOVIS_ATMOSPHERICSENSOR_H_

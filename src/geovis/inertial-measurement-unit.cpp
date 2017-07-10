@@ -1,6 +1,7 @@
 #include "inertial-measurement-unit.h"
 
 #include "constants.h"
+#include "novelty-printouts.h"
 
 #include <vector>
 #include <utility>
@@ -28,7 +29,8 @@ InertialMeasurementUnit::InertialMeasurementUnit()
 }
 
 bool InertialMeasurementUnit::Init() {
-  return bno_.begin();
+  bool b = bno_.begin();
+  return b;
 }
 
 // TODO: Is possible overflow an issue?
@@ -72,9 +74,9 @@ String InertialMeasurementUnit::GetCsvLine() {
   String line = "";
 
   //  Sample the IMU.
-  auto orientation = SampleForMeanVector<2>(Adafruit_BNO055::VECTOR_EULER);
-  auto linear = SampleForMeanVector<2>(Adafruit_BNO055::VECTOR_LINEARACCEL);
-  auto gravity = SampleForMeanVector<2>(Adafruit_BNO055::VECTOR_GRAVITY);
+  auto orientation = SampleVector(Adafruit_BNO055::VECTOR_EULER);
+  auto linear = SampleVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+  auto gravity = SampleVector(Adafruit_BNO055::VECTOR_GRAVITY);
 
   // Update respective Kalman filters.
     // (1) Euler vector:
@@ -117,5 +119,59 @@ String InertialMeasurementUnit::GetCsvLine() {
   return line;
 }
 
-} // namespace level1_payload
+// Calibrate the BNO055 IMU.
+// Note: This function is provided within this project because calibration
+// only persists for a single power-on (no onboard EEPROM).
+void InertialMeasurementUnit::Calibrate() {
+  Serial.println("Enter 'q' at any time to quit.");
+  delay(1024);
+
+  uint8_t system = 0;
+  uint8_t gyroscope = 0;
+  uint8_t accelerometer = 0;
+  uint8_t magnometer = 0;
+
+  // Wait for 10 consecutive successes.
+  auto numSuccesses = 0;
+  while (numSuccesses < 10) {
+    // Get the four calibration values (value = 0, 1, 2, 3, where 3 indicates
+    // full calibration). Any sensor reporting 0 should be ignored.
+    bno_.getCalibration(&system, &gyroscope, &accelerometer, &magnometer);
+
+    // Print the values.
+    Serial.print(" System: ");
+    Serial.print(system);
+    Serial.print(" Gyro: ");
+    Serial.print(gyroscope);
+    Serial.print(" Accelerometer: ");
+    Serial.print(accelerometer);
+    Serial.print(" Magnometer: ");
+    Serial.println(magnometer);
+
+    // Only when everybody is 3, increment our successes.
+    if (gyroscope > 2 && accelerometer > 2 && magnometer > 2) {
+      numSuccesses++;
+    }
+    else { // Only allow consective successes.
+      numSuccesses = 0;
+    }
+
+    // Wait 100ms, while allowing user to quit at any time.
+    auto start = millis();
+    do {
+      while (Serial.available() > 0) {
+        if (Serial.read() == 'q') return;
+      }
+    } while (millis() - start < 100);
+  }
+
+  Serial.println();
+  print_with_ellipses("IMU is now fully calibrated");
+}
+
+bool InertialMeasurementUnit::IsFullyCalibrated() {
+  return bno_.isFullyCalibrated();
+}
+
+} // namespace geovis
 } // namespace rcr

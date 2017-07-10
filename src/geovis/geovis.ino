@@ -7,4 +7,3 @@ void setup() {
 void loop() {
   rcr::geovis::loop();
 }
-

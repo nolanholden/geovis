@@ -40,15 +40,18 @@
     <ClInclude Include="__vm\.geovis.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="geovis.h" />
     <ClInclude Include="gps-receiver.h">
       <Filter>Header Files\Sensors</Filter>
     </ClInclude>
+    <ClInclude Include="geovis.h" />
+    <ClInclude Include="debug-settings.h">
+      <Filter>Header Files\Solo Headers</Filter>
+    </ClInclude>
     <ClInclude Include="initializable.h">
-      <Filter>Header Files\Sensors</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="logger.h">
-      <Filter>Header Files\Sensors</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -67,11 +70,11 @@
     <ClCompile Include="gps-receiver.cpp">
       <Filter>Header Files\Sensors</Filter>
     </ClCompile>
-    <ClCompile Include="logger.cpp">
-      <Filter>Header Files\Sensors</Filter>
-    </ClCompile>
     <ClCompile Include="initializable.cpp">
-      <Filter>Header Files\Sensors</Filter>
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="logger.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

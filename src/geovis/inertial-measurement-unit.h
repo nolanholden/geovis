@@ -30,11 +30,18 @@ class InertialMeasurementUnit : public virtual Sensor {
   imu::Vector<3> SampleForMeanVector(
     Adafruit_BNO055::adafruit_vector_type_t vector_type);
 
-  static constexpr const char* kCsvHeader = "x(heading),y(roll),z(pitch),Lx,Ly,Lz,Gx,Gy,Gz,";
-
   String GetCsvLine();
 
+  // Calibrate the BNO055 IMU.
+  // Note: This function is provided within this project because calibration
+  // only persists for a single power-on (no onboard EEPROM).
+  void Calibrate();
+
+  bool IsFullyCalibrated();
+
   ~InertialMeasurementUnit() {}
+
+  static constexpr const char* kCsvHeader = "x(heading),y(roll),z(pitch),Lx,Ly,Lz,Gx,Gy,Gz,";
 
  private:
   static Adafruit_BNO055 bno_;
@@ -55,7 +62,7 @@ class InertialMeasurementUnit : public virtual Sensor {
   kalman_t gravity_z_;
 };
 
-} // namespace level1_payload
+} // namespace geovis
 } // namespace rcr
 
 #endif // RCR_GEOVIS_IMU_H_

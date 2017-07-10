@@ -55,7 +55,7 @@ class GpsReceiver : public virtual Sensor {
 };
 
 
-} // namespace level1_payload
+} // namespace geovis
 } // namespace rcr
 
 #endif // RCR_GEOVIS_GPSRECEIVER_H

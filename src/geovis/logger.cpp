@@ -32,16 +32,18 @@ bool Logger::Open(String path) {
 }
 
 void Logger::Write(const String& text) {
-  file_.print(text);
+  file_.write(text.c_str());
 }
 
-void Logger::WriteLine(const String& text) {
-  file_.println(text);
+void Logger::Flush() {
+  file_.flush();
 }
 
-void Logger::Close() {
-  file_.close();
+bool Logger::Close() {
+  return file_.close();
 }
 
-} // namespace level1_payload
+Logger::~Logger() {}
+
+} // namespace geovis
 } // namespace rcr

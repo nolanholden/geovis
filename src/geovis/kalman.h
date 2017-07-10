@@ -12,7 +12,7 @@ struct kalman_t {
   double gain;              // kalman gain
 };
 
-} // namespace level1_payload
+} // namespace geovis
 } // namespace rcr
 
 #endif // RCR_GEOVIS_KALMAN_H_

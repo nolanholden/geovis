@@ -26,13 +26,15 @@ class Logger : public virtual Initializable {
   // Write text to the end of the file.
   void Write(const String& text);
 
-  // Write text to the end of the file, followed by a newline.
-  void WriteLine(const String& text);
+  // Flush the write buffer.
+  void Flush();
 
-  // Close the open file forever.
-  void Close();
+  // Close the currently open file forever. Returns false if no file is open.
+  bool Close();
 
-  ~Logger() {}
+  ~Logger();
+
+  //static constexpr int chipSelect = BUILTIN_SDCARD;
 
  protected:
   static File file_; // File I/O manager
@@ -40,7 +42,7 @@ class Logger : public virtual Initializable {
   static SdFatSdio sd_card_; // SD card I/O manager
 };
 
-} // namespace level1_payload
+} // namespace geovis
 } // namespace rcr
 
 #endif // RCR_GEOVIS_LOGGER_H_

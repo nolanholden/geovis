@@ -189,5 +189,5 @@ String GpsReceiver::GetCsvLine() {
   return line;
 }
 
-} // namespace level1_payload
+} // namespace geovis
 } // namespace rcr

@@ -13,7 +13,7 @@ class Initializable {
   virtual ~Initializable();
 };
 
-} // namespace level1_payload
+} // namespace geovis
 } // namespace rcr
 
 #endif // RCR_GEOVIS_INITIALIZABLE_H

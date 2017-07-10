@@ -5,5 +5,5 @@ namespace geovis {
 
 Initializable::~Initializable() {}
 
-} // namespace level1_payload
+} // namespace geovis
 } // namespace rcr
