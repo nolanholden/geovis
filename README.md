@@ -48,33 +48,55 @@ Contributers and copiers welcome!
 
 ![](https://raw.githubusercontent.com/nolanholden/payload-level1-rocket/8447a1cbf741a6a57f07a59d258492eb7169c5b9/misc/pressure-altitude.png)
 
-## Components Setup:
+## Component Setup:
 
 #### Adafruit's "Ultimate GPS" module:
 - Example wiring between module and Teensy 3.6:
-  - GPS module RX -> Teensy 3.6 TX1 (pin 1)
-  - GPS module TX -> Teensy 3.6 RX1 (pin 0)
+  - GPS module RX -> Teensy 3.6 TX2 (pin 10)
+  - GPS module TX -> Teensy 3.6 RX2 (pin 9)
   - Corresponding code:
     ```
-    Serial1.setRX(0); // default for Serial1; unnecessary, but explicit
-    Serial1.setTX(1); // default for Serial1; unnecessary, but explicit
+    constexpr uint8_t GPS_RX_PIN = 9; // Note: GPS module's TX connects to this pin.
+    constexpr uint8_t GPS_TX_PIN = 10; // Note: GPS module's RX connects to this pin.
+    
+    Serial1.setRX(GPS_RX_PIN); // default for Serial1; unnecessary, but explicit
+    Serial1.setTX(GPS_TX_PIN); // default for Serial1; unnecessary, but explicit
     Serial1.begin(9600);
     // Note: All testing with Teensy 3.6 suggests that baud rates other
     // than 9600 are incompatible. However, 9600 is ok for 5 Hz GPS
     // refresh (which itself is very sufficient.)
+    
+    // Encode NMEA sentences using:
+    while (Serial1.available())
+      gps_.encode(Serial1.read());
     ```
 - Default baud rate: 9600 Bd
 - Default GPS sampling rate: 1 Hz
 
 #### BNO055 Inertial Measurement Unit to Teensy 3.6:
-- Example wiring between this IMU and Teensy 3.6:
+- Example I<sup>2</sup>C wiring between this IMU and Teensy 3.6:
   - BNO055 SDA -> Teensy 3.6 SDA0 (pin 18 / Analog 4)
   - BNO055 SCL -> Teensy 3.6 SCL0 (pin 19 / Analog 5)
 
 #### BME280 Barometer/Thermometer/Hygrometer to Teensy 3.6:
-- Example wiring between BME280 and Teensy 3.6:
+- Example I<sup>2</sup>C wiring between BME280 and Teensy 3.6:
   - BME280 SDI -> Teensy 3.6 SDA0 (pin 18 / Analog 4)
   - BME280 SCK -> Teensy 3.6 SCL0 (pin 19 / Analog 5)
+- Example Software SPI wiring between BME280 and Teensy 3.6:
+  - BME280 SDI -> Teensy 3.6 MOSI1 (pin 0)
+  - BME280 SDO -> Teensy 3.6 MISO1 (pin 1)
+  - BME280 SCK -> Teensy 3.6 SCK0  (pin 13)
+  - BME280 CS  -> Teensy 3.6 CS1   (pin 31)
+  - Corresponding code:
+    ```
+    constexpr uint8_t BME_MOSI = 0;
+    constexpr uint8_t BME_MISO = 1;
+    constexpr uint8_t BME_SCK = 13;
+    constexpr uint8_t BME_CS = 31;
+    
+    // construct
+    Adafruit_BME280 bme_{ BME_CS, BME_MOSI, BME_MISO, BME_SCK }; // software SPI
+    ```
 
 #### BMP180 Barometer/Thermometer to Arduino UNO:
 - Connect BMP180 SCL    to Analog 5
