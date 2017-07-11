@@ -44,8 +44,9 @@ inline void print_menu() {
   Serial.println(" -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
   Serial.println(" _________________________________________________________________________");
   Serial.println(" Commands:");
-  Serial.println("  'c' - to calibrate Inertial Measurement Unit");
-  Serial.println("  'f' - to fly (begin flight-path interperetation.)");
+  Serial.println("  'c' - to calibrate Inertial Measurement Unit.");
+  Serial.println("  'r' - to reboot.");
+  Serial.println("  'f' - to fly. (begin flight-path interperetation)");
   Serial.print  (" > ");
  }
 

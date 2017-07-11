@@ -1,15 +1,13 @@
 #include "logger.h"
 
 // SD card library
-#include <SdFat.h>
+#include <SD.h>
+#include <SPI.h> // TODO: REMOVE
+
 #include "debug-settings.h"
 
 namespace rcr {
 namespace geovis {
-
-File Logger::file_;
-SdFatSdio Logger::sd_card_;
-
 
 Logger::Logger(const char* desired_path) {
   path_ = desired_path;
@@ -17,42 +15,48 @@ Logger::Logger(const char* desired_path) {
 }
 
 bool Logger::Init() {
-  if (!sd_card_.begin()) {
+  if (!SD.begin(BUILTIN_SDCARD)) {
+    Serial.println("SD card initialization failed.");
+    return false;
+  }
+  else {
+    Serial.println("Wiring is correct and an SD card is present.");
+  }
+
+  // Ensure file creation works.
+  if (!WriteLineWithPath("File successfully initialized.", "write-test.log")) {
     return false;
   }
 
-  { // Ensure file creation works.
-    auto success = false;
-    auto file = sd_card_.open("anypath.path", FILE_WRITE);
-    if (!file) success = true;
-    file.close(); // always close
-    if (!success) return false;
-  }
-
-  // Disallow writing into existing files.
-  // Rename the path in this case.
-  while (sd_card_.exists(path_)) {
-    path_ = String{ path_ + millis() }.c_str();
-  }
+  Serial.print("Output path is: ");
+  Serial.println(path_);
 
   init_result_ = true;
-  return true;
+  return init_result_;
 }
 
 bool Logger::WriteLine(const String& text) {
+  return WriteLineWithPath(text, path_);
+}
+
+bool Logger::WriteLineWithPath(const String& text, const char* path) {
   auto success = false;
 
   // Open a (new/existing) file for writing.
-  file_ = sd_card_.open(path_, FILE_WRITE);
+  file_ = SD.open(path_, FILE_WRITE);
 
   // Write to file (if able).
   if (file_) {
+    Serial.println("f");
     file_.println(text);
     success = true;
   }
-#if DEBUG_LOGGER
-  Serial.println("File failed to initialized.");
-#endif
+  else {
+    Serial.print("Could not write \"");
+    Serial.print(text);
+    Serial.print("\" to SD at path: ");
+    Serial.println(path_);
+  }
   file_.close(); // Always close;
 
   return success;

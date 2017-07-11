@@ -5,7 +5,7 @@ namespace rcr {
 namespace geovis {
 
 // Set false to disable all debugging.
-#define DEBUG_ANY true
+#define DEBUG_ANY false
 
 #define DEBUG_LOGGER            true
 #define DEBUG_ATMOSPHERICSENSOR true

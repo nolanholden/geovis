@@ -8,8 +8,6 @@ inline constexpr int gps_abs(int arg) { return arg < 0 ? -arg : arg; }
 namespace rcr {
 namespace geovis {
 
-TinyGPSPlus GpsReceiver::gps_;
-
 GpsReceiver::GpsReceiver()
   : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR
         , "GPS Receiver") {
@@ -134,60 +132,33 @@ String GpsReceiver::getCstringString(const char *str, int len) {
 String GpsReceiver::GetCsvLine() {
   String line = "";
 
-  smartDelay();
-
-  line += getIntString(gps_.satellites.value(), gps_.satellites.isValid(), 5);
+  line += gps_.satellites.value();
   line += ",";
-  line += getIntString(gps_.hdop.value(), gps_.hdop.isValid(), 5);
+  line += gps_.hdop.value();
   line += ",";
-  line += getFloatString(gps_.location.lat(), gps_.location.isValid(), 11, 6);
+  line += gps_.location.lat();
   line += ",";
-  line += getFloatString(gps_.location.lng(), gps_.location.isValid(), 12, 6);
+  line += gps_.location.lng();
   line += ",";
-  line += getIntString(gps_.location.age(), gps_.location.isValid(), 5);
+  line += gps_.location.age();
   line += ",";
   line += getDateString(gps_.date);
   line += ",";
   line += getTimeString(gps_.time);
   line += ",";
-  line += getDateAgeString(gps_.date);
+  line += gps_.date.age();
   line += ",";
-  line += getFloatString(gps_.altitude.meters(), gps_.altitude.isValid(), 7, 2);
+  line += gps_.altitude.meters();
   line += ",";
-  line += getFloatString(gps_.course.deg(), gps_.course.isValid(), 7, 2);
+  line += gps_.course.deg();
   line += ",";
-  line += getFloatString(gps_.speed.kmph(), gps_.speed.isValid(), 6, 2);
+  line += gps_.speed.knots();
   line += ",";
-  line += getCstringString(gps_.course.isValid() ? TinyGPSPlus::cardinal(gps_.course.deg()) : "*** ", 6);
+  line += gps_.charsProcessed();
   line += ",";
-
-  unsigned long distance_to_pad =
-  (unsigned long)TinyGPSPlus::distanceBetween(
-    gps_.location.lat(),
-    gps_.location.lng(),
-    PAD_LAT,
-    PAD_LON) / 1000;
-
-  line += getIntString(distance_to_pad, gps_.location.isValid(), 9);
+  line += gps_.sentencesWithFix();
   line += ",";
-
-  double course_to_pad = TinyGPSPlus::courseTo(
-    gps_.location.lat(),
-    gps_.location.lng(),
-    PAD_LAT,
-    PAD_LON);
-  line += getFloatString(course_to_pad, gps_.location.isValid(), 7, 2);
-  line += ",";
-
-  const char *cardinalToLondon = TinyGPSPlus::cardinal(course_to_pad);
-  line += getCstringString(gps_.location.isValid() ? cardinalToLondon : "*** ", 6);
-  line += ",";
-
-  line += getIntString(gps_.charsProcessed(), true, 6);
-  line += ",";
-  line += getIntString(gps_.sentencesWithFix(), true, 10);
-  line += ",";
-  line += getIntString(gps_.failedChecksum(), true, 9);
+  line += gps_.failedChecksum();
   line += ",";
 
   return line;

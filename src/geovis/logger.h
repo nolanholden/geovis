@@ -9,7 +9,7 @@
 
 #include "initializable.h"
 
-#include <SdFat.h>
+#include <SD.h>
 
 namespace rcr {
 namespace geovis {
@@ -28,11 +28,11 @@ class Logger : public virtual Initializable {
   //static constexpr int chipSelect = BUILTIN_SDCARD;
 
  protected:
-  static File file_; // File I/O manager
+  bool WriteLineWithPath(const String& text, const char* path);
+
+  File file_; // File I/O manager
   
   const char* path_;
-
-  static SdFatSdio sd_card_; // SD card I/O manager
 };
 
 } // namespace geovis

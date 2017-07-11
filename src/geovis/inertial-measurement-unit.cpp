@@ -75,9 +75,9 @@ String InertialMeasurementUnit::GetCsvLine() {
   String line = "";
 
   //  Sample the IMU.
-  auto orientation = SampleVector(Adafruit_BNO055::VECTOR_EULER);
-  auto linear = SampleVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
-  auto gravity = SampleVector(Adafruit_BNO055::VECTOR_GRAVITY);
+  auto orientation = bno_.getVector(Adafruit_BNO055::VECTOR_EULER);
+  auto linear = bno_.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+  auto gravity = bno_.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
 
   // Update respective Kalman filters.
     // (1) Euler vector:

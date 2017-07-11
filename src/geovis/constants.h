@@ -7,10 +7,10 @@ namespace geovis {
 constexpr uint8_t kLedPin = (uint8_t)13;
 
 // Main loop delay (milliseconds)
-constexpr const unsigned long kLoopDelay = 256ul;
+constexpr const unsigned long kLoopDelay = 128ul;
 
 // Log path
-constexpr const char* kLogPath = "flight.csv";
+constexpr const char* kLogPath = "flight";
 
 // Kalman constants:
 constexpr float KALMAN_PROCESS_NOISE = 0.01f;
