@@ -9,13 +9,13 @@
 namespace rcr {
 namespace geovis {
 
-Logger::Logger(const char* desired_path) {
-  path_ = desired_path;
+Logger::Logger(const char* path) {
+  path_ = path;
   display_name_ = "Logger";
 }
 
 bool Logger::Init() {
-  if (!SD.begin(BUILTIN_SDCARD)) {
+  if (!SD.begin(kChipSelect)) {
     Serial.println("SD card initialization failed.");
     return false;
   }
@@ -24,7 +24,7 @@ bool Logger::Init() {
   }
 
   // Ensure file creation works.
-  if (!WriteLineWithPath("File successfully initialized.", "write-test.log")) {
+  if (!WriteLine("File successfully initialized.")) {
     return false;
   }
 
@@ -35,17 +35,38 @@ bool Logger::Init() {
   return init_result_;
 }
 
-bool Logger::WriteLine(const String& text) {
-  return WriteLineWithPath(text, path_);
-}
-
-bool Logger::WriteLineWithPath(const String& text, const char* path) {
+bool Logger::Write(const String & text) {
   auto success = false;
 
   // Open a (new/existing) file for writing.
   file_ = SD.open(path_, FILE_WRITE);
 
   // Write to file (if able).
+  if (file_) {
+    Serial.println('.');
+    file_.print(text);
+    success = true;
+  }
+  else {
+    Serial.print("Could not write \"");
+    Serial.print(text);
+    Serial.print("\" to SD at path: ");
+    Serial.println(path_);
+  }
+  file_.close(); // Always close;
+
+  return success;
+}
+
+// Best not to repeat logic as we do below, but we cannot compromise performance here.
+
+bool Logger::WriteLine(const String& text) {
+  auto success = false;
+
+  // Open a (new/existing) file for writing.
+  file_ = SD.open(path_, FILE_WRITE);
+
+  // Write to file if able.
   if (file_) {
     Serial.println("f");
     file_.println(text);
@@ -57,7 +78,7 @@ bool Logger::WriteLineWithPath(const String& text, const char* path) {
     Serial.print("\" to SD at path: ");
     Serial.println(path_);
   }
-  file_.close(); // Always close;
+  file_.close(); // Always close.
 
   return success;
 }

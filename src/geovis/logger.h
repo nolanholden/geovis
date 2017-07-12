@@ -14,25 +14,27 @@
 namespace rcr {
 namespace geovis {
 
+static constexpr uint8_t kChipSelect = BUILTIN_SDCARD;
+
 class Logger : public virtual Initializable {
  public:
-  Logger(const char* desired_path);
+  Logger(const char* path);
 
   bool Init();
 
   // Write text to the end of the file.
+  bool Write(const String& text);
+
+  // Write text to the end of the file, followed by newline.
   bool WriteLine(const String& text);
 
   ~Logger();
 
-  //static constexpr int chipSelect = BUILTIN_SDCARD;
-
  protected:
-  bool WriteLineWithPath(const String& text, const char* path);
-
-  File file_; // File I/O manager
+  // File I/O manager
+  File file_;
   
-  const char* path_;
+  const char* path_; // (not necessarily const)
 };
 
 } // namespace geovis
