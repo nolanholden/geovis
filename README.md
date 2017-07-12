@@ -1,11 +1,11 @@
 # GEOVIS (hyper-Geographical Omni-attitude Vehicle-path Interpretation System)
 GEOVIS is a rocket flight-path interpreter designed for River City Rocketry.
 
-Contributers and copiers welcome!
+_**Copiers and contributers welcome!**_
 
 *This project draws much inspiration and several resources from River City Rocketry's [Variable Drag System](https://github.com/jtcass01/vds2_0) and Shane Tully's [Osprey](https://github.com/shanet/osprey/) project.*
 
-## Sensors:
+## Sensors / Metrics:
 
 #### GPS Receiver Module
 - Geographic coordinates
@@ -31,10 +31,13 @@ Contributers and copiers welcome!
   - Pitch
 - Linear accelleration vector
 
-#### Barometer to Teensy 3.6:
-- Example wiring between BME280 and Teensy 3.6:
-  - BME280 SDI -> Teensy 3.6 SDA0 (pin 18 / Analog 4)
-  - BME280 SCK -> Teensy 3.6 SCL0 (pin 19 / Analog 5)
+#### Barometer
+- Ambient pressure
+  - Altitude
+    - Pressure Altitude
+    - Indicated Altitude
+        (non-standard pressure corrected pressure-altitude)
+    - Density Altitude
 
 #### Thermometer
 - Temperature at sensor
