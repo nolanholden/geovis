@@ -41,10 +41,8 @@ class InertialMeasurementUnit : public virtual Sensor {
 
   ~InertialMeasurementUnit() {}
 
-  static constexpr const char* kCsvHeader = "x(heading),y(roll),z(pitch),Lx,Ly,Lz,Gx,Gy,Gz,";
-
  private:
-  static Adafruit_BNO055 bno_;
+  Adafruit_BNO055 bno_;
   
   // Orientation (Euler vector):
   kalman_t euler_x_; // heading

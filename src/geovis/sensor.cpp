@@ -4,7 +4,7 @@ namespace rcr {
 namespace geovis {
 
 Sensor::Sensor(double process_noise, double measurement_noise, double error,
-    const char* display_name) {
+    const char* display_name, const char* csv_header) : kCsvHeader(csv_header) {
   processNoise_ = process_noise;
   measurementNoise_ = measurement_noise;
   error_ = error;

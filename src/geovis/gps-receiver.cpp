@@ -2,15 +2,26 @@
 
 #include "constants.h"
 
-inline constexpr float gps_abs(float arg) { return arg < 0.f ? -arg : arg; }
-inline constexpr int gps_abs(int arg) { return arg < 0 ? -arg : arg; }
-
 namespace rcr {
 namespace geovis {
 
+namespace {
+  constexpr const char* const kGpsDisplayName = "GPS Receiver";
+  constexpr const char* const kGpsCsvHeader = "satsTracking,hdop,lat,lng,fix_age,date,time,date_age,alt(m),vehicleCourse(deg),vehicleSpeed(knots),CharsRX,SentencesRX,ChecksumFail,";
+
+  constexpr uint8_t GPS_RX_PIN = 9; // Note: GPS module's TX connects to this pin.
+  constexpr uint8_t GPS_TX_PIN = 10; // Note: GPS module's RX connects to this pin.
+  constexpr uint32_t GPS_BAUD = 9600; // Note: All testing with Teensy 3.6 suggests
+                                      // that baud rates other than 9600 are incompatible. However, 9600 is ok for
+                                      // 5 Hz GPS refresh (which itself is very sufficient.)
+
+  inline constexpr float gps_abs(float arg) { return arg < 0.f ? -arg : arg; }
+  inline constexpr int gps_abs(int arg) { return arg < 0 ? -arg : arg; }
+} // namespace
+
 GpsReceiver::GpsReceiver()
-  : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR
-        , "GPS Receiver") {
+  : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR,
+    kGpsDisplayName, kGpsCsvHeader) {
   latitude_ = 0.;
   longitude_ = 0.;
 
@@ -22,8 +33,6 @@ bool GpsReceiver::Init() {
   Serial2.setRX(GPS_RX_PIN);
   Serial2.setTX(GPS_TX_PIN);
   Serial2.begin(GPS_BAUD);
-
-  delay(1000u);
 
   init_result_ = true;
   return init_result_;

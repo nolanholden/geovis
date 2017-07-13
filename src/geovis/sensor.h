@@ -16,9 +16,11 @@ namespace geovis {
 class Sensor : public virtual Initializable {
  public:
   Sensor(double process_noise, double measurement_noise, double error,
-    const char* display_name);
+    const char* display_name, const char* csv_header);
 
   virtual String GetCsvLine() = 0;
+
+  const char* const kCsvHeader;
 
   // Prevent base-call d'tor memory leak.
   virtual ~Sensor() noexcept {}

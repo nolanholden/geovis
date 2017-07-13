@@ -7,23 +7,11 @@
 namespace rcr {
 namespace geovis {
 
-constexpr double PAD_LAT = 0.123456, PAD_LON = -0.123456;
-
-constexpr uint8_t GPS_RX_PIN = 9; // Note: GPS module's TX connects to this pin.
-constexpr uint8_t GPS_TX_PIN = 10; // Note: GPS module's RX connects to this pin.
-constexpr int GPS_BAUD = 9600; // Note: All testing with Teensy 3.6 suggests
-// that baud rates other than 9600 are incompatible. However, 9600 is ok for
-// 5 Hz GPS refresh (which itself is very sufficient.)
-
-constexpr float OUT_OF_RANGE_DELTA = 0.001;
-constexpr int OUT_OF_RANGE_LIMIT = 5;
-
 class GpsReceiver : public virtual Sensor {
  public:
   GpsReceiver();
   bool Init();
 
-  static constexpr const char* kCsvHeader = "satsTracking,hdop,lat,lng,fix_age,date,time,date_age,alt(m),vehicleCourse(deg),vehicleSpeed(knots),CharsRX,SentencesRX,ChecksumFail,";
   String GetCsvLine();
 
   float getAltitude();

@@ -9,11 +9,14 @@
 namespace rcr {
 namespace geovis {
 
-Adafruit_BNO055 InertialMeasurementUnit::bno_;
+namespace {
+  constexpr const char* kImuDisplayName = "Inertial Measurement Unit";
+  constexpr const char* kImuCsvHeader = "x(heading),y(roll),z(pitch),Lx,Ly,Lz,Gx,Gy,Gz,";
+} // namespace
 
 InertialMeasurementUnit::InertialMeasurementUnit()
   : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR,
-    "Inertial Measurement Unit") {
+    kImuDisplayName, kImuCsvHeader) {
   euler_x_   = kalmanInit(0.);
   euler_y_   = kalmanInit(0.);
   euler_z_   = kalmanInit(0.);
@@ -125,12 +128,9 @@ String InertialMeasurementUnit::GetCsvLine() {
 // only persists for a single power-on (no onboard EEPROM).
 void InertialMeasurementUnit::Calibrate() {
   Serial.println("Enter 'q' at any time to quit.");
-  delay(1024);
+  delay(1024u);
 
-  uint8_t system = 0;
-  uint8_t gyroscope = 0;
-  uint8_t accelerometer = 0;
-  uint8_t magnometer = 0;
+  uint8_t system, gyroscope, accelerometer, magnometer = 0;
 
   // Wait for 10 consecutive successes.
   auto numSuccesses = 0;
