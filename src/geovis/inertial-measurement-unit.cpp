@@ -78,7 +78,7 @@ String InertialMeasurementUnit::GetCsvLine() {
   String line = "";
 
   //  Sample the IMU.
-  auto orientation = bno_.getVector(Adafruit_BNO055::VECTOR_EULER);
+  auto orientation = bno_.getQuat().toEuler(); // use quaterion; higher accuracy
   auto linear = bno_.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
   auto gravity = bno_.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
 
