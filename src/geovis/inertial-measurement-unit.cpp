@@ -1,7 +1,7 @@
 #include "inertial-measurement-unit.h"
 
 #include "constants.h"
-#include "novelty-printouts.h"
+#include "printouts.h"
 
 #include <vector>
 #include <utility>
@@ -167,7 +167,7 @@ void InertialMeasurementUnit::Calibrate() {
   }
 
   Serial.println();
-  print_with_ellipses("IMU is now fully calibrated");
+  printouts::print_with_ellipses("IMU is now fully calibrated");
 }
 
 bool InertialMeasurementUnit::IsFullyCalibrated() {

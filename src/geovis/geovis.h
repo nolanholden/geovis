@@ -15,7 +15,7 @@
 #include "gps-receiver.h"
 #include "inertial-measurement-unit.h"
 #include "logger.h"
-#include "novelty-printouts.h"
+#include "printouts.h"
 
 namespace rcr {
 namespace geovis {
