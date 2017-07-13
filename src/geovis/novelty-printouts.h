@@ -9,6 +9,7 @@
 
 namespace rcr {
 namespace geovis {
+namespace printouts {
 
 inline void print_menu() {
   Serial.println();
@@ -62,6 +63,8 @@ inline void print_with_ellipses(T message) {
   Serial.println(".");
 }
 
+
+} // namespace printouts
 } // namespace geovis
 } // namespace rcr
 

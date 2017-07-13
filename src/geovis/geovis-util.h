@@ -13,6 +13,7 @@
 
 namespace rcr {
 namespace geovis {
+namespace geovis_util {
 
 bool components_fully_initialized(
     const std::vector<Initializable*>& components) {
@@ -41,6 +42,7 @@ inline void clear_serial_input() {
   Serial.clear();
 }
 
+} // namespace geovis_util
 } // namespace geovis
 } // namespace rcr
 
