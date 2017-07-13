@@ -59,10 +59,7 @@ inline void print_with_ellipses(T message) {
   delay(512);
   Serial.print(".");
   delay(512);
-  Serial.print(".");
-  delay(512);
   Serial.println(".");
-  delay(512);
 }
 
 } // namespace geovis
