@@ -1,5 +1,5 @@
-#ifndef RCR_GEOVIS_NOVELTYPRINTOUTS_H_
-#define RCR_GEOVIS_NOVELTYPRINTOUTS_H_
+#ifndef RCR_GEOVIS_PRINTOUTS_H_
+#define RCR_GEOVIS_PRINTOUTS_H_
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
@@ -68,4 +68,4 @@ inline void print_with_ellipses(T message) {
 } // namespace geovis
 } // namespace rcr
 
-#endif // RCR_GEOVIS_NOVELTYPRINTOUTS_H_
+#endif // RCR_GEOVIS_PRINTOUTS_H_
