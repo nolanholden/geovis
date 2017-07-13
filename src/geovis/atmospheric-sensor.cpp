@@ -7,7 +7,7 @@ namespace geovis {
 
 namespace {
   constexpr const char* const kAtmDisplayName = "Atmospheric Sensor";
-  constexpr const char* const KAtmCsvHeader = "*C,Pa,%,m,";
+  constexpr const char* const KAtmCsvHeader = "Ambient Temperature (*Celcius), Ambient Pressure (Pascal) [filtered], Ambient Pressure (Pascal) [raw], Relative Humidity (%), Altitude (meters) [filtered], Altitude (meters) [raw]";
 
   constexpr float std_pressure = 1013.25f; // hecto-Pascals
 } // namespace
@@ -59,6 +59,8 @@ String AtmosphericSensor::GetCsvLine() {
   line += ",";
 
   // Ambient pressure (Pascals)
+  line += ambient_pressure();
+  line += ",";
   line += ambient_pressure_raw();
   line += ",";
 
@@ -67,7 +69,9 @@ String AtmosphericSensor::GetCsvLine() {
   line += ",";
 
   // Pressure altitude (meters)
-  line += pressure_altitude_raw(); // 101325 Pa (std pressure)
+  line += pressure_altitude();
+  line += ",";
+  line += pressure_altitude_raw();
   line += ",";
 
   return line;

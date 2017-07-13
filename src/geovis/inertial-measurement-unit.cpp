@@ -11,7 +11,7 @@ namespace geovis {
 
 namespace {
   constexpr const char* kImuDisplayName = "Inertial Measurement Unit";
-  constexpr const char* kImuCsvHeader = "x(heading),y(roll),z(pitch),Lx,Ly,Lz,Gx,Gy,Gz,";
+  constexpr const char* kImuCsvHeader = "Heading / Euler X (degrees Magnetic), Roll / Euler Y, Pitch / Euler Z, Linear Accel (X), Linear Accel (Y), Linear Accel (Z), Gravity Accel (X), Gravity Accel (Y), Gravity Accel (Z),";
 } // namespace
 
 InertialMeasurementUnit::InertialMeasurementUnit()
