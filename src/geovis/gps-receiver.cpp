@@ -19,9 +19,9 @@ GpsReceiver::GpsReceiver()
 }
 
 bool GpsReceiver::Init() {
-  Serial1.setRX(GPS_RX_PIN);
-  Serial1.setTX(GPS_TX_PIN);
-  Serial1.begin(GPS_BAUD);
+  Serial2.setRX(GPS_RX_PIN);
+  Serial2.setTX(GPS_TX_PIN);
+  Serial2.begin(GPS_BAUD);
 
   delay(1000u);
 
@@ -56,15 +56,14 @@ float GpsReceiver::getAltitude() {
 }
 
 void GpsReceiver::smartDelay() {
-  while (Serial1.available())
-    gps_.encode(Serial1.read());
+  while (Serial2.available()) gps_.encode(Serial2.read());
 }
 
 void GpsReceiver::smartDelay(unsigned long ms) {
   unsigned long start = millis();
   do {
-    while (Serial1.available())
-      gps_.encode(Serial1.read());
+    while (Serial2.available())
+      gps_.encode(Serial2.read());
   } while (millis() - start < ms);
 }
 
@@ -132,27 +131,27 @@ String GpsReceiver::getCstringString(const char *str, int len) {
 String GpsReceiver::GetCsvLine() {
   String line = "";
 
-  line += gps_.satellites.value();
+  line += getIntString(gps_.satellites.value(), gps_.satellites.isValid(), 5);
   line += ",";
-  line += gps_.hdop.value();
+  line += getIntString(gps_.hdop.value(), gps_.hdop.isValid(), 5);
   line += ",";
-  line += gps_.location.lat();
+  line += getFloatString(gps_.location.lat(), gps_.location.isValid(), 11, 6);
   line += ",";
-  line += gps_.location.lng();
+  line += getFloatString(gps_.location.lng(), gps_.location.isValid(), 12, 6);
   line += ",";
-  line += gps_.location.age();
+  line += getIntString(gps_.location.age(), gps_.location.isValid(), 5);
   line += ",";
   line += getDateString(gps_.date);
   line += ",";
   line += getTimeString(gps_.time);
   line += ",";
-  line += gps_.date.age();
+  line += getDateAgeString(gps_.date);
   line += ",";
-  line += gps_.altitude.meters();
+  line += getFloatString(gps_.altitude.meters(), gps_.altitude.isValid(), 7, 2);
   line += ",";
-  line += gps_.course.deg();
+  line += getFloatString(gps_.course.deg(), gps_.course.isValid(), 7, 2);
   line += ",";
-  line += gps_.speed.knots();
+  line += getFloatString(gps_.speed.knots(), gps_.speed.isValid(), 6, 2);
   line += ",";
   line += gps_.charsProcessed();
   line += ",";

@@ -57,7 +57,7 @@ class AtmosphericSensor : public virtual Sensor {
   ~AtmosphericSensor() {}
 
  private:
-   Adafruit_BME280 bme_{ BME_CS, BME_MOSI, BME_MISO, BME_SCK }; // software SPI
+  Adafruit_BME280 bme_{ BME_CS, BME_MOSI, BME_MISO, BME_SCK }; // software SPI
 
   kalman_t altitude_;
   kalman_t pressure_;
