@@ -43,7 +43,6 @@ bool Logger::Write(const String & text) {
 
   // Write to file (if able).
   if (file_) {
-    Serial.println('.');
     file_.print(text);
     success = true;
   }
@@ -68,7 +67,6 @@ bool Logger::WriteLine(const String& text) {
 
   // Write to file if able.
   if (file_) {
-    Serial.println("f");
     file_.println(text);
     success = true;
   }
