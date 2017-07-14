@@ -34,10 +34,7 @@ inline void blink() {
   digitalWrite(kLedPin, HIGH);
   
   // Ensure we are always receiving gps data.
-  gps_receiver.smartDelay(kLoopDelay);
-  while (Serial2.available() > 0) {
-    gps_receiver.gps_.encode(Serial2.read());
-  }
+  gps_receiver.smartDelay(); // no delay.
 
   // Dim LED.
   digitalWrite(kLedPin, LOW);
@@ -51,7 +48,6 @@ inline void initialize_components() {
   components.push_back(&atmospheric_sensor);
 
   for (auto& c : components) {
-    Serial.print("Initializing "); Serial.println(c->display_name());
     if (!c->Init()) {
       Serial.print("Initialization failed for: ");
       Serial.println(c->display_name());
@@ -75,17 +71,11 @@ inline void setup() {
 
   {
     // Initialize log file with header for each comma-delimited value.
-    String csv_header = "";
-    csv_header += "millis,";                     // first column is time
+    String csv_header = "millis,"; // first column is time
     for (auto& s : sensors) {
       csv_header += s->kCsvHeader;
     }
-    csv_header += imu.kCsvHeader;                // IMU header
-    csv_header += gps_receiver.kCsvHeader;       // GPS header
-    csv_header += atmospheric_sensor.kCsvHeader; // Atmospheric data header
 
-
-    Serial.println("Initializing output file.");
     // Write it only once.
     if (!logger.WriteLine(csv_header)) {
       Serial.println("Output file did not initialize.");
@@ -100,12 +90,13 @@ inline void setup() {
 
 // Begin GEOVIS flight-path logging. Continue forever until human intervention.
 inline void fly() {
-  auto user_quit = 1u; // 'quit' instruction. (see while() below)
+  auto user_quit = 1u; // 'quit' instruction flag. (see while() below)
+  auto num_prints_backward_counter = 16u;
   String csv_line = "";
 
   Serial.println("Entering flight loop.");
 
-  while (user_quit) { // (ARM reccomends while(1) for greatest efficiency)
+  while (user_quit) { // (ARM reccomends while(1u) for greatest efficiency)
     csv_line = ""; // Set empty each time.
 
     // Get a line of data.
@@ -118,9 +109,20 @@ inline void fly() {
       csv_line += s->GetCsvLine();
     }
 
-    // Print the line to the file.
-    Serial.println(csv_line);
-    logger.WriteLine(csv_line);
+    // Print the line to the file. Display proof at first.
+    if (num_prints_backward_counter != 0) {
+      --num_prints_backward_counter;
+      Serial.println(csv_line);
+      if (logger.WriteLine(csv_line)) {
+        Serial.println("Successful print.");
+      }
+      else {
+        Serial.println("Print FAILED.");
+      }
+    }
+    else {
+      logger.WriteLine(csv_line);
+    }
 
     // Allow user to quit by 'q'.   // TODO: terminate via radio instruction
     if (Serial.available() > 0 && Serial.read() == 'q') {
@@ -135,7 +137,7 @@ inline void fly() {
 
 bool menu_should_display = true;
 
-// Allow calibration because our IMU's calibration persists only for one power
+// Must allow calibration because our IMU's calibration persists only for one power
 // cycle (has no on-board EEPROM).
 inline void loop() {
   // Show the menu.

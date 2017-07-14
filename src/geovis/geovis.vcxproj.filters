@@ -13,9 +13,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="novelty-printouts.h">
-      <Filter>Header Files\Solo Headers</Filter>
-    </ClInclude>
     <ClInclude Include="__vm\.payload.vsarduino.h">
       <Filter>Header Files\Solo Headers</Filter>
     </ClInclude>
@@ -54,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="geovis-util.h">
+      <Filter>Header Files\Solo Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="printouts.h">
       <Filter>Header Files\Solo Headers</Filter>
     </ClInclude>
   </ItemGroup>
