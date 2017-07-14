@@ -46,8 +46,8 @@ class InertialMeasurementUnit : public virtual Sensor {
   
   // Orientation (Euler vector):
   kalman_t euler_x_; // heading
-  kalman_t euler_y_; // roll
-  kalman_t euler_z_; // pitch
+  kalman_t euler_y_; // pitch
+  kalman_t euler_z_; // roll
 
   // Linear accelleration:
   kalman_t linear_x_;

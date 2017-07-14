@@ -7,7 +7,7 @@ namespace geovis {
 
 namespace {
   constexpr const char* const kGpsDisplayName = "GPS Receiver";
-  constexpr const char* const kGpsCsvHeader = "# Satellites Tracking, HDOP (Horizontal Dilution of Precision), Latitude, Longitude, Fix Age, Date (UTC), Time (UTC), Date Age, Altitude (meters), Vehicle Heading (degrees True), Vehicle Speed (knots), Characters Received, Sentences Received, # Checksum Failures,";
+  constexpr const char* const kGpsCsvHeader = "# Satellites Tracking,HDOP (Horizontal Dilution of Precision),Latitude,Longitude,Fix Age,Date (UTC),Time (UTC),Date Age,Altitude (meters),Vehicle Heading (degrees True),Vehicle Speed (knots),Characters Received,Sentences Received,# Checksum Failures,";
 
   constexpr uint8_t GPS_RX_PIN = 9; // Note: GPS module's TX connects to this pin.
   constexpr uint8_t GPS_TX_PIN = 10; // Note: GPS module's RX connects to this pin.

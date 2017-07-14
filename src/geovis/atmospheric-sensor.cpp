@@ -7,7 +7,7 @@ namespace geovis {
 
 namespace {
   constexpr const char* const kAtmDisplayName = "Atmospheric Sensor";
-  constexpr const char* const KAtmCsvHeader = "Ambient Temperature (*Celcius), Ambient Pressure (Pascal) [filtered], Ambient Pressure (Pascal) [raw], Relative Humidity (%), Altitude (meters) [filtered], Altitude (meters) [raw]";
+  constexpr const char* const KAtmCsvHeader = "Ambient Temperature (*Celcius),Ambient Pressure (Pascal) [filtered],Ambient Pressure (Pascal) [raw],Relative Humidity (%),Altitude (meters) [filtered],Altitude (meters) [raw],";
 
   constexpr float std_pressure = 1013.25f; // hecto-Pascals
 } // namespace
