@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "geovis", "geovis.vcxproj", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "geovis.unittests", "geovis.unittests\geovis.unittests.vcxproj", "{DAFDC9DE-6BB7-44EB-8B16-4FB038D058A7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "goevis.calibration", "..\goevis.calibration\geovis.calibration.vcxproj", "{B058591F-CC1D-4CBE-B316-5945BD6C6367}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "geovis.calibration", "..\geovis.calibration\goevis.calibration.vcxproj", "{B058591F-CC1D-4CBE-B316-5945BD6C6367}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
