@@ -17,54 +17,53 @@
 #include "logger.h"
 #include "printouts.h"
 
+#include <vector>
+
 namespace rcr {
 namespace geovis {
 
-Logger logger("flight.csv");
-InertialMeasurementUnit imu;           // IMU
-GpsReceiver gps_receiver;              // GPS module
-AtmosphericSensor atmospheric_sensor;  // Barometer/Thermometer/Hygometer
+namespace {
+  Logger logger("flight.csv");
+  InertialMeasurementUnit imu;           // IMU
+  GpsReceiver gps_receiver;              // GPS module
+  AtmosphericSensor atmospheric_sensor;  // Barometer/Thermometer/Hygometer
 
-std::vector<Sensor*> sensors{ &imu, &gps_receiver, &atmospheric_sensor };
-std::vector<Initializable*> components;
-// = { &logger, &imu, &gps_receiver, &atmospheric_sensor }; does not work.
+  std::vector<Initializable*> components;
+  // components{ &logger, &imu, &gps_receiver, &atmospheric_sensor }; confuses
+  // static analysis.
+  std::vector<Sensor*> sensors{ &imu, &gps_receiver, &atmospheric_sensor };
 
-inline void blink() {
-  // Illuminate LED.
-  digitalWrite(kLedPin, HIGH);
-  
-  // Ensure we are always receiving gps data.
-  gps_receiver.smartDelay(); // no delay.
+  inline void blink() {
+    // Illuminate LED.
+    digitalWrite(kLedPin, HIGH);
+    digitalWrite(kLedPin, LOW);
+  }
 
-  // Dim LED.
-  digitalWrite(kLedPin, LOW);
-}
+  // Print any failures
+  inline void initialize_components() {
+    components.push_back(&logger);
+    components.push_back(&imu);
+    components.push_back(&gps_receiver);
+    components.push_back(&atmospheric_sensor);
 
-// Print any failures
-inline void initialize_components() {
-  components.push_back(&logger);
-  components.push_back(&imu);
-  components.push_back(&gps_receiver);
-  components.push_back(&atmospheric_sensor);
-
-  for (auto& c : components) {
-    if (!c->Init()) {
-      Serial.print("Initialization failed for: ");
-      Serial.println(c->display_name());
+    for (auto& c : components) {
+      if (!c->Init()) {
+        Serial.print("Initialization failed for: ");
+        Serial.println(c->display_name());
+      }
     }
   }
-}
+} // namespace
 
 inline void setup() {
   // Wait a moment.
-  delay(1024);
+  delay(1024u);
 
   // Set LED pin.
   pinMode(kLedPin, OUTPUT);
 
   // Start serial communication.
-  Serial.begin(9600); // baud does not matter for Teensy 3.6
-  Serial.println("Setting up...");
+  Serial.begin(9600l); // baud does not matter for Teensy 3.6
 
   // Initialize objects.
   initialize_components();
@@ -89,14 +88,14 @@ inline void setup() {
 }
 
 // Begin GEOVIS flight-path logging. Continue forever until human intervention.
-inline void fly() {
+inline void loop() {
   auto user_quit = 1u; // 'quit' instruction flag. (see while() below)
   auto num_prints_backward_counter = 16u;
   String csv_line = "";
 
   Serial.println("Entering flight loop.");
 
-  while (user_quit) { // (ARM reccomends while(1u) for greatest efficiency)
+  while (user_quit) { // ARM reccomends while(1u) for greatest efficiency
     csv_line = ""; // Set empty each time.
 
     // Get a line of data.
@@ -109,7 +108,7 @@ inline void fly() {
       csv_line += s->GetCsvLine();
     }
 
-    // Print the line to the file. Display proof at first.
+    // Print the line to the file. Display proof only at first.
     if (num_prints_backward_counter != 0) {
       --num_prints_backward_counter;
       Serial.println(csv_line);
@@ -124,74 +123,17 @@ inline void fly() {
       logger.WriteLine(csv_line);
     }
 
+    // Ensure we are always receiving gps data.
+    gps_receiver.smartDelay(); // no delay.
+
+    blink();
+
     // Allow user to quit by 'q'.   // TODO: terminate via radio instruction
     if (Serial.available() > 0 && Serial.read() == 'q') {
       --user_quit;
       geovis_util::clear_serial_input();
     }
-
-    // Wait a moment.
-    blink();
   }
-}
-
-bool menu_should_display = true;
-
-// Must allow calibration because our IMU's calibration persists only for one power
-// cycle (has no on-board EEPROM).
-inline void loop() {
-  // Show the menu.
-  if (menu_should_display) {
-    printouts::print_menu();
-    menu_should_display = false;
-  }
-
-  // User decides.
-  if (Serial.available() > 0) {
-    switch (Serial.read()) {
-      case 'c': {
-        Serial.println("Received input [c].");
-        printouts::print_with_ellipses("Beginning IMU calibration");
-        imu.Calibrate();
-        menu_should_display = true;
-        break;
-      }
-      case 'r': {
-        Serial.println("Received input [r].");
-        printouts::print_with_ellipses("Rebooting");
-        setup();
-        menu_should_display = true;
-        break;
-      }
-      case 'f': {
-        Serial.println("Received input [f].");
-        Serial.println("Performing system check.");
-        if (geovis_util::components_fully_initialized(components)) {
-          printouts::print_with_ellipses(
-            "All components initialized. Beginning flight");
-          fly();
-          menu_should_display = true;
-        }
-        else {
-          Serial.println("Not all components are initialized:");
-          geovis_util::express_initialization(components);
-        }
-        break;
-      }
-      default: {
-        Serial.println("Input not recognized.");
-        break;
-      }
-    }
-
-    // Clear remaining characters.
-    geovis_util::clear_serial_input();
-    Serial.flush();
-    Serial.clear();
-  }
-
-  // Wait a moment.
-  blink();
 }
 
 } // namespace geovis
