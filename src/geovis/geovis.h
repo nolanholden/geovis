@@ -100,7 +100,7 @@ namespace {
 
 // Begin GEOVIS flight-path logging. Continue forever until human intervention.
 inline void loop() {
-  auto num_prints_backward_counter = 16u;
+  auto num_prints_backward_counter = 512u;
   String csv_line = "";
 
   Serial.println("Entering flight loop.");
