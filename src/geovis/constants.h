@@ -7,7 +7,7 @@ namespace geovis {
 constexpr uint8_t kLedPin = (uint8_t)13;
 
 // Main loop delay (milliseconds)
-constexpr const unsigned long kLoopDelay = 128ul;
+constexpr const uint32_t kLoopDelay = 16u;
 
 // Log path
 constexpr const char* kLogPath = "flight";

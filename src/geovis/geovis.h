@@ -36,6 +36,11 @@ namespace {
   inline void blink() {
     // Illuminate LED.
     digitalWrite(kLedPin, HIGH);
+
+    // Ensure gps reciever is encoding.
+    gps_receiver.smartDelay();
+
+    // Dim LED.
     digitalWrite(kLedPin, LOW);
   }
 
@@ -53,6 +58,7 @@ namespace {
       }
     }
   }
+
 } // namespace
 
 inline void setup() {
@@ -87,9 +93,13 @@ inline void setup() {
   Serial.println("Setup complete.");
 }
 
+
+namespace {
+  auto user_quit = 1u; // 'quit' instruction flag. (see while() below)
+} // namespace
+
 // Begin GEOVIS flight-path logging. Continue forever until human intervention.
 inline void loop() {
-  auto user_quit = 1u; // 'quit' instruction flag. (see while() below)
   auto num_prints_backward_counter = 16u;
   String csv_line = "";
 
@@ -109,7 +119,7 @@ inline void loop() {
     }
 
     // Print the line to the file. Display proof only at first.
-    if (num_prints_backward_counter != 0) {
+    if (num_prints_backward_counter) {
       --num_prints_backward_counter;
       Serial.println(csv_line);
       if (logger.WriteLine(csv_line)) {
