@@ -14,10 +14,10 @@ class GpsReceiver : public virtual Sensor {
 
   String GetCsvLine();
 
-  float getAltitude();
+  double getAltitude();
   double getLatitude();
   double getLongitude();
-  float getSpeed();
+  double getSpeed();
 
   // Use this instead of Arduino delay(x). Ensures that we continue listening
   // to the GPS module serial.

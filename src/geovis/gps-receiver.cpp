@@ -7,13 +7,14 @@ namespace geovis {
 
 namespace {
   constexpr const char* const kGpsDisplayName = "GPS Receiver";
-  constexpr const char* const kGpsCsvHeader = "# Satellites Tracking,HDOP (Horizontal Dilution of Precision),Latitude,Longitude,Fix Age,Date (UTC),Time (UTC),Date Age,Altitude (meters),Vehicle Heading (degrees True),Vehicle Speed (knots),Characters Received,Sentences Received,# Checksum Failures,";
+  constexpr const char* const kGpsCsvHeader = "# Satellites Tracking,HDOP (Horizontal Dilution of Precision),Latitude,Longitude,Fix Age,Date (UTC),Time (UTC),Date Age,Altitude (meters) [raw],Altitude (meters),Vehicle Heading (degrees True),Vehicle Speed (knots) [raw],Vehicle Speed (knots),Characters Received,Sentences Received,# Checksum Failures,";
 
   constexpr uint8_t GPS_RX_PIN = 9; // Note: GPS module's TX connects to this pin.
   constexpr uint8_t GPS_TX_PIN = 10; // Note: GPS module's RX connects to this pin.
-  constexpr uint32_t GPS_BAUD = 9600; // Note: All testing with Teensy 3.6 suggests
-                                      // that baud rates other than 9600 are incompatible. However, 9600 is ok for
-                                      // 5 Hz GPS refresh (which itself is very sufficient.)
+  constexpr uint32_t GPS_BAUD = 9600;
+  // Note: All testing with Teensy 3.6 suggests
+  // that baud rates other than 9600 are incompatible. However, 9600 is ok for
+  // 5 Hz GPS refresh (which itself is very sufficient.)
 
   inline constexpr float gps_abs(float arg) { return arg < 0.f ? -arg : arg; }
   inline constexpr int gps_abs(int arg) { return arg < 0 ? -arg : arg; }
@@ -50,14 +51,14 @@ double GpsReceiver::getLongitude() {
   return longitude_;
 }
 
-float GpsReceiver::getSpeed() {
+double GpsReceiver::getSpeed() {
   if (gps_.speed.isValid()) {
     kalmanUpdate(&speed_, gps_.speed.knots());
   }
   return speed_.value;
 }
 
-float GpsReceiver::getAltitude() {
+double GpsReceiver::getAltitude() {
   if (gps_.altitude.isValid()) {
     kalmanUpdate(&altitude_, gps_.altitude.meters());
   }
@@ -158,9 +159,13 @@ String GpsReceiver::GetCsvLine() {
   line += ",";
   line += getFloatString(gps_.altitude.meters(), gps_.altitude.isValid(), 7, 2);
   line += ",";
+  line += getAltitude(); // filtered
+  line += ",";
   line += getFloatString(gps_.course.deg(), gps_.course.isValid(), 7, 2);
   line += ",";
   line += getFloatString(gps_.speed.knots(), gps_.speed.isValid(), 6, 2);
+  line += ",";
+  line += getSpeed(); // filtered
   line += ",";
   line += gps_.charsProcessed();
   line += ",";

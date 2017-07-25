@@ -11,7 +11,7 @@ namespace geovis {
 
 namespace {
   constexpr const char* kImuDisplayName = "Inertial Measurement Unit";
-  constexpr const char* kImuCsvHeader = "Heading / Euler X (degrees Magnetic),Roll / Euler Y,Pitch / Euler Z,Linear Accel (X),Linear Accel (Y),Linear Accel (Z),Gravity Accel (X),Gravity Accel (Y),Gravity Accel (Z),";
+  constexpr const char* kImuCsvHeader = "Heading / Euler X (degrees Magnetic) [raw],Roll / Euler Y [raw],Pitch / Euler Z [raw],Linear Accel (X) [raw],Linear Accel (Y) [raw],Linear Accel (Z) [raw],Gravity Accel (X) [raw],Gravity Accel (Y) [raw],Gravity Accel (Z) [raw],Heading / Euler X (degrees Magnetic),Roll / Euler Y,Pitch / Euler Z,Linear Accel (X),Linear Accel (Y),Linear Accel (Z),Gravity Accel (X),Gravity Accel (Y),Gravity Accel (Z),";
 } // namespace
 
 InertialMeasurementUnit::InertialMeasurementUnit()
@@ -98,9 +98,26 @@ String InertialMeasurementUnit::GetCsvLine() {
   kalmanUpdate(&gravity_y_, gravity.y());
   kalmanUpdate(&gravity_z_, gravity.z());
 
-  // Return *filtered* results.
+  // Return raw and *filtered* results.
   line += orientation.x();
   line += ",";
+  line += orientation.y();
+  line += ",";
+  line += orientation.z();
+  line += ",";
+  line += linear.x();
+  line += ",";
+  line += linear.y();
+  line += ",";
+  line += linear.z();
+  line += ",";
+  line += gravity.x();
+  line += ",";
+  line += gravity.y();
+  line += ",";
+  line += gravity.z();
+  line += ",";
+
   line += euler_x_.value;
   line += ",";
   line += euler_y_.value;

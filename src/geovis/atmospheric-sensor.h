@@ -14,11 +14,6 @@
 namespace rcr {
 namespace geovis {
 
-constexpr uint8_t BME_SCK = 13;
-constexpr uint8_t BME_MISO = 1;
-constexpr uint8_t BME_MOSI = 0;
-constexpr uint8_t BME_CS = 31;
-
 class AtmosphericSensor : public virtual Sensor {
  public:
   AtmosphericSensor();
@@ -55,7 +50,7 @@ class AtmosphericSensor : public virtual Sensor {
   ~AtmosphericSensor() {}
 
  private:
-  Adafruit_BME280 bme_{ BME_CS, BME_MOSI, BME_MISO, BME_SCK }; // software SPI
+  Adafruit_BME280 bme_; // software SPI
 
   kalman_t altitude_;
   kalman_t pressure_;
