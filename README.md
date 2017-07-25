@@ -62,16 +62,16 @@ _**Copiers and contributers welcome!**_
     constexpr uint8_t GPS_RX_PIN = 9; // Note: GPS module's TX connects to this pin.
     constexpr uint8_t GPS_TX_PIN = 10; // Note: GPS module's RX connects to this pin.
     
-    Serial1.setRX(GPS_RX_PIN); // default for Serial1; unnecessary, but explicit
-    Serial1.setTX(GPS_TX_PIN); // default for Serial1; unnecessary, but explicit
-    Serial1.begin(9600);
+    Serial2.setRX(GPS_RX_PIN); // default for Serial1; unnecessary, but explicit
+    Serial2.setTX(GPS_TX_PIN); // default for Serial1; unnecessary, but explicit
+    Serial2.begin(9600);
     // Note: All testing with Teensy 3.6 suggests that baud rates other
     // than 9600 are incompatible. However, 9600 is ok for 5 Hz GPS
     // refresh (which itself is very sufficient.)
     
     // Encode NMEA sentences using:
-    while (Serial1.available())
-      gps_.encode(Serial1.read());
+    while (Serial2.available())
+      gps_.encode(Serial2.read());
     ```
 - Default baud rate: 9600 Bd
 - Default GPS sampling rate: 1 Hz
