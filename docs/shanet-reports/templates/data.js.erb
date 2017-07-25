@@ -1,0 +1,18 @@
+var agl = ['Above Ground Level', <%= @points.map{|point| point[:agl]}.join(', ') %>];
+var pressureAltitude = ['Pressure Altitude', <%= @points.map{|point| point[:pressure_altitude]}.join(', ') %>];
+var gpsAltitude = ['GPS Altitude', <%= @points.map{|point| point[:gps_altitude]}.join(', ') %>];
+var acceleration = ['Acceleration', <%= @points.map{|point| point[:acceleration]}.join(', ') %>];
+var groundSpeed = ['Ground Speed', <%= @points.map{|point| point[:speed]}.join(', ') %>];
+
+var index_pad = <%= @index_pad %>;
+var index_boost = <%= @index_boost %>;
+var index_coast = <%= @index_coast %>;
+var index_drogue = <%= @index_drogue %>;
+var index_main = <%= @index_main %>;
+var index_landed = <%= @index_landed %>;
+
+var flightEnd = '<%= @flight_end.iso8601 %>';
+var launchTime = '<%= @launch_time.iso8601 %>';
+var apogee =  <%= @actual_apogee %>;
+var coordinates = <%= @points.map {|point| [point[:delta] - @points[0][:delta], point[:longitude], point[:latitude], point[:agl]]}.flatten.to_json %>;
+var orientation = <%= @points.map {|point| [point[:delta] - @points[0][:delta], point[:roll], point[:pitch].abs, point[:heading], 0]}.flatten.to_json %>;
