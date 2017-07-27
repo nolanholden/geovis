@@ -8,13 +8,14 @@
 #endif
 
 #include "sensor.h"
+#include "updateable.h"
 
 #include <Adafruit_BNO055.h>
 
 namespace rcr {
 namespace geovis {
 
-class InertialMeasurementUnit : public virtual Sensor {
+class InertialMeasurementUnit : public virtual Sensor, public virtual Updateable {
  public:
   InertialMeasurementUnit();
 
@@ -38,6 +39,8 @@ class InertialMeasurementUnit : public virtual Sensor {
 
   bool IsFullyCalibrated();
 
+  void Update();
+
   ~InertialMeasurementUnit() {}
 
  private:
@@ -50,7 +53,7 @@ class InertialMeasurementUnit : public virtual Sensor {
   // Update, return nothing.
   void UpdateGravitationalAccel();
 
-  // Update everything, return nothing.
+  // Update everything.
   void UpdateAll();
 
   Adafruit_BNO055 bno_;

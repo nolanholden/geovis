@@ -65,16 +65,10 @@ double GpsReceiver::getAltitude() {
   return altitude_.value;
 }
 
-void GpsReceiver::smartDelay() {
-  while (Serial2.available()) gps_.encode(Serial2.read());
-}
-
-void GpsReceiver::smartDelay(unsigned long ms) {
-  unsigned long start = millis();
-  do {
-    while (Serial2.available())
-      gps_.encode(Serial2.read());
-  } while (millis() - start < ms);
+void GpsReceiver::Update() {
+  while (Serial2.available()) {
+    gps_.encode(Serial2.read());
+  }
 }
 
 String GpsReceiver::getDateString(TinyGPSDate &d) {

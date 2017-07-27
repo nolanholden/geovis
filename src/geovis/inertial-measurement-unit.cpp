@@ -170,5 +170,9 @@ bool InertialMeasurementUnit::IsFullyCalibrated() {
   return bno_.isFullyCalibrated();
 }
 
+void InertialMeasurementUnit::Update() {
+  UpdateAll();
+}
+
 } // namespace geovis
 } // namespace rcr

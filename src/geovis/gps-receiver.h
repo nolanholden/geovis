@@ -3,11 +3,12 @@
 
 #include "sensor.h"
 #include "tinygps-plus.h"
+#include "updateable.h"
 
 namespace rcr {
 namespace geovis {
 
-class GpsReceiver : public virtual Sensor {
+class GpsReceiver : public virtual Sensor, public virtual Updateable {
  public:
   GpsReceiver();
   bool Init();
@@ -19,16 +20,11 @@ class GpsReceiver : public virtual Sensor {
   double getLongitude();
   double getSpeed();
 
-  // Use this instead of Arduino delay(x). Ensures that we continue listening
-  // to the GPS module serial.
-  void smartDelay();
-  // Use this instead of Arduino delay(x). Ensures that we continue listening
-  // to the GPS module serial.
-  void smartDelay(unsigned long ms);
-
-  TinyGPSPlus gps_; // ok to access. User needs access to provide NMEA sentences
+  void Update();
 
  protected:
+  TinyGPSPlus gps_;
+
   double latitude_;
   double longitude_;
   kalman_t speed_;    // knots
