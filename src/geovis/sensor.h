@@ -30,7 +30,10 @@ class Sensor : public virtual Initializable {
   Sensor& operator=(const Sensor&) = delete;
 
  protected:
+  // Initialize the Kalman struct to the provided value.
   kalman_t kalmanInit(double intial_value);
+
+  // Update the Kalman filter to reflect provided value.
   void kalmanUpdate(kalman_t* state, double measurement);
 
  private:

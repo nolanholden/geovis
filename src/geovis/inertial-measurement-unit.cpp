@@ -3,126 +3,103 @@
 #include "constants.h"
 #include "printouts.h"
 
-#include <vector>
+#include <functional>
 #include <utility>
+#include <vector>
 
 namespace rcr {
 namespace geovis {
 
 namespace {
   constexpr const char* kImuDisplayName = "Inertial Measurement Unit";
-  constexpr const char* kImuCsvHeader = "Heading / Euler X (degrees Magnetic) [raw],Roll / Euler Y [raw],Pitch / Euler Z [raw],Linear Accel (X) [raw],Linear Accel (Y) [raw],Linear Accel (Z) [raw],Gravity Accel (X) [raw],Gravity Accel (Y) [raw],Gravity Accel (Z) [raw],Heading / Euler X (degrees Magnetic),Roll / Euler Y,Pitch / Euler Z,Linear Accel (X),Linear Accel (Y),Linear Accel (Z),Gravity Accel (X),Gravity Accel (Y),Gravity Accel (Z),";
+  constexpr const char* kImuCsvHeader = "Heading/Euler-X (Magnetic),Pitch/Euler-Y,Roll/Euler-Z,Linear Accel (X),Linear Accel (Y),Linear Accel (Z),Gravity Accel (X),Gravity Accel (Y),Gravity Accel (Z),";
 } // namespace
 
 InertialMeasurementUnit::InertialMeasurementUnit()
   : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR,
     kImuDisplayName, kImuCsvHeader) {
-  euler_x_   = kalmanInit(0.);
-  euler_y_   = kalmanInit(0.);
-  euler_z_   = kalmanInit(0.);
-
-  // Linear accelleration:
-  linear_x_  = kalmanInit(0.);;
-  linear_y_  = kalmanInit(0.);;
-  linear_z_  = kalmanInit(0.);;
-
-  // Gravitational accelleration:
-  gravity_x_ = kalmanInit(0.);;
-  gravity_y_ = kalmanInit(0.);;
-  gravity_z_ = kalmanInit(0.);;
+  quat_w_    = kalmanInit(0.);
+  quat_x_    = kalmanInit(0.);
+  quat_y_    = kalmanInit(0.);
+  quat_z_    = kalmanInit(0.);
+  linear_x_  = kalmanInit(0.);
+  linear_y_  = kalmanInit(0.);
+  linear_z_  = kalmanInit(0.);
+  gravity_x_ = kalmanInit(0.);
+  gravity_y_ = kalmanInit(0.);
+  gravity_z_ = kalmanInit(0.);
 }
 
 bool InertialMeasurementUnit::Init() {
-  init_result_ = bno_.begin();
-  return init_result_;
+  return (init_result_ = bno_.begin());
 }
 
-// TODO: Is possible overflow an issue?
-template <int SampleSize>
-imu::Vector<3> InertialMeasurementUnit::SampleForMeanVector (
-    Adafruit_BNO055::adafruit_vector_type_t vector_type) {
-  // Resultant vector of arithmetic-mean x,y,z values.
-  auto mean_vector = imu::Vector<3>();
+imu::Vector<3> InertialMeasurementUnit::GetOrientation() {
+  UpdateOrientation();
+  auto euler = imu::Quaternion{
+    quat_w_.value,
+    quat_x_.value,
+    quat_y_.value,
+    quat_z_.value
+  
+  }.toEuler(); // radians
 
-  // Ensure x,y,z == 0.0
-  mean_vector.x() = 0.;
-  mean_vector.y() = 0.;
-  mean_vector.z() = 0.;
-
-  // Sample the IMU sensor.
-  auto imu_vectors = std::vector<imu::Vector<3>>(static_cast<size_t>(SampleSize));
-  for (auto i = 0; i < SampleSize; ++i) {
-    imu_vectors.push_back(std::move(bno_.getVector(vector_type)));
-  }
-
-  // Compute the mean.
-  auto sample_size_double = static_cast<double>(SampleSize);
-  for (auto& v : imu_vectors) {
-    mean_vector.x() += v.x();
-    mean_vector.y() += v.y();
-    mean_vector.z() += v.z();
-  }
-  mean_vector.x() /= sample_size_double;
-  mean_vector.y() /= sample_size_double;
-  mean_vector.z() /= sample_size_double;
-
-  return mean_vector;
+  euler.toDegrees(); // use degrees.
+  return euler;
 }
 
-imu::Vector<3> InertialMeasurementUnit::SampleVector(
-    Adafruit_BNO055::adafruit_vector_type_t vector_type) {
-  return bno_.getVector(vector_type);
+imu::Vector<3> InertialMeasurementUnit::GetLinearAccel() {
+  UpdateLinearAccel();
+  auto v = imu::Vector<3>(linear_x_.value, linear_y_.value, linear_z_.value);
+  return v;
+}
+
+imu::Vector<3> InertialMeasurementUnit::GetGravitationalAccel() {
+  UpdateGravitationalAccel();
+  auto v = imu::Vector<3>(gravity_x_.value, gravity_y_.value, gravity_z_.value);
+  return v;
+}
+
+void InertialMeasurementUnit::UpdateOrientation() {
+  auto quaternion = bno_.getQuat(); // radians
+  kalmanUpdate(&quat_w_, std::move(quaternion.w()));
+  kalmanUpdate(&quat_x_, std::move(quaternion.x()));
+  kalmanUpdate(&quat_y_, std::move(quaternion.y()));
+  kalmanUpdate(&quat_z_, std::move(quaternion.z()));
+}
+
+void InertialMeasurementUnit::UpdateLinearAccel() {
+  auto linear = bno_.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+  kalmanUpdate(&linear_x_, std::move(linear.x()));
+  kalmanUpdate(&linear_y_, std::move(linear.y()));
+  kalmanUpdate(&linear_z_, std::move(linear.z()));
+}
+
+void InertialMeasurementUnit::UpdateGravitationalAccel() {
+  auto gravity = bno_.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
+  kalmanUpdate(&gravity_x_, std::move(gravity.x()));
+  kalmanUpdate(&gravity_y_, std::move(gravity.y()));
+  kalmanUpdate(&gravity_z_, std::move(gravity.z()));
+}
+
+void InertialMeasurementUnit::UpdateAll() {
+  UpdateOrientation();
+  UpdateLinearAccel();
+  UpdateGravitationalAccel();
 }
 
 String InertialMeasurementUnit::GetCsvLine() {
+  UpdateAll();
+
   String line = "";
 
-  //  Sample the IMU.
-  auto orientation = bno_.getVector(Adafruit_BNO055::VECTOR_EULER); //bno_.getQuat().toEuler(); // use quaterion; higher accuracy
-  auto linear = bno_.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
-  auto gravity = bno_.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
+  auto euler_degrees = GetOrientation();
 
-  // Update respective Kalman filters.
-    // (1) Euler vector:
-  kalmanUpdate(&euler_x_, orientation.x());
-  kalmanUpdate(&euler_y_, orientation.y());
-  kalmanUpdate(&euler_z_, orientation.z());
-
-    // (2) Linear accelleration vector:
-  kalmanUpdate(&linear_x_, linear.x());
-  kalmanUpdate(&linear_y_, linear.y());
-  kalmanUpdate(&linear_z_, linear.z());
-
-    // (3) Gravitational accelleration vector:
-  kalmanUpdate(&gravity_x_, gravity.x());
-  kalmanUpdate(&gravity_y_, gravity.y());
-  kalmanUpdate(&gravity_z_, gravity.z());
-
-  // Return raw and *filtered* results.
-  line += orientation.x();
+  line += std::move(euler_degrees.x());
   line += ",";
-  line += orientation.y();
+  line += std::move(euler_degrees.y());
   line += ",";
-  line += orientation.z();
-  line += ",";
-  line += linear.x();
-  line += ",";
-  line += linear.y();
-  line += ",";
-  line += linear.z();
-  line += ",";
-  line += gravity.x();
-  line += ",";
-  line += gravity.y();
-  line += ",";
-  line += gravity.z();
-  line += ",";
-
-  line += euler_x_.value;
-  line += ",";
-  line += euler_y_.value;
-  line += ",";
-  line += euler_z_.value;
+  line += std::move(euler_degrees.z());
   line += ",";
 
   line += linear_x_.value;

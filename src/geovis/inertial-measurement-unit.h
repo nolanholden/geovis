@@ -20,44 +20,49 @@ class InertialMeasurementUnit : public virtual Sensor {
 
   bool Init();
 
-  // Sample the given type of vector only once.
-  imu::Vector<3> SampleVector(
-    Adafruit_BNO055::adafruit_vector_type_t vector_type);
-
-  // TODO: Is possible overflow an issue?
-  // Sample the given type of vector, returning the mean values.
-  template <int SampleSize>
-  imu::Vector<3> SampleForMeanVector(
-    Adafruit_BNO055::adafruit_vector_type_t vector_type);
-
-  String GetCsvLine();
-
   // Calibrate the BNO055 IMU.
   // Note: This function is provided within this project because calibration
   // only persists for a single power-on (no onboard EEPROM).
   void Calibrate();
+
+  // Get Euler angles vector [in degrees] (using quaterion).
+  imu::Vector<3> GetOrientation();
+
+  // Get linear acceleration vector.
+  imu::Vector<3> GetLinearAccel();
+
+  // Get gravitational acceleration vector.
+  imu::Vector<3> GetGravitationalAccel();
+
+  String GetCsvLine();
 
   bool IsFullyCalibrated();
 
   ~InertialMeasurementUnit() {}
 
  private:
-  Adafruit_BNO055 bno_;
+  // Update, return nothing.
+  void UpdateOrientation();
+
+  // Update, return nothing.
+  void UpdateLinearAccel();
   
-  // Orientation (Euler vector):
-  kalman_t euler_x_; // heading
-  kalman_t euler_y_; // pitch
-  kalman_t euler_z_; // roll
+  // Update, return nothing.
+  void UpdateGravitationalAccel();
+
+  // Update everything, return nothing.
+  void UpdateAll();
+
+  Adafruit_BNO055 bno_;
+
+  // Orientation quaternion:
+  kalman_t quat_w_, quat_x_, quat_y_, quat_z_;
 
   // Linear accelleration:
-  kalman_t linear_x_;
-  kalman_t linear_y_;
-  kalman_t linear_z_;
+  kalman_t linear_x_, linear_y_, linear_z_;
 
   // Gravitational accelleration:
-  kalman_t gravity_x_;
-  kalman_t gravity_y_;
-  kalman_t gravity_z_;
+  kalman_t gravity_x_, gravity_y_, gravity_z_;
 };
 
 } // namespace geovis
