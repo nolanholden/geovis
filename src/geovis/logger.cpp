@@ -9,8 +9,7 @@
 namespace rcr {
 namespace geovis {
 
-Logger::Logger(const char* path) {
-  path_ = path;
+Logger::Logger(const char* path) : path_(path) {
   display_name_ = "Logger";
 }
 
@@ -46,12 +45,6 @@ bool Logger::Write(const String & text) {
     file_.print(text);
     success = true;
   }
-  else {
-    Serial.print("Could not write \"");
-    Serial.print(text);
-    Serial.print("\" to SD at path: ");
-    Serial.println(path_);
-  }
   file_.close(); // Always close;
 
   return success;
@@ -69,12 +62,6 @@ bool Logger::WriteLine(const String& text) {
   if (file_) {
     file_.println(text);
     success = true;
-  }
-  else {
-    Serial.print("Could not write \"");
-    Serial.print(text);
-    Serial.print("\" to SD at path: ");
-    Serial.println(path_);
   }
   file_.close(); // Always close.
 

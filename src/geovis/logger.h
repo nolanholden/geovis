@@ -34,7 +34,7 @@ class Logger : public virtual Initializable {
   // File I/O manager
   File file_;
   
-  const char* path_; // (not necessarily const)
+  const char* const path_; // (not necessarily const)
 };
 
 } // namespace geovis
