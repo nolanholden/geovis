@@ -1,6 +1,12 @@
 #ifndef RCR_GEOVIS_GPSRECEIVER_H
 #define RCR_GEOVIS_GPSRECEIVER_H
 
+#if defined(ARDUINO) && ARDUINO >= 100
+	#include "arduino.h"
+#else
+	#include "WProgram.h"
+#endif
+
 #include "sensor.h"
 #include "tinygps-plus.h"
 #include "updateable.h"
