@@ -16,6 +16,7 @@
 #include "inertial-measurement-unit.h"
 #include "logger.h"
 #include "printouts.h"
+#include "updateable.h"
 
 #include <vector>
 
@@ -32,15 +33,10 @@ namespace {
   // components{ &logger, &imu, &gps_receiver, &atmospheric_sensor }; confuses
   // static analysis.
   std::vector<Sensor*> sensors{ &imu, &gps_receiver, &atmospheric_sensor };
+  std::vector<Updateable*> updateables;
 
   inline void blink() {
-    // Illuminate LED.
     digitalWrite(kLedPin, HIGH);
-
-    // Ensure gps reciever is encoding.
-    gps_receiver.smartDelay();
-
-    // Dim LED.
     digitalWrite(kLedPin, LOW);
   }
 
@@ -91,59 +87,48 @@ inline void setup() {
   }
 
   Serial.println("Setup complete.");
+  Serial.println("Entering flight loop.");
 }
 
 
 namespace {
-  auto user_quit = 1u; // 'quit' instruction flag. (see while() below)
+  auto num_prints_backward_counter = 512u;
+  String csv_line = "";
 } // namespace
 
 // Begin GEOVIS flight-path logging. Continue forever until human intervention.
 inline void loop() {
-  auto num_prints_backward_counter = 512u;
-  String csv_line = "";
+  for (auto& u : updateables) {
+    u->Update();
+  }
 
-  Serial.println("Entering flight loop.");
+  // Get a line of data.
+  csv_line = ""; // Set empty each time.
+  csv_line += millis();
+  csv_line += ",";
+  for (auto& s : sensors) {
+    csv_line += s->GetCsvLine();
+  }
 
-  while (user_quit) { // ARM reccomends while(1u) for greatest efficiency
-    csv_line = ""; // Set empty each time.
-
-    // Get a line of data.
-    // - Time
-    csv_line += millis();
-    csv_line += ",";
-
-    // - Sensor data
-    for (auto& s : sensors) {
-      csv_line += s->GetCsvLine();
-    }
-
-    // Print the line to the file. Display proof only at first.
-    if (num_prints_backward_counter) {
-      --num_prints_backward_counter;
-      Serial.println(csv_line);
-      if (logger.WriteLine(csv_line)) {
-        Serial.println("Successful print.");
-      }
-      else {
-        Serial.println("Print FAILED.");
-      }
+  // Print the line to the file. Display proof only at first.
+  if (1/*num_prints_backward_counter*/) {
+    --num_prints_backward_counter;
+    Serial.println(csv_line);
+    if (logger.WriteLine(csv_line)) {
+      Serial.println("Successful print.");
     }
     else {
-      logger.WriteLine(csv_line);
-    }
-
-    // Ensure we are always receiving gps data.
-    gps_receiver.smartDelay(); // no delay.
-
-    blink();
-
-    // Allow user to quit by 'q'.   // TODO: terminate via radio instruction
-    if (Serial.available() > 0 && Serial.read() == 'q') {
-      --user_quit;
-      geovis_util::clear_serial_input();
+      geovis_util::illuminate_morse_code_sos();
+      Serial.println("Print FAILED.");
     }
   }
+  else {
+    if (!logger.WriteLine(csv_line)) {
+      geovis_util::illuminate_morse_code_sos();
+    }
+  }
+
+  blink();
 }
 
 } // namespace geovis
