@@ -7,6 +7,7 @@
 	#include "WProgram.h"
 #endif
 
+#include "constants.h"
 #include "initializable.h"
 
 #include <vector>
@@ -31,6 +32,54 @@ bool express_initialization(
     Serial.println(component->IsFullyInitialized() ? ": true" : ": false");
   }
   return true;
+}
+
+// Express a fatal error by locking the main thread and blinking morse code SOS.
+void illuminate_morse_code_sos() {
+  digitalWrite(kLedPin, LOW);
+  // Times in milliseconds.
+  auto dot = 64u;
+  auto dash = dot * 3;
+  auto pause_between_elements = dot;
+  auto pause_between_characters = dot * 3;
+  auto pause_between_words = dot * 7;
+
+  delay(pause_between_words);
+
+  // 'S'
+  delay(pause_between_characters);
+  for (auto i = 0; i < 3; ++i) {
+    if (i != 0) {
+      delay(pause_between_elements);
+    }
+    digitalWrite(kLedPin, HIGH);
+    delay(dot);
+    digitalWrite(kLedPin, LOW);
+  }
+
+  // 'O'
+  delay(pause_between_characters);
+  for (auto i = 0; i < 3; ++i) {
+    if (i != 0) {
+      delay(pause_between_elements);
+    }
+    digitalWrite(kLedPin, HIGH);
+    delay(dash);
+    digitalWrite(kLedPin, LOW);
+  }
+
+  // 'S'
+  delay(pause_between_characters);
+  for (auto i = 0; i < 3; ++i) {
+    if (i != 0) {
+      delay(pause_between_elements);
+    }
+    digitalWrite(kLedPin, HIGH);
+    delay(dot);
+    digitalWrite(kLedPin, LOW);
+  }
+
+  delay(pause_between_characters);
 }
 
 // Empty the input serial. Do not do this often.
