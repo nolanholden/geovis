@@ -16,8 +16,6 @@ namespace {
   // that baud rates other than 9600 are incompatible. However, 9600 is ok for
   // 5 Hz GPS refresh (which itself is very sufficient.)
 
-  inline constexpr float gps_abs(float arg) { return arg < 0.f ? -arg : arg; }
-  inline constexpr int gps_abs(int arg) { return arg < 0 ? -arg : arg; }
 } // namespace
 
 GpsReceiver::GpsReceiver()
@@ -100,7 +98,7 @@ String GpsReceiver::getFloatString(float val, bool valid, int len, int prec) {
   }
   else {
     result += String(val, prec);
-    int vi = gps_abs((int)val);
+    int vi = geovis_util::abs((int)val);
     int flen = prec + (val < 0.0 ? 2 : 1); // for "." and "-"
     flen += vi >= 1000 ? 4
       : vi >= 100 ? 3

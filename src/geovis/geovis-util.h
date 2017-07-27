@@ -1,20 +1,25 @@
 #ifndef RCR_GEOVIS_GEOVISUTIL_H_
 #define RCR_GEOVIS_GEOVISUTIL_H_
 
-#if defined(ARDUINO) && ARDUINO >= 100
-	#include "arduino.h"
-#else
-	#include "WProgram.h"
-#endif
+//#if defined(ARDUINO) && ARDUINO >= 100
+//	#include "arduino.h"
+//#else
+//	#include "WProgram.h"
+//#endif
 
-#include "constants.h"
-#include "initializable.h"
+//#include "constants.h"
+//#include "initializable.h"
 
-#include <vector>
+//#include <vector>
 
 namespace rcr {
 namespace geovis {
 namespace geovis_util {
+
+// Absolute value.
+#undef abs
+template <typename T>
+inline constexpr T abs(T arg) { return static_cast<T>(0) ? -arg : arg; }
 
 bool components_fully_initialized(
     const std::vector<Initializable*>& components) {
