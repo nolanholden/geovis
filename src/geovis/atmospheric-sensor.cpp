@@ -21,8 +21,8 @@ AtmosphericSensor::AtmosphericSensor()
   : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR,
     kAtmDisplayName, KAtmCsvHeader) {
   bme_ = Adafruit_BME280(BME_CS, BME_MOSI, BME_MISO, BME_SCK); // software SPI
-  altitude_ = kalmanInit(0.);
-  pressure_ = kalmanInit(0.);
+  altitude_ = kalmanInit(1.);
+  pressure_ = kalmanInit(1.);
 }
 
 bool AtmosphericSensor::Init() {
