@@ -1,5 +1,7 @@
 #include "logger.h"
 
+#include "initializable.h"
+
 // SD card library
 #include <SD.h>
 #include <SPI.h> // TODO: REMOVE
@@ -9,9 +11,7 @@
 namespace rcr {
 namespace geovis {
 
-Logger::Logger(const char* path) : path_(path) {
-  display_name_ = "Logger";
-}
+Logger::Logger(const char* path) : Initializable("Logger"), path_(path) {}
 
 bool Logger::Init() {
   if (!SD.begin(kChipSelect)) {

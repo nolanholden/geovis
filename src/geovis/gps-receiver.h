@@ -14,7 +14,7 @@
 namespace rcr {
 namespace geovis {
 
-class GpsReceiver : public virtual Sensor, public virtual Updateable {
+class GpsReceiver : public Sensor, public Updateable {
  public:
   GpsReceiver();
   bool Init();

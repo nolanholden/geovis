@@ -14,7 +14,7 @@
 namespace rcr {
 namespace geovis {
 
-class AtmosphericSensor : public virtual Sensor {
+class AtmosphericSensor : public Sensor {
  public:
   AtmosphericSensor();
 

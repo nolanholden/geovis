@@ -15,7 +15,7 @@
 namespace rcr {
 namespace geovis {
 
-class InertialMeasurementUnit : public virtual Sensor, public virtual Updateable {
+class InertialMeasurementUnit : public Sensor, public Updateable {
  public:
   InertialMeasurementUnit();
 

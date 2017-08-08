@@ -13,7 +13,7 @@
 namespace rcr {
 namespace geovis {
 
-class Sensor : public virtual Initializable {
+class Sensor : public Initializable {
  public:
   Sensor(double process_noise, double measurement_noise, double error,
     const char* display_name, const char* csv_header);
