@@ -19,7 +19,6 @@ class InertialMeasurementUnit : public Sensor, public Updateable {
  public:
   InertialMeasurementUnit();
 
-  bool Init();
 
   // Calibrate the BNO055 IMU.
   // Note: This function is provided within this project because calibration
@@ -44,6 +43,8 @@ class InertialMeasurementUnit : public Sensor, public Updateable {
   ~InertialMeasurementUnit();
 
  private:
+  bool ProtectedInit();
+
   // Update, return nothing.
   void UpdateOrientation();
 

@@ -17,7 +17,7 @@ namespace geovis {
 class GpsReceiver : public Sensor, public Updateable {
  public:
   GpsReceiver();
-  bool Init();
+
 
   String GetCsvLine();
 
@@ -28,7 +28,8 @@ class GpsReceiver : public Sensor, public Updateable {
 
   void Update();
 
- protected:
+ private:
+  bool ProtectedInit();
   TinyGPSPlus gps_;
 
   double latitude_;

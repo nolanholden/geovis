@@ -29,13 +29,11 @@ GpsReceiver::GpsReceiver()
   altitude_ = kalmanInit(0.);
 }
 
-bool GpsReceiver::Init() {
+bool GpsReceiver::ProtectedInit() {
   Serial2.setRX(GPS_RX_PIN);
   Serial2.setTX(GPS_TX_PIN);
   Serial2.begin(GPS_BAUD);
-
-  init_result_ = true;
-  return init_result_;
+  return true;
 }
 
 double GpsReceiver::getLatitude() {

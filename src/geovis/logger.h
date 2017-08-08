@@ -20,7 +20,6 @@ class Logger : public virtual Initializable {
  public:
   Logger(const char* path);
 
-  bool Init();
 
   // Write text to the end of the file.
   bool Write(const String& text);
@@ -30,11 +29,13 @@ class Logger : public virtual Initializable {
 
   ~Logger();
 
- protected:
+ private:
+  bool ProtectedInit();
+
   // File I/O manager
   File file_;
   
-  const char* const path_; // (not necessarily const)
+  const char* const path_;
 };
 
 } // namespace geovis

@@ -30,8 +30,8 @@ InertialMeasurementUnit::InertialMeasurementUnit()
   gravity_z_ = kalmanInit(0.);
 }
 
-bool InertialMeasurementUnit::Init() {
-  return (init_result_ = bno_.begin());
+bool InertialMeasurementUnit::ProtectedInit() {
+  return bno_.begin();
 }
 
 imu::Vector<3> InertialMeasurementUnit::GetOrientation() {

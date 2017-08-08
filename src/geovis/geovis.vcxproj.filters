@@ -5,23 +5,11 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Header Files\Solo Headers">
-      <UniqueIdentifier>{b391d031-0023-4cc8-9c8f-228817d0e850}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Sensors">
       <UniqueIdentifier>{bf256648-4fed-4d82-a6c6-5488d73a8fe1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.payload.vsarduino.h">
-      <Filter>Header Files\Solo Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="kalman.h">
-      <Filter>Header Files\Solo Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="constants.h">
-      <Filter>Header Files\Solo Headers</Filter>
-    </ClInclude>
     <ClInclude Include="tinygps-plus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -38,26 +26,35 @@
       <Filter>Header Files\Sensors</Filter>
     </ClInclude>
     <ClInclude Include="geovis.h" />
-    <ClInclude Include="debug-settings.h">
-      <Filter>Header Files\Solo Headers</Filter>
-    </ClInclude>
     <ClInclude Include="initializable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="geovis-util.h">
-      <Filter>Header Files\Solo Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="printouts.h">
-      <Filter>Header Files\Solo Headers</Filter>
-    </ClInclude>
     <ClInclude Include="updateable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inertial-measurement-unit.h">
+    <ClInclude Include="__vm\.payload.vsarduino.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="debug-settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="geovis-util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="kalman.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="printouts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inertial-measurement-unit.h">
+      <Filter>Header Files\Sensors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -82,10 +79,10 @@
     <ClCompile Include="updateable.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="inertial-measurement-unit.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="geovis-util.cpp" />
+    <ClCompile Include="inertial-measurement-unit.cpp">
+      <Filter>Header Files\Sensors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="geovis.ino" />

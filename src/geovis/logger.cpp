@@ -13,7 +13,7 @@ namespace geovis {
 
 Logger::Logger(const char* path) : Initializable("Logger"), path_(path) {}
 
-bool Logger::Init() {
+bool Logger::ProtectedInit() {
   if (!SD.begin(kChipSelect)) {
     Serial.println("SD card initialization failed.");
     return false;
@@ -30,8 +30,7 @@ bool Logger::Init() {
   Serial.print("Output path is: ");
   Serial.println(path_);
 
-  init_result_ = true;
-  return init_result_;
+  return true;
 }
 
 bool Logger::Write(const String & text) {

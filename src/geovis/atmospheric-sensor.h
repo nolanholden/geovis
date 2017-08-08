@@ -18,7 +18,6 @@ class AtmosphericSensor : public Sensor {
  public:
   AtmosphericSensor();
 
-  bool Init();
 
   // Pressure at the sensor.
   // [Pascal] (N/m^2)
@@ -50,6 +49,8 @@ class AtmosphericSensor : public Sensor {
   ~AtmosphericSensor() {}
 
  private:
+  bool ProtectedInit();
+
   Adafruit_BME280 bme_; // software SPI
 
   kalman_t altitude_;

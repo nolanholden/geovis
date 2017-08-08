@@ -25,9 +25,8 @@ AtmosphericSensor::AtmosphericSensor()
   pressure_ = kalmanInit(1.);
 }
 
-bool AtmosphericSensor::Init() {
-  init_result_ = bme_.begin();
-  return init_result_;
+bool AtmosphericSensor::ProtectedInit() {
+  return bme_.begin();
 }
 
 double AtmosphericSensor::ambient_pressure() {
