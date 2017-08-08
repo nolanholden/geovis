@@ -1,5 +1,7 @@
 #include "geovis-util.h"
 
+#include "constants.h"
+
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
 #else
