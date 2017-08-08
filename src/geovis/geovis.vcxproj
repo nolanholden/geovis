@@ -98,7 +98,6 @@
     <ClInclude Include="tinygps-plus.h" />
     <ClInclude Include="updateable.h" />
     <ClInclude Include="__vm\.geovis.vsarduino.h" />
-    <ClInclude Include="__vm\.payload.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="atmospheric-sensor.cpp" />
