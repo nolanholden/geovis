@@ -13,15 +13,16 @@ namespace geovis {
 namespace geovis_util {
 
 // Express a fatal error by locking the main thread and blinking morse code SOS.
-void illuminate_morse_code_sos() {
-  digitalWrite(kLedPin, LOW);
+// Specifiy dot length or use defaults. (All time intervals are defined in
+// terms of dot time interval.)
+void illuminate_morse_code_sos(const uint32_t dot_milliseconds = 64u) {
+  digitalWrite(kLedPin, LOW); // start dimmed.
 
   // Times in milliseconds.
-  const auto dot = 64u;
-  const auto dash = dot * 3;
-  const auto pause_between_elements = dot;
-  const auto pause_between_characters = dot * 3;
-  const auto pause_between_words = dot * 7;
+  const auto dash = dot_milliseconds * 3;
+  const auto pause_between_elements = dot_milliseconds;
+  const auto pause_between_characters = dot_milliseconds * 3;
+  const auto pause_between_words = dot_milliseconds * 7;
 
   delay(pause_between_words);
 
@@ -32,7 +33,7 @@ void illuminate_morse_code_sos() {
       delay(pause_between_elements);
     }
     digitalWrite(kLedPin, HIGH);
-    delay(dot);
+    delay(dot_milliseconds);
     digitalWrite(kLedPin, LOW);
   }
 
@@ -54,7 +55,7 @@ void illuminate_morse_code_sos() {
       delay(pause_between_elements);
     }
     digitalWrite(kLedPin, HIGH);
-    delay(dot);
+    delay(dot_milliseconds);
     digitalWrite(kLedPin, LOW);
   }
 
