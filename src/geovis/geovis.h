@@ -33,7 +33,7 @@ namespace {
   // components{ &logger, &imu, &gps_receiver, &atmospheric_sensor }; confuses
   // static analysis.
   std::vector<Sensor*> sensors{ &imu, &gps_receiver, &atmospheric_sensor };
-  std::vector<Updateable*> updateables;
+  std::vector<Updateable*> updateables{ &gps_receiver };
 
   inline void blink() {
     digitalWrite(kLedPin, HIGH);
@@ -54,8 +54,10 @@ namespace {
       }
     }
   }
-
 } // namespace
+
+auto num_prints_backward_counter = 1028u;
+String csv_line = "";
 
 inline void setup() {
   // Wait a moment.
@@ -87,14 +89,9 @@ inline void setup() {
   }
 
   Serial.println("Setup complete.");
+  delay(3000);
   Serial.println("Entering flight loop.");
 }
-
-
-namespace {
-  auto num_prints_backward_counter = 512u;
-  String csv_line = "";
-} // namespace
 
 // Begin GEOVIS flight-path logging. Continue forever until human intervention.
 inline void loop() {
@@ -111,21 +108,18 @@ inline void loop() {
   }
 
   // Print the line to the file. Display proof only at first.
-  if (1/*num_prints_backward_counter*/) {
+  if (num_prints_backward_counter) {
     --num_prints_backward_counter;
     Serial.println(csv_line);
     if (logger.WriteLine(csv_line)) {
       Serial.println("Successful print.");
     }
     else {
-      geovis_util::illuminate_morse_code_sos();
       Serial.println("Print FAILED.");
     }
   }
   else {
-    if (!logger.WriteLine(csv_line)) {
-      geovis_util::illuminate_morse_code_sos();
-    }
+    logger.WriteLine(csv_line);
   }
 
   blink();

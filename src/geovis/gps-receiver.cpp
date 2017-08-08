@@ -1,6 +1,7 @@
 #include "gps-receiver.h"
 
 #include "constants.h"
+#include "geovis-util.h"
 
 namespace rcr {
 namespace geovis {

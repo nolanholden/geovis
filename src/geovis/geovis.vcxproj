@@ -41,7 +41,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Users\John-lenovo\Documents\Arduino\libraries;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -63,7 +65,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\..\Documents\Arduino\libraries\Adafruit_BME280_Library;$(ProjectDir)..\..\..\..\..\..\Documents\Arduino\libraries\Adafruit_Unified_Sensor;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\libraries\Wire;$(ProjectDir)..\..\..\..\..\..\Documents\Arduino\libraries\Adafruit_BNO055;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\libraries\SD;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\libraries\SPI;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\libraries;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\libraries;$(ProjectDir)..\..\..\..\..\..\Documents\Arduino\libraries;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\cores\teensy3;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\cores\teensy3\avr;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\cores\teensy3\util;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\cores\teensy3\utils;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\cores\teensy3\avr;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\tools\arm\arm-none-eabi\include;$(ProjectDir)..\geovis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\..\Documents\Arduino\libraries\Adafruit_BME280_Library;$(ProjectDir)..\..\..\..\..\..\Documents\Arduino\libraries\Adafruit_Unified_Sensor;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\libraries\Wire;$(ProjectDir)..\..\..\..\..\..\Documents\Arduino\libraries\Adafruit_BNO055;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\libraries\SD;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\libraries\SPI;$(ProjectDir)..\..\..\..\..\..\Documents\Arduino\libraries\Adafruit_BNO055\utility;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\libraries\SD\utility;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\libraries\Wire\utility;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\libraries;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\libraries;$(ProjectDir)..\..\..\..\..\..\Documents\Arduino\libraries;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\cores\teensy3;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\cores\teensy3\avr;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\cores\teensy3\util;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\cores\teensy3\utils;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\teensy\avr\cores\teensy3\avr;$(ProjectDir)..\..\..\..\..\..\..\..\Arduino\hardware\tools\arm\arm-none-eabi\include;$(ProjectDir)..\geovis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)__vm\.geovis.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <PreprocessorDefinitions>__HARDWARE_MK66fx1m0__;__HARDWARE_MK66FX1M0__;__MK66FX1M0__;TEENSYDUINO=136;ARDUINO=10802;F_CPU=180000000;USB_SERIAL;LAYOUT_US_ENGLISH;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -94,17 +96,20 @@
     <ClInclude Include="printouts.h" />
     <ClInclude Include="sensor.h" />
     <ClInclude Include="tinygps-plus.h" />
+    <ClInclude Include="updateable.h" />
     <ClInclude Include="__vm\.geovis.vsarduino.h" />
     <ClInclude Include="__vm\.payload.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="atmospheric-sensor.cpp" />
+    <ClCompile Include="geovis-util.cpp" />
     <ClCompile Include="gps-receiver.cpp" />
     <ClCompile Include="inertial-measurement-unit.cpp" />
     <ClCompile Include="initializable.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="sensor.cpp" />
     <ClCompile Include="tinygps-plus.cpp" />
+    <ClCompile Include="updateable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="geovis.ino" />
