@@ -174,5 +174,7 @@ void InertialMeasurementUnit::Update() {
   UpdateAll();
 }
 
+InertialMeasurementUnit::~InertialMeasurementUnit() {}
+
 } // namespace geovis
 } // namespace rcr

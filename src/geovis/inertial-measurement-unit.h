@@ -41,7 +41,7 @@ class InertialMeasurementUnit : public virtual Sensor, public virtual Updateable
 
   void Update();
 
-  ~InertialMeasurementUnit() {}
+  ~InertialMeasurementUnit();
 
  private:
   // Update, return nothing.
