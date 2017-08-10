@@ -4,6 +4,9 @@
 namespace rcr {
 namespace geovis {
 
+// Use this interface when class instances must be constantly updated.
+// This is a workaround for the lack of (reliable) support of threading
+// on embedded architectures.
 class Updateable {
  public:
   // Do this every time in loop();

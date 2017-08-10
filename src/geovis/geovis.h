@@ -22,9 +22,9 @@ namespace rcr {
 namespace geovis {
 
 namespace {
-  Logger logger("flight.csv");
+  Logger logger{ "flight.csv" };
   InertialMeasurementUnit imu;           // IMU
-  GpsReceiver gps_receiver;              // GPS module
+  GpsReceiver gps_receiver{ Serial2 };              // GPS module
   AtmosphericSensor atmospheric_sensor;  // Barometer/Thermometer/Hygometer
 
   Initializable* components[] = { &logger, &imu, &gps_receiver, &atmospheric_sensor };

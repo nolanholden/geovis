@@ -13,9 +13,10 @@ namespace {
   constexpr const char* const kGpsCsvHeader = "altitude-isValid,altitude-isUpdated,altitude-age,altitude-meters,course-isValid,course-isUpdated,course-age,course-deg,date-isValid,date-isUpdated,date-age,time-isValid,time-isUpdated,time-age,iso8601,hdop-isValid,hdop-isUpdated,hdop-age,hdop-value,location-isValid,location-isUpdated,location-age,location-lat,location-lng,location-rawLat-billionths,location-rawLng-billionths,satellites_tracking-isValid,satellites_tracking-isUpdated,satellites_tracking-age,satellites_tracking-value,speed-isValid,speed-isUpdated,speed-age,speed-knots,";
 } // namespace
 
-GpsReceiver::GpsReceiver()
+GpsReceiver::GpsReceiver(HardwareSerial& serial)
   : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR,
-    kGpsDisplayName, kGpsCsvHeader), datetime_{ gps_.date, gps_.time } {}
+    kGpsDisplayName, kGpsCsvHeader), gps_serial_(serial),
+    datetime_{ gps_.date, gps_.time } {}
 
 void GpsReceiver::Update() {
   // Update Kalman filters *first*, s.t. newly encoded sentences remain "updated"
@@ -35,8 +36,8 @@ void GpsReceiver::Update() {
   }
 
   // Now encode available NMEA sentences.
-  while (Serial2.available()) {
-    gps_.encode(Serial2.read());
+  while (gps_serial_.available()) {
+    gps_.encode(gps_serial_.read());
   }
 
   // Finally, update DateTime struct.
@@ -130,24 +131,24 @@ String GpsReceiver::GetCsvLine() {
 }
 
 bool GpsReceiver::ProtectedInit() {
-  Serial2.setRX(GPS_RX_PIN);
-  Serial2.setTX(GPS_TX_PIN);
-  Serial2.begin(GPS_BAUD);
+  gps_serial_.setRX(GPS_RX_PIN);
+  gps_serial_.setTX(GPS_TX_PIN);
+  gps_serial_.begin(GPS_BAUD);
 
   // Send commands to the Gps receiver.
   //  - Get RMC (recommended minimum) and GGA (fix data) data
-  Serial2.println(PMTK_SET_NMEA_OUTPUT_RMCGGA);
+  gps_serial_.println(PMTK_SET_NMEA_OUTPUT_RMCGGA);
 
   //  - Refresh data 5 times per second
-  Serial2.println(PMTK_SET_NMEA_UPDATE_5HZ);
-  Serial2.println(PMTK_API_SET_FIX_CTL_5HZ);
+  gps_serial_.println(PMTK_SET_NMEA_UPDATE_5HZ);
+  gps_serial_.println(PMTK_API_SET_FIX_CTL_5HZ);
 
   return true;
 }
 
 
 String DateTime::ToIso8601() const {
-  static char iso_8601[33];
+  static char iso_8601[kMaxIso8601Length];
   std::sprintf(iso_8601, "%04u-%02u-%02uT%02u:%02u:%02u.%02uZ",
     date.year(), date.month(), date.day(),
     time.hour(), time.minute(), time.second(), time.centisecond());

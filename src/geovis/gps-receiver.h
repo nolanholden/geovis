@@ -14,6 +14,8 @@
 namespace rcr {
 namespace geovis {
 
+constexpr size_t kMaxIso8601Length = 33;
+
 // Custom Date&Time data structure to reference last-updated date/time.
 struct DateTime {
   TinyGPSDate& date;
@@ -27,21 +29,23 @@ struct DateTime {
 // High-level wrapper for Gps receiver.
 class GpsReceiver : public Sensor, public Updateable {
  public:
-  GpsReceiver();
+  GpsReceiver(HardwareSerial& serial);
 
   String GetCsvLine();
 
   void Update();
 
-  const TinyGPSAltitude& altitude() const { return gps_.altitude; }
-  const TinyGPSCourse& course() const { return gps_.course; }
-  const DateTime& datetime() const { return datetime_; }
-  const TinyGPSDecimal& hdop() const { return gps_.hdop; }
-  const TinyGPSLocation& location() const { return gps_.location; }
+  const TinyGPSAltitude& altitude() const           { return gps_.altitude; }
+  const TinyGPSCourse& course() const               { return gps_.course; }
+  const DateTime& datetime() const                  { return datetime_; }
+  const TinyGPSDecimal& hdop() const                { return gps_.hdop; }
+  const TinyGPSLocation& location() const           { return gps_.location; }
   const TinyGPSInteger& satellites_tracking() const { return gps_.satellites; }
-  const TinyGPSSpeed& speed() const { return gps_.speed; }
+  const TinyGPSSpeed& speed() const                 { return gps_.speed; }
 
  private:
+  HardwareSerial& gps_serial_;
+
   // The below library almost provides desired quailities, but we will use
   // it compositionally here to increase encapsulation and maintain
   // polymorphism.

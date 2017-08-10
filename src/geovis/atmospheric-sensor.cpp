@@ -8,13 +8,6 @@ namespace geovis {
 namespace {
   constexpr const char* const kAtmDisplayName = "Atmospheric Sensor";
   constexpr const char* const KAtmCsvHeader = "Ambient Temperature (*Celcius),Ambient Pressure (Pascal) [raw],Ambient Pressure (Pascal) [filtered],Relative Humidity (%),Altitude (meters) [raw],Altitude (meters) [filtered],";
-
-  constexpr uint8_t BME_SCK = 13;
-  constexpr uint8_t BME_MISO = 1;
-  constexpr uint8_t BME_MOSI = 0;
-  constexpr uint8_t BME_CS = 31;
-
-  constexpr float std_pressure = 1013.25f; // hecto-Pascals
 } // namespace
 
 AtmosphericSensor::AtmosphericSensor()
@@ -30,7 +23,7 @@ bool AtmosphericSensor::ProtectedInit() {
 }
 
 double AtmosphericSensor::ambient_pressure() {
-  kalmanUpdate(&pressure_, (double)ambient_pressure_raw());
+  kalmanUpdate(&pressure_, static_cast<double>(ambient_pressure_raw()));
   return pressure_.value;
 }
 
@@ -44,12 +37,12 @@ float AtmosphericSensor::humidity() {
 
 double AtmosphericSensor::pressure_altitude() {
   // @ std. pressure (i.e., 101325 Pa)
-  kalmanUpdate(&altitude_, (double)pressure_altitude_raw());
+  kalmanUpdate(&altitude_, static_cast<double>(pressure_altitude_raw()));
   return altitude_.value; 
 }
 
 float AtmosphericSensor::pressure_altitude_raw() {
-  return bme_.readAltitude(std_pressure); // std. pressure
+  return bme_.readAltitude(kStdPressure); // std. pressure
 }
 
 float AtmosphericSensor::temperature() {
