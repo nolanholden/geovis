@@ -18,8 +18,6 @@
 #include "printouts.h"
 #include "updateable.h"
 
-#include <vector>
-
 namespace rcr {
 namespace geovis {
 
@@ -29,30 +27,13 @@ namespace {
   GpsReceiver gps_receiver;              // GPS module
   AtmosphericSensor atmospheric_sensor;  // Barometer/Thermometer/Hygometer
 
-  std::vector<Initializable*> components;
-  // components{ &logger, &imu, &gps_receiver, &atmospheric_sensor }; confuses
-  // static analysis.
-  std::vector<Sensor*> sensors{ &imu, &gps_receiver, &atmospheric_sensor };
-  std::vector<Updateable*> updateables{ &gps_receiver };
+  Initializable* components[] = { &logger, &imu, &gps_receiver, &atmospheric_sensor };
+  Sensor* sensors[] = { &imu, &gps_receiver, &atmospheric_sensor };
+  Updateable* updateables[] = { &gps_receiver };
 
   inline void blink() {
     digitalWrite(kLedPin, HIGH);
     digitalWrite(kLedPin, LOW);
-  }
-
-  // Print any failures
-  inline void initialize_components() {
-    components.push_back(&logger);
-    components.push_back(&imu);
-    components.push_back(&gps_receiver);
-    components.push_back(&atmospheric_sensor);
-
-    for (auto& c : components) {
-      if (!c->Init()) {
-        Serial.print("Initialization failed for: ");
-        Serial.println(c->display_name());
-      }
-    }
   }
 } // namespace
 
@@ -69,8 +50,14 @@ inline void setup() {
   // Start serial communication.
   Serial.begin(9600l); // baud does not matter for Teensy 3.6
 
-  // Initialize objects.
-  initialize_components();
+  // Initialize components.
+  for (auto& c : components) {
+    if (!c->Init()) {
+      // Print any failures
+      Serial.print("Initialization failed for: ");
+      Serial.println(c->display_name());
+    }
+  }
 
   {
     // Initialize log file with header for each comma-delimited value.
