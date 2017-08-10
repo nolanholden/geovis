@@ -352,14 +352,14 @@ void TinyGPSLocation::setLongitude(const char *term)
    TinyGPSPlus::parseDegrees(term, rawNewLngData);
 }
 
-double TinyGPSLocation::lat()
+double TinyGPSLocation::lat() const
 {
    updated = false;
    double ret = rawLatData.deg + rawLatData.billionths / 1000000000.0;
    return rawLatData.negative ? -ret : ret;
 }
 
-double TinyGPSLocation::lng()
+double TinyGPSLocation::lng() const
 {
    updated = false;
    double ret = rawLngData.deg + rawLngData.billionths / 1000000000.0;
@@ -390,44 +390,44 @@ void TinyGPSDate::setDate(const char *term)
    newDate = atol(term);
 }
 
-uint16_t TinyGPSDate::year()
+uint16_t TinyGPSDate::year() const
 {
    updated = false;
    uint16_t year = date % 100;
    return year + 2000;
 }
 
-uint8_t TinyGPSDate::month()
+uint8_t TinyGPSDate::month() const
 {
    updated = false;
    return (date / 100) % 100;
 }
 
-uint8_t TinyGPSDate::day()
+uint8_t TinyGPSDate::day() const
 {
    updated = false;
    return date / 10000;
 }
 
-uint8_t TinyGPSTime::hour()
+uint8_t TinyGPSTime::hour() const
 {
    updated = false;
    return time / 1000000;
 }
 
-uint8_t TinyGPSTime::minute()
+uint8_t TinyGPSTime::minute() const
 {
    updated = false;
    return (time / 10000) % 100;
 }
 
-uint8_t TinyGPSTime::second()
+uint8_t TinyGPSTime::second() const
 {
    updated = false;
    return (time / 100) % 100;
 }
 
-uint8_t TinyGPSTime::centisecond()
+uint8_t TinyGPSTime::centisecond() const
 {
    updated = false;
    return time % 100;

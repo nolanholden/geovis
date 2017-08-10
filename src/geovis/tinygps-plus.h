@@ -57,16 +57,17 @@ public:
    bool isValid() const    { return valid; }
    bool isUpdated() const  { return updated; }
    uint32_t age() const    { return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX; }
-   const RawDegrees &rawLat()     { updated = false; return rawLatData; }
-   const RawDegrees &rawLng()     { updated = false; return rawLngData; }
-   double lat();
-   double lng();
+   const RawDegrees &rawLat() const { updated = false; return rawLatData; }
+   const RawDegrees &rawLng() const { updated = false; return rawLngData; }
+   double lat() const;
+   double lng() const;
 
    TinyGPSLocation() : valid(false), updated(false)
    {}
 
 private:
-   bool valid, updated;
+   bool valid;
+   mutable bool updated;
    RawDegrees rawLatData, rawLngData, rawNewLatData, rawNewLngData;
    uint32_t lastCommitTime;
    void commit();
@@ -82,16 +83,17 @@ public:
    bool isUpdated() const     { return updated; }
    uint32_t age() const       { return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX; }
 
-   uint32_t value()           { updated = false; return date; }
-   uint16_t year();
-   uint8_t month();
-   uint8_t day();
+   uint32_t value() const  { updated = false; return date; }
+   uint16_t year() const;
+   uint8_t month() const;
+   uint8_t day() const;
 
    TinyGPSDate() : valid(false), updated(false), date(0)
    {}
 
 private:
-   bool valid, updated;
+   bool valid;
+   mutable bool updated;
    uint32_t date, newDate;
    uint32_t lastCommitTime;
    void commit();
@@ -106,17 +108,18 @@ public:
    bool isUpdated() const     { return updated; }
    uint32_t age() const       { return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX; }
 
-   uint32_t value()           { updated = false; return time; }
-   uint8_t hour();
-   uint8_t minute();
-   uint8_t second();
-   uint8_t centisecond();
+   uint32_t value() const     { updated = false; return time; }
+   uint8_t hour() const;
+   uint8_t minute() const;
+   uint8_t second() const;
+   uint8_t centisecond() const;
 
    TinyGPSTime() : valid(false), updated(false), time(0)
    {}
 
 private:
-   bool valid, updated;
+   bool valid;
+   mutable bool updated;
    uint32_t time, newTime;
    uint32_t lastCommitTime;
    void commit();
@@ -130,13 +133,14 @@ public:
    bool isValid() const    { return valid; }
    bool isUpdated() const  { return updated; }
    uint32_t age() const    { return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX; }
-   int32_t value()         { updated = false; return val; }
+   int32_t value() const   { updated = false; return val; }
 
    TinyGPSDecimal() : valid(false), updated(false), val(0)
    {}
 
 private:
-   bool valid, updated;
+   bool valid;
+   mutable bool updated;
    uint32_t lastCommitTime;
    int32_t val, newval;
    void commit();
@@ -150,13 +154,14 @@ public:
    bool isValid() const    { return valid; }
    bool isUpdated() const  { return updated; }
    uint32_t age() const    { return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX; }
-   uint32_t value()        { updated = false; return val; }
+   uint32_t value() const   { updated = false; return val; }
 
    TinyGPSInteger() : valid(false), updated(false), val(0)
    {}
 
 private:
-   bool valid, updated;
+   bool valid;
+   mutable bool updated;
    uint32_t lastCommitTime;
    uint32_t val, newval;
    void commit();
@@ -165,23 +170,23 @@ private:
 
 struct TinyGPSSpeed : TinyGPSDecimal
 {
-   double knots()    { return value() / 100.0; }
-   double mph()      { return _GPS_MPH_PER_KNOT * value() / 100.0; }
-   double mps()      { return _GPS_MPS_PER_KNOT * value() / 100.0; }
-   double kmph()     { return _GPS_KMPH_PER_KNOT * value() / 100.0; }
+   double knots() const { return value() / 100.0; }
+   double mph() const   { return _GPS_MPH_PER_KNOT * value() / 100.0; }
+   double mps() const   { return _GPS_MPS_PER_KNOT * value() / 100.0; }
+   double kmph() const  { return _GPS_KMPH_PER_KNOT * value() / 100.0; }
 };
 
 struct TinyGPSCourse : public TinyGPSDecimal
 {
-   double deg()      { return value() / 100.0; }
+   double deg() const { return value() / 100.0; }
 };
 
 struct TinyGPSAltitude : TinyGPSDecimal
 {
-   double meters()       { return value() / 100.0; }
-   double miles()        { return _GPS_MILES_PER_METER * value() / 100.0; }
-   double kilometers()   { return _GPS_KM_PER_METER * value() / 100.0; }
-   double feet()         { return _GPS_FEET_PER_METER * value() / 100.0; }
+   double meters() const     { return value() / 100.0; }
+   double miles() const      { return _GPS_MILES_PER_METER * value() / 100.0; }
+   double kilometers() const { return _GPS_KM_PER_METER * value() / 100.0; }
+   double feet() const       { return _GPS_FEET_PER_METER * value() / 100.0; }
 };
 
 class TinyGPSPlus;
