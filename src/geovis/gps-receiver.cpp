@@ -1,171 +1,157 @@
 #include "gps-receiver.h"
 
 #include "constants.h"
-#include "geovis-util.h"
+
+#include <cstdio>
+#include <utility>
 
 namespace rcr {
 namespace geovis {
 
 namespace {
   constexpr const char* const kGpsDisplayName = "GPS Receiver";
-  constexpr const char* const kGpsCsvHeader = "# Satellites Tracking,HDOP (Horizontal Dilution of Precision),Latitude,Longitude,Fix Age,Date (UTC),Time (UTC),Date Age,Altitude (meters) [raw],Altitude (meters),Vehicle Heading (degrees True),Vehicle Speed (knots) [raw],Vehicle Speed (knots),Characters Received,Sentences Received,# Checksum Failures,";
-
-  constexpr uint8_t GPS_RX_PIN = 9; // Note: GPS module's TX connects to this pin.
-  constexpr uint8_t GPS_TX_PIN = 10; // Note: GPS module's RX connects to this pin.
-  constexpr uint32_t GPS_BAUD = 9600;
-  // Note: All testing with Teensy 3.6 suggests
-  // that baud rates other than 9600 are incompatible. However, 9600 is ok for
-  // 5 Hz GPS refresh (which itself is very sufficient.)
-
+  constexpr const char* const kGpsCsvHeader = "altitude-isValid,altitude-isUpdated,altitude-age,altitude-meters,course-isValid,course-isUpdated,course-age,course-deg,date-isValid,date-isUpdated,date-age,time-isValid,time-isUpdated,time-age,iso8601,hdop-isValid,hdop-isUpdated,hdop-age,hdop-value,location-isValid,location-isUpdated,location-age,location-lat,location-lng,location-rawLat-billionths,location-rawLng-billionths,satellites_tracking-isValid,satellites_tracking-isUpdated,satellites_tracking-age,satellites_tracking-value,speed-isValid,speed-isUpdated,speed-age,speed-knots,";
 } // namespace
 
 GpsReceiver::GpsReceiver()
   : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR,
-    kGpsDisplayName, kGpsCsvHeader) {
-  latitude_ = 0.;
-  longitude_ = 0.;
+    kGpsDisplayName, kGpsCsvHeader), datetime_{ gps_.date, gps_.time } {}
 
-  speed_ = kalmanInit(0.);
-  altitude_ = kalmanInit(0.);
+void GpsReceiver::Update() {
+  // Update Kalman filters *first*, s.t. newly encoded sentences remain "updated"
+  // when GetCsvLine() is called.
+  if (altitude().isValid()) {
+    kalmanUpdate(&altitude_filtered_, altitude().meters());
+  }
+  if (course().isValid()) {
+    kalmanUpdate(&course_filtered_, course().deg());
+  }
+  if (location().isValid()) {
+    kalmanUpdate(&lat_filtered_, location().lat());
+    kalmanUpdate(&lng_filtered_, location().lng());
+  }
+  if (speed().isValid()) {
+    kalmanUpdate(&speed_filtered_, speed().knots());
+  }
+
+  // Now encode available NMEA sentences.
+  while (Serial2.available()) {
+    gps_.encode(Serial2.read());
+  }
+
+  // Finally, update DateTime struct.
+  datetime_.date = gps_.date;
+  datetime_.time = gps_.time;
+}
+
+String GpsReceiver::GetCsvLine() {
+  static String line = "";
+
+  line += altitude().isValid();
+  line += ",";
+  line += altitude().isUpdated();
+  line += ",";
+  line += altitude().age();
+  line += ",";
+  line += altitude().meters();
+  line += ",";
+
+  line += course().isValid();
+  line += ",";
+  line += course().isUpdated();
+  line += ",";
+  line += course().age();
+  line += ",";
+  line += course().deg();
+  line += ",";
+
+  line += datetime().date.isValid();
+  line += ",";
+  line += datetime().date.isUpdated();
+  line += ",";
+  line += datetime().date.age();
+  line += ",";
+  line += datetime().time.isValid();
+  line += ",";
+  line += datetime().time.isUpdated();
+  line += ",";
+  line += datetime().time.age();
+  line += ",";
+  line += std::move(datetime().ToIso8601());
+  line += ",";
+
+  line += hdop().isValid();
+  line += ",";
+  line += hdop().isUpdated();
+  line += ",";
+  line += hdop().age();
+  line += ",";
+  line += hdop().value();
+  line += ",";
+
+  line += location().isValid();
+  line += ",";
+  line += location().isUpdated();
+  line += ",";
+  line += location().age();
+  line += ",";
+  line += location().lat();
+  line += ",";
+  line += location().lng();
+  line += ",";
+  line += location().rawLat().negative ? "-" : "+";
+  line += ",";
+  line += location().rawLat().billionths;
+  line += ",";
+  line += location().rawLng().negative ? "-" : "+";
+  line += ",";
+  line += location().rawLng().billionths;
+  line += ",";
+
+  line += satellites_tracking().isValid();
+  line += ",";
+  line += satellites_tracking().isUpdated();
+  line += ",";
+  line += satellites_tracking().age();
+  line += ",";
+  line += satellites_tracking().value();
+  line += ",";
+
+  line += speed().isValid();
+  line += ",";
+  line += speed().isUpdated();
+  line += ",";
+  line += speed().age();
+  line += ",";
+  line += speed().knots();
+  line += ",";
+
+  return line;
 }
 
 bool GpsReceiver::ProtectedInit() {
   Serial2.setRX(GPS_RX_PIN);
   Serial2.setTX(GPS_TX_PIN);
   Serial2.begin(GPS_BAUD);
+
+  // Send commands to the Gps receiver.
+  //  - Get RMC (recommended minimum) and GGA (fix data) data
+  Serial2.println(PMTK_SET_NMEA_OUTPUT_RMCGGA);
+
+  //  - Refresh data 5 times per second
+  Serial2.println(PMTK_SET_NMEA_UPDATE_5HZ);
+  Serial2.println(PMTK_API_SET_FIX_CTL_5HZ);
+
   return true;
 }
 
-double GpsReceiver::getLatitude() {
-  if (gps_.location.isValid())
-    latitude_ = gps_.location.lat();
-  return latitude_;
-}
 
-double GpsReceiver::getLongitude() {
-  if (gps_.location.isValid())
-    longitude_ = gps_.location.lng();
-  return longitude_;
-}
-
-double GpsReceiver::getSpeed() {
-  if (gps_.speed.isValid()) {
-    kalmanUpdate(&speed_, gps_.speed.knots());
-  }
-  return speed_.value;
-}
-
-double GpsReceiver::getAltitude() {
-  if (gps_.altitude.isValid()) {
-    kalmanUpdate(&altitude_, gps_.altitude.meters());
-  }
-  return altitude_.value;
-}
-
-void GpsReceiver::Update() {
-  while (Serial2.available()) {
-    gps_.encode(Serial2.read());
-  }
-}
-
-String GpsReceiver::getDateString(TinyGPSDate &d) {
-  if (d.isValid()) {
-    char sz[11];
-    sprintf(sz, "%02d/%02d/%02d", d.month(), d.day(), d.year());
-    return String{ sz };
-  }
-  return String{ "**/**/****" }; // same length
-}
-String GpsReceiver::getTimeString(TinyGPSTime &t) {
-  if (t.isValid()) {
-    char sz[9];
-    sprintf(sz, "%02d:%02d:%02d", t.hour(), t.minute(), t.second());
-    return String{ sz };
-  }
-  return String{ "**:**:**" }; // same length
-}
-String GpsReceiver::getDateAgeString(TinyGPSDate &d) {
-  return getIntString(d.age(), d.isValid(), 5);
-}
-String GpsReceiver::getFloatString(float val, bool valid, int len, int prec) {
-  String result = "";
-
-  if (!valid) {
-    while (len-- > 1)
-      result += "*";
-    result += " ";
-  }
-  else {
-    result += String(val, prec);
-    int vi = geovis_util::abs((int)val);
-    int flen = prec + (val < 0.0 ? 2 : 1); // for "." and "-"
-    flen += vi >= 1000 ? 4
-      : vi >= 100 ? 3
-      : vi >= 10 ? 2 : 1;
-    for (int i = flen; i < len; ++i)
-      result += " ";
-  }
-
-  return result;
-}
-String GpsReceiver::getIntString(unsigned long val, bool valid, int len) {
-  char sz[32] = "*****************";
-  if (valid)
-    sprintf(sz, "%ld", val);
-  sz[len] = 0;
-  for (int i = strlen(sz); i<len; ++i)
-    sz[i] = ' ';
-  if (len > 0)
-    sz[len - 1] = ' ';
-
-  return String{ sz };
-}
-String GpsReceiver::getCstringString(const char *str, int len) {
-  String result = "";
-  int slen = strlen(str);
-  for (auto i = 0; i<len; ++i)
-    result += (i < slen ? str[i] : ' ');
-
-  return result;
-}
-
-String GpsReceiver::GetCsvLine() {
-  String line = "";
-
-  line += getIntString(gps_.satellites.value(), gps_.satellites.isValid(), 5);
-  line += ",";
-  line += getIntString(gps_.hdop.value(), gps_.hdop.isValid(), 5);
-  line += ",";
-  line += getFloatString(gps_.location.lat(), gps_.location.isValid(), 11, 6);
-  line += ",";
-  line += getFloatString(gps_.location.lng(), gps_.location.isValid(), 12, 6);
-  line += ",";
-  line += getIntString(gps_.location.age(), gps_.location.isValid(), 5);
-  line += ",";
-  line += getDateString(gps_.date);
-  line += ",";
-  line += getTimeString(gps_.time);
-  line += ",";
-  line += getDateAgeString(gps_.date);
-  line += ",";
-  line += getFloatString(gps_.altitude.meters(), gps_.altitude.isValid(), 7, 2);
-  line += ",";
-  line += getAltitude(); // filtered
-  line += ",";
-  line += getFloatString(gps_.course.deg(), gps_.course.isValid(), 7, 2);
-  line += ",";
-  line += getFloatString(gps_.speed.knots(), gps_.speed.isValid(), 6, 2);
-  line += ",";
-  line += getSpeed(); // filtered
-  line += ",";
-  line += gps_.charsProcessed();
-  line += ",";
-  line += gps_.sentencesWithFix();
-  line += ",";
-  line += gps_.failedChecksum();
-  line += ",";
-
-  return line;
+String DateTime::ToIso8601() const {
+  static char iso_8601[33];
+  std::sprintf(iso_8601, "%04u-%02u-%02uT%02u:%02u:%02u.%02uZ",
+    date.year(), date.month(), date.day(),
+    time.hour(), time.minute(), time.second(), time.centisecond());
+  return String{ iso_8601 };
 }
 
 } // namespace geovis
