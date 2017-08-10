@@ -54,16 +54,19 @@ function initChart() {
 function initCheckboxes() {
   var checkboxes = document.getElementById('chart_controls').querySelectorAll('input[type="checkbox"]');
 
-  for(var i=0; i<checkboxes.length; i++) {
-    checkboxes[i].addEventListener('change', onCheckboxChange);
-    onCheckboxChange({srcElement: checkboxes[i]});
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].addEventListener('change', updateCheckbox);
+    checkboxes[i].addEventListener('click', updateCheckbox);
+    updateCheckbox({target: checkboxes[i]});
   }
 }
 
-function onCheckboxChange(event) {
-  var series = event.srcElement.dataset.series;
+function updateCheckbox(event) {
+  event = event || window.event;
+  var target = event.target || event.srcElement;
 
-  if(event.srcElement.checked) {
+  var series = target.dataset.series;
+  if (target.checked) {
     chart.show([series]);
   } else {
     chart.hide([series]);

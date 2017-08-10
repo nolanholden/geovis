@@ -16,6 +16,7 @@ class Launch
   def initialize(points, output_path)
     @points = points
     @output_path = '%s/launch_report_%s' % [output_path, first_valid_timestamp.iso8601]
+    @output_path = @output_path.gsub(':', '-'); # remove ':' for Windows users
   end
 
   def render
@@ -68,6 +69,10 @@ private
     @flight_time_seconds = @flight_time - (@flight_time / 60).floor * 60
 
     @ascent_time = Time.parse(apogee[:iso8601]) - @flight_start
+
+    puts "Found flight start at: %s" % @flight_start
+    puts "Apogee is: %s" % @actual_apogee
+    puts "Ascent time is: %s" % @ascent_time
     @ascent_rate = @actual_apogee / @ascent_time
 
     @descent_time = @flight_end - Time.parse(apogee[:iso8601])

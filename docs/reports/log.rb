@@ -9,8 +9,9 @@ class Log
     @log = File.open input_path, 'r'
     @output_path = output_path
     @points = []
-
+    puts "parsing log"
     parse_log
+    puts "getting launches"
     find_launches
   end
 
@@ -24,6 +25,7 @@ private
         point = JSON.parse line, symbolize_names: true
         @points << point
       rescue JSON::ParserError
+        puts "parsing error (ignored)"
         next
       end
     end
