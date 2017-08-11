@@ -54,7 +54,7 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"] + label {
-  background-image: url('../images/unchecked.png');
+  background-image: url('../img/unchecked.png');
   background-repeat: no-repeat;
   cursor: pointer;
   display: inline-block;
@@ -65,5 +65,9 @@ input[type="checkbox"] + label {
 }
 
 input[type="checkbox"]:checked + label {
-  background-image: url('../images/checked.png');
+  background-image: url('../img/checked.png');
+}
+
+body * {
+  font-family: 'Open Sans', sans-serif;
 }
