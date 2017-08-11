@@ -1,6 +1,8 @@
 #include "gps-receiver.h"
 
 #include "constants.h"
+#include "kalman.h"
+#include "sensor.h"
 
 #include <cstdio>
 #include <utility>
@@ -8,31 +10,38 @@
 namespace rcr {
 namespace geovis {
 
+constexpr double kGpsKalmanProcessNoise = 0.01;
+constexpr double kGpsKalmanMeasurementNoise = 0.25;
+constexpr double kGpsKalmanError = 1.;
+static_assert(kGpsKalmanProcessNoise
+  + kGpsKalmanMeasurementNoise
+  + kGpsKalmanError != double{ 0 },
+  "The sum of 'process noise covariance', 'measurement noise covariance', and 'estimation error covariance' cannot be zero; this creates a divide-by-zero condition.");
+
 namespace {
   constexpr const char* const kGpsDisplayName = "GPS Receiver";
   constexpr const char* const kGpsCsvHeader = "altitude-isValid,altitude-isUpdated,altitude-age,altitude-meters,course-isValid,course-isUpdated,course-age,course-deg,date-isValid,date-isUpdated,date-age,time-isValid,time-isUpdated,time-age,iso8601,hdop-isValid,hdop-isUpdated,hdop-age,hdop-value,location-isValid,location-isUpdated,location-age,location-lat,location-lng,location-rawLat-billionths,location-rawLng-billionths,satellites_tracking-isValid,satellites_tracking-isUpdated,satellites_tracking-age,satellites_tracking-value,speed-isValid,speed-isUpdated,speed-age,speed-knots,";
 } // namespace
 
 GpsReceiver::GpsReceiver(HardwareSerial& serial)
-  : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR,
-    kGpsDisplayName, kGpsCsvHeader), gps_serial_(serial),
+  : Sensor(kGpsDisplayName, kGpsCsvHeader), gps_serial_(serial),
     datetime_{ gps_.date, gps_.time } {}
 
 void GpsReceiver::Update() {
   // Update Kalman filters *first*, s.t. newly encoded sentences remain "updated"
   // when GetCsvLine() is called.
   if (altitude().isValid()) {
-    kalmanUpdate(&altitude_filtered_, altitude().meters());
+    altitude_filtered_.Update(altitude().meters());
   }
   if (course().isValid()) {
-    kalmanUpdate(&course_filtered_, course().deg());
+    course_filtered_.Update(course().deg());
   }
   if (location().isValid()) {
-    kalmanUpdate(&lat_filtered_, location().lat());
-    kalmanUpdate(&lng_filtered_, location().lng());
+    lat_filtered_.Update(location().lat());
+    lng_filtered_.Update(location().lng());
   }
   if (speed().isValid()) {
-    kalmanUpdate(&speed_filtered_, speed().knots());
+    speed_filtered_.Update(speed().knots());
   }
 
   // Now encode available NMEA sentences.

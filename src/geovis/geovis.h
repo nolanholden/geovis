@@ -24,12 +24,16 @@ namespace geovis {
 namespace {
   Logger logger{ "flight.csv" };
   InertialMeasurementUnit imu;           // IMU
-  GpsReceiver gps_receiver{ Serial2 };              // GPS module
+  GpsReceiver gps_receiver{ Serial2 };   // GPS module
   AtmosphericSensor atmospheric_sensor;  // Barometer/Thermometer/Hygometer
 
   Initializable* components[] = { &logger, &imu, &gps_receiver, &atmospheric_sensor };
   Sensor* sensors[] = { &imu, &gps_receiver, &atmospheric_sensor };
   Updateable* updateables[] = { &gps_receiver };
+
+  // loop() variables
+  auto num_prints_backward_counter = 1028u;
+  String csv_line = "";
 
   inline void blink() {
     digitalWrite(kLedPin, HIGH);
@@ -37,8 +41,6 @@ namespace {
   }
 } // namespace
 
-auto num_prints_backward_counter = 1028u;
-String csv_line = "";
 
 inline void setup() {
   // Wait a moment.
@@ -75,7 +77,7 @@ inline void setup() {
     }
   }
 
-  Serial.println("Setup complete.");
+  Serial.println("Setup complete...");
   delay(3000);
   Serial.println("Entering flight loop.");
 }

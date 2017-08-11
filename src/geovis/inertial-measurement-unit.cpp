@@ -10,90 +10,50 @@
 namespace rcr {
 namespace geovis {
 
+constexpr double kImuKalmanProcessNoise = 0.01;
+constexpr double kImuKalmanMeasurementNoise = 0.25;
+constexpr double kImuKalmanError = 1.;
+static_assert(kImuKalmanProcessNoise
+  + kImuKalmanMeasurementNoise
+  + kImuKalmanError != double{ 0 },
+  "The sum of 'process noise covariance', 'measurement noise covariance', and 'estimation error covariance' cannot be zero; this creates a divide-by-zero condition.");
+
 namespace {
   constexpr const char* kImuDisplayName = "Inertial Measurement Unit";
-  constexpr const char* kImuCsvHeader = "Heading/Euler-X (Magnetic),Pitch/Euler-Y,Roll/Euler-Z,Linear Accel (X),Linear Accel (Y),Linear Accel (Z),Gravity Accel (X),Gravity Accel (Y),Gravity Accel (Z),";
+  constexpr const char* kImuCsvHeader = "Heading (magnetic),Pitch/Euler-Y,Roll/Euler-Z,Linear Accel (X),Linear Accel (Y),Linear Accel (Z),Gravity Accel (X),Gravity Accel (Y),Gravity Accel (Z),";
 } // namespace
 
 InertialMeasurementUnit::InertialMeasurementUnit()
-  : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR,
-    kImuDisplayName, kImuCsvHeader) {
-  quat_w_    = kalmanInit(0.);
-  quat_x_    = kalmanInit(0.);
-  quat_y_    = kalmanInit(0.);
-  quat_z_    = kalmanInit(0.);
-  linear_x_  = kalmanInit(0.);
-  linear_y_  = kalmanInit(0.);
-  linear_z_  = kalmanInit(0.);
-  gravity_x_ = kalmanInit(0.);
-  gravity_y_ = kalmanInit(0.);
-  gravity_z_ = kalmanInit(0.);
+  : Sensor(kImuDisplayName, kImuCsvHeader) {}
+
+void InertialMeasurementUnit::Update() {
+  linear_accel_ = bno_.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+  linear_x_.Update(linear_accel_.x());
+  linear_y_.Update(linear_accel_.y());
+  linear_z_.Update(linear_accel_.z());
+
+  gravitational_accel_ = bno_.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
+  gravity_x_.Update(gravitational_accel_.x());
+  gravity_y_.Update(gravitational_accel_.y());
+  gravity_z_.Update(gravitational_accel_.z());
+
+  orientation_ = bno_.getQuat(); // radians
+  quat_w_.Update(orientation_.w());
+  quat_x_.Update(orientation_.x());
+  quat_y_.Update(orientation_.y());
+  quat_z_.Update(orientation_.z());
 }
 
-bool InertialMeasurementUnit::ProtectedInit() {
-  return bno_.begin();
-}
-
-imu::Vector<3> InertialMeasurementUnit::GetOrientation() {
-  UpdateOrientation();
-  auto euler = imu::Quaternion{
-    quat_w_.value,
-    quat_x_.value,
-    quat_y_.value,
-    quat_z_.value
-  
-  }.toEuler(); // radians
-
+imu::Vector<3> InertialMeasurementUnit::GetOrientationEuler() const {
+  auto euler = orientation().toEuler(); // in radians
   euler.toDegrees(); // use degrees.
   return euler;
 }
 
-imu::Vector<3> InertialMeasurementUnit::GetLinearAccel() {
-  UpdateLinearAccel();
-  auto v = imu::Vector<3>(linear_x_.value, linear_y_.value, linear_z_.value);
-  return v;
-}
-
-imu::Vector<3> InertialMeasurementUnit::GetGravitationalAccel() {
-  UpdateGravitationalAccel();
-  auto v = imu::Vector<3>(gravity_x_.value, gravity_y_.value, gravity_z_.value);
-  return v;
-}
-
-void InertialMeasurementUnit::UpdateOrientation() {
-  auto quaternion = bno_.getQuat(); // radians
-  kalmanUpdate(&quat_w_, std::move(quaternion.w()));
-  kalmanUpdate(&quat_x_, std::move(quaternion.x()));
-  kalmanUpdate(&quat_y_, std::move(quaternion.y()));
-  kalmanUpdate(&quat_z_, std::move(quaternion.z()));
-}
-
-void InertialMeasurementUnit::UpdateLinearAccel() {
-  auto linear = bno_.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
-  kalmanUpdate(&linear_x_, std::move(linear.x()));
-  kalmanUpdate(&linear_y_, std::move(linear.y()));
-  kalmanUpdate(&linear_z_, std::move(linear.z()));
-}
-
-void InertialMeasurementUnit::UpdateGravitationalAccel() {
-  auto gravity = bno_.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
-  kalmanUpdate(&gravity_x_, std::move(gravity.x()));
-  kalmanUpdate(&gravity_y_, std::move(gravity.y()));
-  kalmanUpdate(&gravity_z_, std::move(gravity.z()));
-}
-
-void InertialMeasurementUnit::UpdateAll() {
-  UpdateOrientation();
-  UpdateLinearAccel();
-  UpdateGravitationalAccel();
-}
-
 String InertialMeasurementUnit::GetCsvLine() {
-  UpdateAll();
-
   String line = "";
 
-  auto euler_degrees = GetOrientation();
+  auto euler_degrees = GetOrientationEuler();
 
   line += std::move(euler_degrees.x());
   line += ",";
@@ -102,18 +62,18 @@ String InertialMeasurementUnit::GetCsvLine() {
   line += std::move(euler_degrees.z());
   line += ",";
 
-  line += linear_x_.value;
+  line += linear_accel().x();
   line += ",";
-  line += linear_y_.value;
+  line += linear_accel().y();
   line += ",";
-  line += linear_z_.value;
+  line += linear_accel().z();
   line += ",";
 
-  line += gravity_x_.value;
+  line += gravitational_accel().x();
   line += ",";
-  line += gravity_y_.value;
+  line += gravitational_accel().y();
   line += ",";
-  line += gravity_z_.value;
+  line += gravitational_accel().z();
   line += ",";
 
   return line;
@@ -165,16 +125,6 @@ void InertialMeasurementUnit::Calibrate() {
   Serial.println();
   printouts::print_with_ellipses("IMU is now fully calibrated");
 }
-
-bool InertialMeasurementUnit::IsFullyCalibrated() {
-  return bno_.isFullyCalibrated();
-}
-
-void InertialMeasurementUnit::Update() {
-  UpdateAll();
-}
-
-InertialMeasurementUnit::~InertialMeasurementUnit() {}
 
 } // namespace geovis
 } // namespace rcr

@@ -8,17 +8,22 @@ namespace geovis {
 class Initializable {
  public:
   // Provide an (immutable) display name.
-  Initializable(const char* display_name);
+   Initializable(const char* display_name)
+     : display_name_(display_name) {}
   
-  const char* display_name() const;
+  const char* display_name() const { return display_name_; }
 
   // Returns true if initialization is successful.
-  bool Init();
+  bool Init() {
+    // Keep the initialization result.
+    init_result_ = ProtectedInit();
+    return init_result_;
+  }
 
   // Returns true if initialization was successful.
-  bool IsFullyInitialized() const;
+  bool IsFullyInitialized() const  { return init_result_; }
 
-  virtual ~Initializable();
+  virtual ~Initializable() {};
 
  protected:
   // Initialize the inherited class. (used in public method 'Init()')

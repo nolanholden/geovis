@@ -13,17 +13,8 @@
     <ClInclude Include="tinygps-plus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="atmospheric-sensor.h">
-      <Filter>Header Files\Sensors</Filter>
-    </ClInclude>
-    <ClInclude Include="sensor.h">
-      <Filter>Header Files\Sensors</Filter>
-    </ClInclude>
     <ClInclude Include="__vm\.geovis.vsarduino.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gps-receiver.h">
-      <Filter>Header Files\Sensors</Filter>
     </ClInclude>
     <ClInclude Include="geovis.h" />
     <ClInclude Include="initializable.h">
@@ -50,24 +41,21 @@
     <ClInclude Include="printouts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gps-receiver.h">
+      <Filter>Header Files\Sensors</Filter>
+    </ClInclude>
     <ClInclude Include="inertial-measurement-unit.h">
+      <Filter>Header Files\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="atmospheric-sensor.h">
+      <Filter>Header Files\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="sensor.h">
       <Filter>Header Files\Sensors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tinygps-plus.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="atmospheric-sensor.cpp">
-      <Filter>Header Files\Sensors</Filter>
-    </ClCompile>
-    <ClCompile Include="sensor.cpp">
-      <Filter>Header Files\Sensors</Filter>
-    </ClCompile>
-    <ClCompile Include="gps-receiver.cpp">
-      <Filter>Header Files\Sensors</Filter>
-    </ClCompile>
-    <ClCompile Include="initializable.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="logger.cpp">
@@ -77,7 +65,13 @@
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="geovis-util.cpp" />
+    <ClCompile Include="gps-receiver.cpp">
+      <Filter>Header Files\Sensors</Filter>
+    </ClCompile>
     <ClCompile Include="inertial-measurement-unit.cpp">
+      <Filter>Header Files\Sensors</Filter>
+    </ClCompile>
+    <ClCompile Include="atmospheric-sensor.cpp">
       <Filter>Header Files\Sensors</Filter>
     </ClCompile>
   </ItemGroup>

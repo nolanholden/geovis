@@ -7,6 +7,8 @@
 	#include "WProgram.h"
 #endif
 
+#include "constants.h"
+#include "kalman.h"
 #include "sensor.h"
 #include "tinygps-plus.h"
 #include "updateable.h"
@@ -16,15 +18,19 @@ namespace geovis {
 
 constexpr size_t kMaxIso8601Length = 33;
 
-// Custom Date&Time data structure to reference last-updated date/time.
+extern const double
+  kGpsKalmanProcessNoise,
+  kGpsKalmanMeasurementNoise,
+  kGpsKalmanError;
+
+// Last-updated date & time.
 struct DateTime {
   TinyGPSDate& date;
   TinyGPSTime& time;
 
-  // e.g., "2017-08-05T23:16:52.11Z" represents 2017 Aug 5, 11:16:52.11 PM
+  // e.g., "2017-08-05T23:16:52.11Z" (represents 2017 Aug 5, 11:16:52.11 PM)
   String ToIso8601() const;
 };
-
 
 // High-level wrapper for Gps receiver.
 class GpsReceiver : public Sensor, public Updateable {
@@ -56,8 +62,8 @@ class GpsReceiver : public Sensor, public Updateable {
   // Kalman filtered values.
   // Units: [m], [360deg], [deg North (+/-)], [deg East (+/-)], [knots]
   // i.e., South of equator and West of prime-meridian are negative degrees.
-  kalman_t altitude_filtered_, course_filtered_,
-    lat_filtered_, lng_filtered_, speed_filtered_ = kalmanInit(1.);
+  Kalman<double, kGpsKalmanProcessNoise, kGpsKalmanMeasurementNoise, kGpsKalmanError>
+    altitude_filtered_, course_filtered_, lat_filtered_, lng_filtered_, speed_filtered_;
 
   bool ProtectedInit();
 };

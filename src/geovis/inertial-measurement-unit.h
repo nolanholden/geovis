@@ -7,6 +7,7 @@
 	#include "WProgram.h"
 #endif
 
+#include "kalman.h"
 #include "sensor.h"
 #include "updateable.h"
 
@@ -15,58 +16,59 @@
 namespace rcr {
 namespace geovis {
 
+extern const double
+  kImuKalmanProcessNoise,
+  kImuKalmanMeasurementNoise,
+  kImuKalmanError;
+
 class InertialMeasurementUnit : public Sensor, public Updateable {
  public:
   InertialMeasurementUnit();
+  
+  // Get unit quaternion for vehicle orientation.
+  const imu::Quaternion& orientation() const        { return orientation_; }
 
+  const imu::Vector<3>& linear_accel() const        { return linear_accel_; }
+
+  const imu::Vector<3>& gravitational_accel() const { return gravitational_accel_; }
+
+  // Get Euler-angles vector in degrees (using quaterion mathematics).
+  // x - yaw, y - pitch, z - roll
+  imu::Vector<3> GetOrientationEuler() const;
+
+  String GetCsvLine();
+
+  void Update();
 
   // Calibrate the BNO055 IMU.
   // Note: This function is provided within this project because calibration
   // only persists for a single power-on (no onboard EEPROM).
   void Calibrate();
 
-  // Get Euler angles vector [in degrees] (using quaterion).
-  imu::Vector<3> GetOrientation();
+  bool IsFullyCalibrated() { return bno_.isFullyCalibrated(); }
 
-  // Get linear acceleration vector.
-  imu::Vector<3> GetLinearAccel();
-
-  // Get gravitational acceleration vector.
-  imu::Vector<3> GetGravitationalAccel();
-
-  String GetCsvLine();
-
-  bool IsFullyCalibrated();
-
-  void Update();
-
-  ~InertialMeasurementUnit();
+  ~InertialMeasurementUnit() {}
 
  private:
-  bool ProtectedInit();
-
-  // Update, return nothing.
-  void UpdateOrientation();
-
-  // Update, return nothing.
-  void UpdateLinearAccel();
-  
-  // Update, return nothing.
-  void UpdateGravitationalAccel();
-
-  // Update everything.
-  void UpdateAll();
+  bool ProtectedInit() { return bno_.begin(); }
 
   Adafruit_BNO055 bno_;
 
+  imu::Quaternion orientation_;
+  imu::Vector<3> linear_accel_;
+  imu::Vector<3> gravitational_accel_;
+
   // Orientation quaternion:
-  kalman_t quat_w_, quat_x_, quat_y_, quat_z_;
+  Kalman<double, kImuKalmanProcessNoise, kImuKalmanMeasurementNoise, kImuKalmanError>
+    quat_w_, quat_x_, quat_y_, quat_z_;
 
   // Linear accelleration:
-  kalman_t linear_x_, linear_y_, linear_z_;
+  Kalman<double, kImuKalmanProcessNoise, kImuKalmanMeasurementNoise, kImuKalmanError>
+    linear_x_, linear_y_, linear_z_;
 
   // Gravitational accelleration:
-  kalman_t gravity_x_, gravity_y_, gravity_z_;
+  Kalman<double, kImuKalmanProcessNoise, kImuKalmanMeasurementNoise, kImuKalmanError>
+    gravity_x_, gravity_y_, gravity_z_;
 };
 
 } // namespace geovis

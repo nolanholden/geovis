@@ -24,12 +24,6 @@ constexpr uint32_t GPS_BAUD = 9600; // Note: All testing with Teensy 3.6 suggest
 // that baud rates other than 9600 are incompatible. However, 9600 is ok for
 // 5 Hz GPS refresh (which itself is very sufficient.)
 
-
-// Kalman constants:
-constexpr float KALMAN_PROCESS_NOISE = 0.01f;
-constexpr float KALMAN_MEASUREMENT_NOISE = 0.25f;
-constexpr float KALMAN_ERROR = 1.f;
-
 // LED Pin
 constexpr uint8_t kLedPin = (uint8_t)13;
 

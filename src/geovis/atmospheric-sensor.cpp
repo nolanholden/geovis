@@ -1,74 +1,46 @@
 #include "atmospheric-sensor.h"
 
 #include "constants.h"
+#include "sensor.h"
 
 namespace rcr {
 namespace geovis {
 
+constexpr float kAtmosphericKalmanProcessNoise = 0.01f;
+constexpr float kAtmosphericKalmanMeasurementNoise = 0.25f;
+constexpr float kAtmosphericKalmanError = 1.f;
+static_assert(kAtmosphericKalmanProcessNoise
+  + kAtmosphericKalmanMeasurementNoise
+  + kAtmosphericKalmanError != float{ 0 },
+  "The sum of 'process noise covariance', 'measurement noise covariance', and 'estimation error covariance' cannot be zero; this creates a divide-by-zero condition.");
+
 namespace {
   constexpr const char* const kAtmDisplayName = "Atmospheric Sensor";
-  constexpr const char* const KAtmCsvHeader = "Ambient Temperature (*Celcius),Ambient Pressure (Pascal) [raw],Ambient Pressure (Pascal) [filtered],Relative Humidity (%),Altitude (meters) [raw],Altitude (meters) [filtered],";
+  constexpr const char* const KAtmCsvHeader = "Ambient Temperature (*Celcius),Ambient Pressure (Pascal),Relative Humidity (%),Pressure Altitude (meters),";
 } // namespace
 
 AtmosphericSensor::AtmosphericSensor()
-  : Sensor(KALMAN_PROCESS_NOISE, KALMAN_MEASUREMENT_NOISE, KALMAN_ERROR,
-    kAtmDisplayName, KAtmCsvHeader) {
-  bme_ = Adafruit_BME280(BME_CS, BME_MOSI, BME_MISO, BME_SCK); // software SPI
-  altitude_ = kalmanInit(1.);
-  pressure_ = kalmanInit(1.);
-}
+  : Sensor(kAtmDisplayName, KAtmCsvHeader) {}
 
-bool AtmosphericSensor::ProtectedInit() {
-  return bme_.begin();
-}
-
-double AtmosphericSensor::ambient_pressure() {
-  kalmanUpdate(&pressure_, static_cast<double>(ambient_pressure_raw()));
-  return pressure_.value;
-}
-
-float AtmosphericSensor::ambient_pressure_raw() {
-  return bme_.readPressure();
-}
-
-float AtmosphericSensor::humidity() {
-  return bme_.readHumidity();
-}
-
-double AtmosphericSensor::pressure_altitude() {
-  // @ std. pressure (i.e., 101325 Pa)
-  kalmanUpdate(&altitude_, static_cast<double>(pressure_altitude_raw()));
-  return altitude_.value; 
-}
-
-float AtmosphericSensor::pressure_altitude_raw() {
-  return bme_.readAltitude(kStdPressure); // std. pressure
-}
-
-float AtmosphericSensor::temperature() {
-  return bme_.readTemperature();
+void AtmosphericSensor::Update() {
+  ambient_pressure_.Update(ambient_pressure());
+  humidity_.Update(humidity());
+  pressure_altitude_.Update(pressure_altitude());
+  temperature_.Update(temperature());
 }
 
 String AtmosphericSensor::GetCsvLine() {
   String line = "";
 
-  // Temperature (*C)
   line += temperature();
   line += ",";
 
-  // Ambient pressure (Pascals)
-  line += ambient_pressure_raw();
-  line += ",";
   line += ambient_pressure();
   line += ",";
 
-  // Relative humidity (%)
   line += humidity();
   line += ",";
 
-  // Pressure altitude (meters)
-  line += pressure_altitude_raw();
-  line += ",";
   line += pressure_altitude();
   line += ",";
 
