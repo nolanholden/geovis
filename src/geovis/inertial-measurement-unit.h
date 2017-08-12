@@ -36,6 +36,8 @@ class InertialMeasurementUnit : public Sensor, public Updateable {
   // x - yaw, y - pitch, z - roll
   imu::Vector<3> GetOrientationEuler() const;
 
+  double GetAccelerationMagnitude() const;
+
   String GetCsvLine();
 
   void Update();

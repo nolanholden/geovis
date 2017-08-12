@@ -3,9 +3,8 @@
 #include "constants.h"
 #include "printouts.h"
 
-#include <functional>
 #include <utility>
-#include <vector>
+#include <cmath>
 
 namespace rcr {
 namespace geovis {
@@ -20,7 +19,7 @@ static_assert(kImuKalmanProcessNoise
 
 namespace {
   constexpr const char* kImuDisplayName = "Inertial Measurement Unit";
-  constexpr const char* kImuCsvHeader = "Heading (magnetic),Pitch/Euler-Y,Roll/Euler-Z,Linear Accel (X),Linear Accel (Y),Linear Accel (Z),Gravity Accel (X),Gravity Accel (Y),Gravity Accel (Z),";
+  constexpr const char* kImuCsvHeader = "Heading (magnetic),Pitch/Euler-Y,Roll/Euler-Z,Linear Accel (X),Linear Accel (Y),Linear Accel (Z),Linear Accel Magnitude,Gravity Accel (X),Gravity Accel (Y),Gravity Accel (Z),";
 } // namespace
 
 InertialMeasurementUnit::InertialMeasurementUnit()
@@ -48,6 +47,15 @@ imu::Vector<3> InertialMeasurementUnit::GetOrientationEuler() const {
   auto euler = orientation().toEuler(); // in radians
   euler.toDegrees(); // use degrees.
   return euler;
+}
+
+inline double InertialMeasurementUnit::GetAccelerationMagnitude() const {
+  auto mag = std::sqrt(
+      linear_accel().x()
+    + linear_accel().y()
+    + linear_accel().z()
+  );
+  return mag;
 }
 
 String InertialMeasurementUnit::GetCsvLine() {
