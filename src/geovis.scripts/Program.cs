@@ -92,6 +92,27 @@ namespace geovis.scripts
         const double PAD_ALTITUDE_METERS = 287.5;
         const double MAIN_ALTITUDE = 0.0;
         const int APOGEE_CAUSE = 4;
+        const int NUM_SAMPLES = 2414;
+        const double LATITUDE_INITIAL = 35.487229;
+        const double LATITUDE_FINAL = 35.481661;
+        const double LONGITUDE_INITIAL = -85.95816;
+        const double LONGITUDE_FINAL = -85.957343;
+
+        
+        static double GetLinearTransitionBetweenTwoPoints(double initial_value, double final_value, int num_samples, int current_position)
+        {
+            return (final_value - initial_value) / num_samples * current_position + initial_value;
+        }
+
+        static double GetLinearLatitudeTransition(int current_position)
+        {
+            return GetLinearTransitionBetweenTwoPoints(LATITUDE_INITIAL, LATITUDE_FINAL, NUM_SAMPLES, current_position);
+        }
+
+        static double GetLinearLongitudeTransition(int current_position)
+        {
+            return GetLinearTransitionBetweenTwoPoints(LONGITUDE_INITIAL, LONGITUDE_FINAL, NUM_SAMPLES, current_position);
+        }
 
         static void ExpressFailure(string message)
         {
@@ -159,8 +180,10 @@ namespace geovis.scripts
             system_startup_time = TimeSpan.FromMilliseconds(Double.Parse(
                 line.Split(',')[(int)CsvIdx.TimeMilliseconds]
             ));
-            for (; line != null; line = reader.ReadLine())
+            for (int position = 0; line != null; line = reader.ReadLine())
             {
+                ++position;
+
                 // Get the line's values.
                 var vals = line.TrimEnd(',') // disallow trailing ','
                                .Split(',');  // and get each delimited value.
@@ -170,7 +193,7 @@ namespace geovis.scripts
                 }
 
                 var pressure_altitude = Double.Parse(vals[(int)CsvIdx.PressureAltitude]);
-
+                
                 var state = new VehicleSimulationState
                 {
                     delta =             Math.Round(time_since_startup.TotalSeconds),
@@ -183,8 +206,8 @@ namespace geovis.scripts
                     roll =              Double.Parse(vals[(int)CsvIdx.Roll]),
                     acceleration =      Math.Round(Double.Parse(vals[(int)CsvIdx.LinearAccelMagnitude]) / 9.80665, 4), // get g's from m*s^-2
                     temp =              Double.Parse(vals[(int)CsvIdx.AmbientTemperature]),
-                    latitude =          Double.Parse(vals[(int)CsvIdx.LocationLat]),
-                    longitude =         Double.Parse(vals[(int)CsvIdx.LocationLng]),
+                    latitude =          Math.Round(GetLinearLatitudeTransition(position), 7),
+                    longitude =         Math.Round(GetLinearLongitudeTransition(position), 7),
                     iso8601 =           vals[(int)CsvIdx.Iso8601],
                     gps_altitude =      Double.Parse(vals[(int)CsvIdx.GpsAltitudeMeters]),
                     speed =             Double.Parse(vals[(int)CsvIdx.GpsSpeedKnots]),

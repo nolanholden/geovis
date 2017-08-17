@@ -28,7 +28,7 @@ struct DateTime {
   TinyGPSDate& date;
   TinyGPSTime& time;
 
-  // e.g., "2017-08-05T23:16:52.11Z" (represents 2017 Aug 5, 11:16:52.11 PM)
+  // e.g., "2017-08-05T23:16:52.11Z" (represents 2017 Aug 5, 11:16:52.11 PM Zulu)
   String ToIso8601() const;
 };
 
