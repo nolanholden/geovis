@@ -76,6 +76,8 @@ String InertialMeasurementUnit::GetCsvLine() {
   line += ",";
   line += linear_accel().z();
   line += ",";
+  line += GetAccelerationMagnitude();
+  line += ",";
 
   line += gravitational_accel().x();
   line += ",";

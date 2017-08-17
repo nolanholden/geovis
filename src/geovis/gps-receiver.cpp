@@ -20,7 +20,7 @@ static_assert(kGpsKalmanProcessNoise
 
 namespace {
   constexpr const char* const kGpsDisplayName = "GPS Receiver";
-  constexpr const char* const kGpsCsvHeader = "altitude-isValid,altitude-isUpdated,altitude-age,altitude-meters,course-isValid,course-isUpdated,course-age,course-deg,date-isValid,date-isUpdated,date-age,time-isValid,time-isUpdated,time-age,iso8601,hdop-isValid,hdop-isUpdated,hdop-age,hdop-value,location-isValid,location-isUpdated,location-age,location-lat,location-lng,location-rawLat-billionths,location-rawLng-billionths,satellites_tracking-isValid,satellites_tracking-isUpdated,satellites_tracking-age,satellites_tracking-value,speed-isValid,speed-isUpdated,speed-age,speed-knots,";
+  constexpr const char* const kGpsCsvHeader = "altitude-isValid,altitude-isUpdated,altitude-age,altitude-meters,course-isValid,course-isUpdated,course-age,course-deg,date-isValid,date-isUpdated,date-age,time-isValid,time-isUpdated,time-age,iso8601,hdop-isValid,hdop-isUpdated,hdop-age,hdop-value,location-isValid,location-isUpdated,location-age,location-lat,location-lng,location-rawLat-billionths,location-rawLng-billionths,satellites_tracking-isValid,satellites_tracking-isUpdated,satellites_tracking-age,satellites_tracking-value,speed-isValid,speed-isUpdated,speed-age,speed-knots,GpsCharsProcessed,GpsSentencesWithFix,GpsFailedChecksums,GpsPassedChecksums,";
 } // namespace
 
 GpsReceiver::GpsReceiver(HardwareSerial& serial)
@@ -134,6 +134,15 @@ String GpsReceiver::GetCsvLine() {
   line += speed().age();
   line += ",";
   line += speed().knots();
+  line += ",";
+
+  line += gps_.charsProcessed();
+  line += ",";
+  line += gps_.sentencesWithFix();
+  line += ",";
+  line += gps_.failedChecksum();
+  line += ",";
+  line += gps_.passedChecksum();
   line += ",";
 
   return line;
