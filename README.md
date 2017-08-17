@@ -1,5 +1,5 @@
 # GEOVIS (hyper-Geographical Omni-attitude Vehicle-path Interpretation System)
-GEOVIS is a rocket flight-path interpreter designed for River City Rocketry.
+GEOVIS is an all-purpose flight-path interpretation system for the University of Louisville's rocket team, River City Rocketry.
 
 _**Copiers and contributers welcome!**_
 
