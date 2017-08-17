@@ -48,11 +48,11 @@
         </thead>
         <tbody>
           <tr>
-            <td><%= @actual_apogee %>m <div class="sub">(<%= @actual_apogee.feet.round(2) %>ft)</div></td>
-            <td><%= @calculated_apogee %>m <div class="sub">(<%= @calculated_apogee.feet.round(2) %>ft)</div></td>
+            <td><%= @actual_apogee.round(2) %>m <div class="sub">(<%= @actual_apogee.feet.round(2) %>ft)</div></td>
+            <td><%= @calculated_apogee.round(2) %>m <div class="sub">(<%= @calculated_apogee.feet.round(2) %>ft)</div></td>
             <td><%= @apogee_cause %></td>
-            <td><%= @main_chute_altitude %>m <div class="sub">(<%= @main_chute_altitude.feet.round(2) %>ft)</div></td>
-            <td><%= @main_chute_actual %>m <div class="sub">(<%= @main_chute_actual.feet.round(2) %>ft)</div></td>
+            <td><%= @main_chute_altitude.round(2) %>m <div class="sub">(<%= @main_chute_altitude.feet.round(2) %>ft)</div></td>
+            <td><%= @main_chute_actual.round(2) %>m <div class="sub">(<%= @main_chute_actual.feet.round(2) %>ft)</div></td>
             <td><%= @average_temperature.round(2) %> &deg;C</td>
           </tr>
         </tbody>
