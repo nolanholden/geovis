@@ -8,7 +8,7 @@ namespace geovis_util {
 // Absolute value.
 #undef abs // leave undefined.
 template <typename T>
-inline constexpr T abs(T arg) { return static_cast<T>(0) ? -arg : arg; }
+inline constexpr T abs(T arg) { return arg < static_cast<T>(0) ? -arg : arg; }
 
 // Express a fatal error by locking the main thread and blinking morse code SOS.
 void illuminate_morse_code_sos();
