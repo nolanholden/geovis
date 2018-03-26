@@ -94,9 +94,11 @@
     <ClInclude Include="logger.h" />
     <ClInclude Include="geovis.h" />
     <ClInclude Include="printouts.h" />
+    <ClInclude Include="radio.h" />
     <ClInclude Include="sensor.h" />
     <ClInclude Include="tinygps-plus.h" />
     <ClInclude Include="updateable.h" />
+    <ClInclude Include="xbee.h" />
     <ClInclude Include="__vm\.geovis.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
@@ -105,8 +107,10 @@
     <ClCompile Include="gps-receiver.cpp" />
     <ClCompile Include="inertial-measurement-unit.cpp" />
     <ClCompile Include="logger.cpp" />
+    <ClCompile Include="radio.cpp" />
     <ClCompile Include="tinygps-plus.cpp" />
     <ClCompile Include="updateable.cpp" />
+    <ClCompile Include="xbee.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="geovis.ino" />

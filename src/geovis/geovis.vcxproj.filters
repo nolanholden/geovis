@@ -16,6 +16,8 @@
     <ClInclude Include="printouts.h" />
     <ClInclude Include="sensor.h" />
     <ClInclude Include="tinygps-plus.h" />
+    <ClInclude Include="radio.h" />
+    <ClInclude Include="xbee.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="geovis-util.cpp" />
@@ -25,6 +27,8 @@
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="tinygps-plus.cpp" />
     <ClCompile Include="updateable.cpp" />
+    <ClCompile Include="radio.cpp" />
+    <ClCompile Include="xbee.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="geovis.ino" />
