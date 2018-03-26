@@ -37,7 +37,15 @@ typedef void *__builtin_va_list;
 
 #define NEW_H
 
+
 #include <arduino.h>
+#define abs(x) ((x)>0?(x):-(x))
+#define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
+#define round(x)     ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
+#define radians(deg) ((deg)*DEG_TO_RAD)
+#define degrees(rad) ((rad)*RAD_TO_DEG)
+#define sq(x) ((x)*(x))
+
 #define __arm__
 #define __ARM__
 #define __extension__

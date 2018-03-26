@@ -1,79 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Header Files\Sensors">
-      <UniqueIdentifier>{bf256648-4fed-4d82-a6c6-5488d73a8fe1}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="tinygps-plus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="__vm\.geovis.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="geovis.h" />
-    <ClInclude Include="initializable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="logger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="updateable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="debug-settings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="geovis-util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="kalman.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="printouts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gps-receiver.h">
-      <Filter>Header Files\Sensors</Filter>
-    </ClInclude>
-    <ClInclude Include="inertial-measurement-unit.h">
-      <Filter>Header Files\Sensors</Filter>
-    </ClInclude>
-    <ClInclude Include="atmospheric-sensor.h">
-      <Filter>Header Files\Sensors</Filter>
-    </ClInclude>
-    <ClInclude Include="sensor.h">
-      <Filter>Header Files\Sensors</Filter>
-    </ClInclude>
+    <ClInclude Include="updateable.h" />
+    <ClInclude Include="__vm\.geovis.vsarduino.h" />
+    <ClInclude Include="atmospheric-sensor.h" />
+    <ClInclude Include="constants.h" />
+    <ClInclude Include="debug-settings.h" />
+    <ClInclude Include="geovis-util.h" />
+    <ClInclude Include="gps-receiver.h" />
+    <ClInclude Include="inertial-measurement-unit.h" />
+    <ClInclude Include="initializable.h" />
+    <ClInclude Include="kalman.h" />
+    <ClInclude Include="logger.h" />
+    <ClInclude Include="printouts.h" />
+    <ClInclude Include="sensor.h" />
+    <ClInclude Include="tinygps-plus.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="tinygps-plus.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="logger.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="updateable.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="geovis-util.cpp" />
-    <ClCompile Include="gps-receiver.cpp">
-      <Filter>Header Files\Sensors</Filter>
-    </ClCompile>
-    <ClCompile Include="inertial-measurement-unit.cpp">
-      <Filter>Header Files\Sensors</Filter>
-    </ClCompile>
-    <ClCompile Include="atmospheric-sensor.cpp">
-      <Filter>Header Files\Sensors</Filter>
-    </ClCompile>
+    <ClCompile Include="atmospheric-sensor.cpp" />
+    <ClCompile Include="gps-receiver.cpp" />
+    <ClCompile Include="inertial-measurement-unit.cpp" />
+    <ClCompile Include="logger.cpp" />
+    <ClCompile Include="tinygps-plus.cpp" />
+    <ClCompile Include="updateable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="geovis.ino" />
