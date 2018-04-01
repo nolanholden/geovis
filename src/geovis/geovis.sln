@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "geovis.unittests", "geovis.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "geovis.scripts", "..\geovis.scripts\geovis.scripts.csproj", "{C814AC5B-7043-4620-ADD4-AB86EAE4E723}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "geovis.test", "..\geovis.test\geovis.test.vcxproj", "{9214E03E-DF27-41FF-A9C5-94E5629CDCDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,8 +49,21 @@ Global
 		{C814AC5B-7043-4620-ADD4-AB86EAE4E723}.Release|x64.Build.0 = Release|Any CPU
 		{C814AC5B-7043-4620-ADD4-AB86EAE4E723}.Release|x86.ActiveCfg = Release|Any CPU
 		{C814AC5B-7043-4620-ADD4-AB86EAE4E723}.Release|x86.Build.0 = Release|Any CPU
+		{9214E03E-DF27-41FF-A9C5-94E5629CDCDD}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{9214E03E-DF27-41FF-A9C5-94E5629CDCDD}.Debug|x64.ActiveCfg = Debug|x64
+		{9214E03E-DF27-41FF-A9C5-94E5629CDCDD}.Debug|x64.Build.0 = Debug|x64
+		{9214E03E-DF27-41FF-A9C5-94E5629CDCDD}.Debug|x86.ActiveCfg = Debug|Win32
+		{9214E03E-DF27-41FF-A9C5-94E5629CDCDD}.Debug|x86.Build.0 = Debug|Win32
+		{9214E03E-DF27-41FF-A9C5-94E5629CDCDD}.Release|Any CPU.ActiveCfg = Release|Win32
+		{9214E03E-DF27-41FF-A9C5-94E5629CDCDD}.Release|x64.ActiveCfg = Release|x64
+		{9214E03E-DF27-41FF-A9C5-94E5629CDCDD}.Release|x64.Build.0 = Release|x64
+		{9214E03E-DF27-41FF-A9C5-94E5629CDCDD}.Release|x86.ActiveCfg = Release|Win32
+		{9214E03E-DF27-41FF-A9C5-94E5629CDCDD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {42859639-C95C-4FEE-9F27-64D1A63C2507}
 	EndGlobalSection
 EndGlobal

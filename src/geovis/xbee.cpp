@@ -1637,7 +1637,7 @@ uint8_t XBeeWithCallbacks::matchStatus(uint8_t frameId) {
 	return 0xff;
 }
 
-uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16_t timeout, void *func, uintptr_t data, int16_t frameId) {
+uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16_t timeout, void *dummy_func, uintptr_t data, int16_t frameId) {
 	unsigned long start = millis();
 	do {
 		// Wait for a packet of the right type
@@ -1665,7 +1665,7 @@ uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16
 				switch(apiId) {
 					case ZBTxStatusResponse::API_ID: {
 						ZBTxStatusResponse *r = (ZBTxStatusResponse*)response;
-						bool(*f)(ZBTxStatusResponse&,uintptr_t) = (bool(*)(ZBTxStatusResponse&,uintptr_t))func;
+						bool(*f)(ZBTxStatusResponse&,uintptr_t) = (bool(*)(ZBTxStatusResponse&,uintptr_t))dummy_func;
 						getResponse().getZBTxStatusResponse(*r);
 						if(!f || f(*r, data))
 							return 0;
@@ -1673,7 +1673,7 @@ uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16
 					}
 					case ZBRxResponse::API_ID: {
 						ZBRxResponse *r = (ZBRxResponse*)response;
-						bool(*f)(ZBRxResponse&,uintptr_t) = (bool(*)(ZBRxResponse&,uintptr_t))func;
+						bool(*f)(ZBRxResponse&,uintptr_t) = (bool(*)(ZBRxResponse&,uintptr_t))dummy_func;
 						getResponse().getZBRxResponse(*r);
 						if(!f || f(*r, data))
 							return 0;
@@ -1681,7 +1681,7 @@ uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16
 					}
 					case ZBExplicitRxResponse::API_ID: {
 						ZBExplicitRxResponse *r = (ZBExplicitRxResponse*)response;
-						bool(*f)(ZBExplicitRxResponse&,uintptr_t) = (bool(*)(ZBExplicitRxResponse&,uintptr_t))func;
+						bool(*f)(ZBExplicitRxResponse&,uintptr_t) = (bool(*)(ZBExplicitRxResponse&,uintptr_t))dummy_func;
 						getResponse().getZBExplicitRxResponse(*r);
 						if(!f || f(*r, data))
 							return 0;
@@ -1689,7 +1689,7 @@ uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16
 					}
 					case ZBRxIoSampleResponse::API_ID: {
 						ZBRxIoSampleResponse *r = (ZBRxIoSampleResponse*)response;
-						bool(*f)(ZBRxIoSampleResponse&,uintptr_t) = (bool(*)(ZBRxIoSampleResponse&,uintptr_t))func;
+						bool(*f)(ZBRxIoSampleResponse&,uintptr_t) = (bool(*)(ZBRxIoSampleResponse&,uintptr_t))dummy_func;
 						getResponse().getZBRxIoSampleResponse(*r);
 						if(!f || f(*r, data))
 							return 0;
@@ -1697,7 +1697,7 @@ uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16
 					}
 					case TxStatusResponse::API_ID: {
 						TxStatusResponse *r = (TxStatusResponse*)response;
-						bool(*f)(TxStatusResponse&,uintptr_t) = (bool(*)(TxStatusResponse&,uintptr_t))func;
+						bool(*f)(TxStatusResponse&,uintptr_t) = (bool(*)(TxStatusResponse&,uintptr_t))dummy_func;
 						getResponse().getTxStatusResponse(*r);
 						if(!f || f(*r, data))
 							return 0;
@@ -1705,7 +1705,7 @@ uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16
 					}
 					case Rx16Response::API_ID: {
 						Rx16Response *r = (Rx16Response*)response;
-						bool(*f)(Rx16Response&,uintptr_t) = (bool(*)(Rx16Response&,uintptr_t))func;
+						bool(*f)(Rx16Response&,uintptr_t) = (bool(*)(Rx16Response&,uintptr_t))dummy_func;
 						getResponse().getRx16Response(*r);
 						if(!f || f(*r, data))
 							return 0;
@@ -1713,7 +1713,7 @@ uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16
 					}
 					case Rx64Response::API_ID: {
 						Rx64Response *r = (Rx64Response*)response;
-						bool(*f)(Rx64Response&,uintptr_t) = (bool(*)(Rx64Response&,uintptr_t))func;
+						bool(*f)(Rx64Response&,uintptr_t) = (bool(*)(Rx64Response&,uintptr_t))dummy_func;
 						getResponse().getRx64Response(*r);
 						if(!f || f(*r, data))
 							return 0;
@@ -1721,7 +1721,7 @@ uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16
 					}
 					case Rx16IoSampleResponse::API_ID: {
 						Rx16IoSampleResponse *r = (Rx16IoSampleResponse*)response;
-						bool(*f)(Rx16IoSampleResponse&,uintptr_t) = (bool(*)(Rx16IoSampleResponse&,uintptr_t))func;
+						bool(*f)(Rx16IoSampleResponse&,uintptr_t) = (bool(*)(Rx16IoSampleResponse&,uintptr_t))dummy_func;
 						getResponse().getRx16IoSampleResponse(*r);
 						if(!f || f(*r, data))
 							return 0;
@@ -1729,7 +1729,7 @@ uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16
 					}
 					case Rx64IoSampleResponse::API_ID: {
 						Rx64IoSampleResponse *r = (Rx64IoSampleResponse*)response;
-						bool(*f)(Rx64IoSampleResponse&,uintptr_t) = (bool(*)(Rx64IoSampleResponse&,uintptr_t))func;
+						bool(*f)(Rx64IoSampleResponse&,uintptr_t) = (bool(*)(Rx64IoSampleResponse&,uintptr_t))dummy_func;
 						getResponse().getRx64IoSampleResponse(*r);
 						if(!f || f(*r, data))
 							return 0;
@@ -1737,7 +1737,7 @@ uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16
 					}
 					case ModemStatusResponse::API_ID: {
 						ModemStatusResponse *r = (ModemStatusResponse*)response;
-						bool(*f)(ModemStatusResponse&,uintptr_t) = (bool(*)(ModemStatusResponse&,uintptr_t))func;
+						bool(*f)(ModemStatusResponse&,uintptr_t) = (bool(*)(ModemStatusResponse&,uintptr_t))dummy_func;
 						getResponse().getModemStatusResponse(*r);
 						if(!f || f(*r, data))
 							return 0;
@@ -1745,7 +1745,7 @@ uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16
 					}
 					case AtCommandResponse::API_ID: {
 						AtCommandResponse *r = (AtCommandResponse*)response;
-						bool(*f)(AtCommandResponse&,uintptr_t) = (bool(*)(AtCommandResponse&,uintptr_t))func;
+						bool(*f)(AtCommandResponse&,uintptr_t) = (bool(*)(AtCommandResponse&,uintptr_t))dummy_func;
 						getResponse().getAtCommandResponse(*r);
 						if(!f || f(*r, data))
 							return 0;
@@ -1753,7 +1753,7 @@ uint8_t XBeeWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16
 					}
 					case RemoteAtCommandResponse::API_ID: {
 						RemoteAtCommandResponse *r = (RemoteAtCommandResponse*)response;
-						bool(*f)(RemoteAtCommandResponse&,uintptr_t) = (bool(*)(RemoteAtCommandResponse&,uintptr_t))func;
+						bool(*f)(RemoteAtCommandResponse&,uintptr_t) = (bool(*)(RemoteAtCommandResponse&,uintptr_t))dummy_func;
 						getResponse().getRemoteAtCommandResponse(*r);
 						if(!f || f(*r, data))
 							return 0;

@@ -878,7 +878,7 @@ public:
 	 * XBeeResponse::getErrorCode()) and the data parameter.  while
 	 * registering the callback.
 	 */
-	void onPacketError(void (*func)(uint8_t, uintptr_t), uintptr_t data = 0) { _onPacketError.set(func, data); }
+	void onPacketError(void (*dummy_func)(uint8_t, uintptr_t), uintptr_t data = 0) { _onPacketError.set(dummy_func, data); }
 
 	/**
 	 * Register a response received callback. It is called whenever
@@ -888,7 +888,7 @@ public:
 	 * Arguments to the callback will be the received response and
 	 * the data parameter passed while registering the callback.
 	 */
-	void onResponse(void (*func)(XBeeResponse&, uintptr_t), uintptr_t data = 0) { _onResponse.set(func, data); }
+	void onResponse(void (*dummy_func)(XBeeResponse&, uintptr_t), uintptr_t data = 0) { _onResponse.set(dummy_func, data); }
 
 	/**
 	 * Register an other response received callback. It is called
@@ -899,7 +899,7 @@ public:
 	 * Arguments to the callback will be the received response and
 	 * the data parameter passed while registering the callback.
 	 */
-	void onOtherResponse(void (*func)(XBeeResponse&, uintptr_t), uintptr_t data = 0) { _onOtherResponse.set(func, data); }
+	void onOtherResponse(void (*dummy_func)(XBeeResponse&, uintptr_t), uintptr_t data = 0) { _onOtherResponse.set(dummy_func, data); }
 
 	// These functions register a response specific callback. They
 	// are called whenever a response of the appropriate type was
@@ -909,18 +909,18 @@ public:
 	// Arguments to the callback will be the received response
 	// (already converted to the appropriate type) and the data
 	// parameter passed while registering the callback.
-	void onZBTxStatusResponse(void (*func)(ZBTxStatusResponse&, uintptr_t), uintptr_t data = 0) { _onZBTxStatusResponse.set(func, data); }
-	void onZBRxResponse(void (*func)(ZBRxResponse&, uintptr_t), uintptr_t data = 0) { _onZBRxResponse.set(func, data); }
-	void onZBExplicitRxResponse(void (*func)(ZBExplicitRxResponse&, uintptr_t), uintptr_t data = 0) { _onZBExplicitRxResponse.set(func, data); }
-	void onZBRxIoSampleResponse(void (*func)(ZBRxIoSampleResponse&, uintptr_t), uintptr_t data = 0) { _onZBRxIoSampleResponse.set(func, data); }
-	void onTxStatusResponse(void (*func)(TxStatusResponse&, uintptr_t), uintptr_t data = 0) { _onTxStatusResponse.set(func, data); }
-	void onRx16Response(void (*func)(Rx16Response&, uintptr_t), uintptr_t data = 0) { _onRx16Response.set(func, data); }
-	void onRx64Response(void (*func)(Rx64Response&, uintptr_t), uintptr_t data = 0) { _onRx64Response.set(func, data); }
-	void onRx16IoSampleResponse(void (*func)(Rx16IoSampleResponse&, uintptr_t), uintptr_t data = 0) { _onRx16IoSampleResponse.set(func, data); }
-	void onRx64IoSampleResponse(void (*func)(Rx64IoSampleResponse&, uintptr_t), uintptr_t data = 0) { _onRx64IoSampleResponse.set(func, data); }
-	void onModemStatusResponse(void (*func)(ModemStatusResponse&, uintptr_t), uintptr_t data = 0) { _onModemStatusResponse.set(func, data); }
-	void onAtCommandResponse(void (*func)(AtCommandResponse&, uintptr_t), uintptr_t data = 0) { _onAtCommandResponse.set(func, data); }
-	void onRemoteAtCommandResponse(void (*func)(RemoteAtCommandResponse&, uintptr_t), uintptr_t data = 0) { _onRemoteAtCommandResponse.set(func, data); }
+	void onZBTxStatusResponse(void (*dummy_func)(ZBTxStatusResponse&, uintptr_t), uintptr_t data = 0) { _onZBTxStatusResponse.set(dummy_func, data); }
+	void onZBRxResponse(void (*dummy_func)(ZBRxResponse&, uintptr_t), uintptr_t data = 0) { _onZBRxResponse.set(dummy_func, data); }
+	void onZBExplicitRxResponse(void (*dummy_func)(ZBExplicitRxResponse&, uintptr_t), uintptr_t data = 0) { _onZBExplicitRxResponse.set(dummy_func, data); }
+	void onZBRxIoSampleResponse(void (*dummy_func)(ZBRxIoSampleResponse&, uintptr_t), uintptr_t data = 0) { _onZBRxIoSampleResponse.set(dummy_func, data); }
+	void onTxStatusResponse(void (*dummy_func)(TxStatusResponse&, uintptr_t), uintptr_t data = 0) { _onTxStatusResponse.set(dummy_func, data); }
+	void onRx16Response(void (*dummy_func)(Rx16Response&, uintptr_t), uintptr_t data = 0) { _onRx16Response.set(dummy_func, data); }
+	void onRx64Response(void (*dummy_func)(Rx64Response&, uintptr_t), uintptr_t data = 0) { _onRx64Response.set(dummy_func, data); }
+	void onRx16IoSampleResponse(void (*dummy_func)(Rx16IoSampleResponse&, uintptr_t), uintptr_t data = 0) { _onRx16IoSampleResponse.set(dummy_func, data); }
+	void onRx64IoSampleResponse(void (*dummy_func)(Rx64IoSampleResponse&, uintptr_t), uintptr_t data = 0) { _onRx64IoSampleResponse.set(dummy_func, data); }
+	void onModemStatusResponse(void (*dummy_func)(ModemStatusResponse&, uintptr_t), uintptr_t data = 0) { _onModemStatusResponse.set(dummy_func, data); }
+	void onAtCommandResponse(void (*dummy_func)(AtCommandResponse&, uintptr_t), uintptr_t data = 0) { _onAtCommandResponse.set(dummy_func, data); }
+	void onRemoteAtCommandResponse(void (*dummy_func)(RemoteAtCommandResponse&, uintptr_t), uintptr_t data = 0) { _onRemoteAtCommandResponse.set(dummy_func, data); }
 
 	/**
 	 * Regularly call this method, which ensures that the serial
@@ -964,8 +964,8 @@ public:
 	 * retrieved using getResponse() as normal.
 	 */
 	template <typename Response>
-	uint8_t waitFor(Response& response, uint16_t timeout, bool (*func)(Response&, uintptr_t) = NULL, uintptr_t data = 0, int16_t frameId = -1) {
-		return waitForInternal(Response::API_ID, &response, timeout, (void*)func, data, frameId);
+	uint8_t waitFor(Response& response, uint16_t timeout, bool (*dummy_func)(Response&, uintptr_t) = NULL, uintptr_t data = 0, int16_t frameId = -1) {
+		return waitForInternal(Response::API_ID, &response, timeout, (void*)dummy_func, data, frameId);
 	}
 
 	/**
@@ -1006,7 +1006,7 @@ private:
 	 * function to the corresponding type. This means that the
 	 * void* given must match the api id!
 	 */
-	uint8_t waitForInternal(uint8_t apiId, void *response, uint16_t timeout, void *func, uintptr_t data, int16_t frameId);
+	uint8_t waitForInternal(uint8_t apiId, void *response, uint16_t timeout, void *dummy_func, uintptr_t data, int16_t frameId);
 
 	/**
 	 * Helper that checks if the current response is a status
@@ -1030,15 +1030,15 @@ private:
 	void loopBottom();
 
 	template <typename Arg> struct Callback {
-		void (*func)(Arg, uintptr_t);
+		void (*dummy_func)(Arg, uintptr_t);
 		uintptr_t data;
-		void set(void (*func)(Arg, uintptr_t), uintptr_t data) {
-			this->func = func;
+		void set(void (*dummy_func)(Arg, uintptr_t), uintptr_t data) {
+			this->dummy_func = dummy_func;
 			this->data = data;
 		}
 		bool call(Arg arg) {
-			if (this->func) {
-				this->func(arg, this->data);
+			if (this->dummy_func) {
+				this->dummy_func(arg, this->data);
 				return true;
 			}
 			return false;

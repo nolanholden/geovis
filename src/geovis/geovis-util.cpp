@@ -15,7 +15,7 @@ namespace geovis_util {
 // Express a fatal error by locking the main thread and blinking morse code SOS.
 // Specifiy dot length or use defaults. (All time intervals are defined in
 // terms of dot time interval.)
-void illuminate_morse_code_sos(const uint32_t dot_milliseconds = 64u) {
+void illuminate_morse_code_sos(const uint32_t dot_milliseconds) {
   digitalWrite(kLedPin, LOW); // start dimmed.
 
   // Times in milliseconds.

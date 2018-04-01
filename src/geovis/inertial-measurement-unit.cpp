@@ -9,14 +9,6 @@
 namespace rcr {
 namespace geovis {
 
-constexpr double kImuKalmanProcessNoise = 0.01;
-constexpr double kImuKalmanMeasurementNoise = 0.25;
-constexpr double kImuKalmanError = 1.;
-static_assert(kImuKalmanProcessNoise
-  + kImuKalmanMeasurementNoise
-  + kImuKalmanError != double{ 0 },
-  "The sum of 'process noise covariance', 'measurement noise covariance', and 'estimation error covariance' cannot be zero; this creates a divide-by-zero condition.");
-
 namespace {
   constexpr const char* kImuDisplayName = "Inertial Measurement Unit";
   constexpr const char* kImuCsvHeader = "Heading (magnetic),Pitch/Euler-Y,Roll/Euler-Z,Linear Accel (X),Linear Accel (Y),Linear Accel (Z),Linear Accel Magnitude,Gravity Accel (X),Gravity Accel (Y),Gravity Accel (Z),";
@@ -27,20 +19,8 @@ InertialMeasurementUnit::InertialMeasurementUnit()
 
 void InertialMeasurementUnit::Update() {
   linear_accel_ = bno_.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
-  linear_x_.Update(linear_accel_.x());
-  linear_y_.Update(linear_accel_.y());
-  linear_z_.Update(linear_accel_.z());
-
   gravitational_accel_ = bno_.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
-  gravity_x_.Update(gravitational_accel_.x());
-  gravity_y_.Update(gravitational_accel_.y());
-  gravity_z_.Update(gravitational_accel_.z());
-
   orientation_ = bno_.getQuat(); // radians
-  quat_w_.Update(orientation_.w());
-  quat_x_.Update(orientation_.x());
-  quat_y_.Update(orientation_.y());
-  quat_z_.Update(orientation_.z());
 }
 
 imu::Vector<3> InertialMeasurementUnit::GetOrientationEuler() const {
@@ -63,11 +43,11 @@ String InertialMeasurementUnit::GetCsvLine() {
 
   auto euler_degrees = GetOrientationEuler();
 
-  line += std::move(euler_degrees.x());
+  line += euler_degrees.x();
   line += ",";
-  line += std::move(euler_degrees.y());
+  line += euler_degrees.y();
   line += ",";
-  line += std::move(euler_degrees.z());
+  line += euler_degrees.z();
   line += ",";
 
   line += linear_accel().x();

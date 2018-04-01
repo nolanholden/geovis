@@ -1,7 +1,6 @@
 #include "gps-receiver.h"
 
 #include "constants.h"
-#include "kalman.h"
 #include "sensor.h"
 
 #include <cstdio>
@@ -9,14 +8,6 @@
 
 namespace rcr {
 namespace geovis {
-
-constexpr double kGpsKalmanProcessNoise = 0.01;
-constexpr double kGpsKalmanMeasurementNoise = 0.25;
-constexpr double kGpsKalmanError = 1.;
-static_assert(kGpsKalmanProcessNoise
-  + kGpsKalmanMeasurementNoise
-  + kGpsKalmanError != double{ 0 },
-  "The sum of 'process noise covariance', 'measurement noise covariance', and 'estimation error covariance' cannot be zero; this creates a divide-by-zero condition.");
 
 namespace {
   constexpr const char* const kGpsDisplayName = "GPS Receiver";
@@ -28,22 +19,6 @@ GpsReceiver::GpsReceiver(HardwareSerial& serial)
     datetime_{ gps_.date, gps_.time } {}
 
 void GpsReceiver::Update() {
-  // Update Kalman filters *first*, s.t. newly encoded sentences remain "updated"
-  // when GetCsvLine() is called.
-  if (altitude().isValid()) {
-    altitude_filtered_.Update(altitude().meters());
-  }
-  if (course().isValid()) {
-    course_filtered_.Update(course().deg());
-  }
-  if (location().isValid()) {
-    lat_filtered_.Update(location().lat());
-    lng_filtered_.Update(location().lng());
-  }
-  if (speed().isValid()) {
-    speed_filtered_.Update(speed().knots());
-  }
-
   // Now encode available NMEA sentences.
   while (gps_serial_.available()) {
     gps_.encode(gps_serial_.read());

@@ -12,7 +12,7 @@ class Updateable {
   // Do this every time in loop();
   virtual void Update() = 0;
 
-  virtual ~Updateable();
+  virtual ~Updateable() {}
 };
 
 } // namespace geovis

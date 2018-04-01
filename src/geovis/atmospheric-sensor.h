@@ -8,7 +8,6 @@
 #endif
 
 #include "constants.h"
-#include "kalman.h"
 #include "sensor.h"
 #include "updateable.h"
 
@@ -22,14 +21,9 @@ constexpr uint8_t BME_MISO = 1;
 constexpr uint8_t BME_MOSI = 0;
 constexpr uint8_t BME_CS = 31;
 
-extern const float
-  kAtmosphericKalmanProcessNoise,
-  kAtmosphericKalmanMeasurementNoise,
-  kAtmosphericKalmanError;
-
 constexpr float kStdPressure = 1013.25f; // hecto-Pascals
 
-class AtmosphericSensor : public Sensor, public Updateable {
+class AtmosphericSensor : public Sensor, public virtual Updateable {
  public:
   AtmosphericSensor();
 
@@ -66,11 +60,6 @@ class AtmosphericSensor : public Sensor, public Updateable {
    bool ProtectedInit() { return bme_.begin(); }
 
   Adafruit_BME280 bme_{ BME_CS, BME_MOSI, BME_MISO, BME_SCK }; // software SPI
-  
-  Kalman<float, kAtmosphericKalmanProcessNoise,
-    kAtmosphericKalmanMeasurementNoise,
-    kAtmosphericKalmanError>
-    ambient_pressure_, humidity_, pressure_altitude_, temperature_;
 };
 
 } // namespace geovis

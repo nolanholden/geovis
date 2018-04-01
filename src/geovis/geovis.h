@@ -7,8 +7,12 @@
 	#include "WProgram.h"
 #endif
 
+//void* operator new(size_t n) { return malloc(n); }
+void operator delete(void * p, size_t) { free(p); }
+
 // RCR headers
 #include "atmospheric-sensor.h"
+#include "config.h"
 #include "constants.h"
 #include "debug-settings.h"
 #include "geovis-util.h"

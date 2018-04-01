@@ -8,7 +8,6 @@
 #endif
 
 #include "constants.h"
-#include "kalman.h"
 #include "sensor.h"
 #include "tinygps-plus.h"
 #include "updateable.h"
@@ -17,11 +16,6 @@ namespace rcr {
 namespace geovis {
 
 constexpr size_t kMaxIso8601Length = 33;
-
-extern const double
-  kGpsKalmanProcessNoise,
-  kGpsKalmanMeasurementNoise,
-  kGpsKalmanError;
 
 // Last-updated date & time.
 struct DateTime {
@@ -58,12 +52,6 @@ class GpsReceiver : public Sensor, public Updateable {
   TinyGPSPlus gps_;
 
   DateTime datetime_;
-
-  // Kalman filtered values.
-  // Units: [m], [360deg], [deg North (+/-)], [deg East (+/-)], [knots]
-  // i.e., South of equator and West of prime-meridian are negative degrees.
-  Kalman<double, kGpsKalmanProcessNoise, kGpsKalmanMeasurementNoise, kGpsKalmanError>
-    altitude_filtered_, course_filtered_, lat_filtered_, lng_filtered_, speed_filtered_;
 
   bool ProtectedInit();
 };

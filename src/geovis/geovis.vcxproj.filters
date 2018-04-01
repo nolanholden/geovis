@@ -11,13 +11,13 @@
     <ClInclude Include="gps-receiver.h" />
     <ClInclude Include="inertial-measurement-unit.h" />
     <ClInclude Include="initializable.h" />
-    <ClInclude Include="kalman.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="printouts.h" />
     <ClInclude Include="sensor.h" />
     <ClInclude Include="tinygps-plus.h" />
     <ClInclude Include="radio.h" />
     <ClInclude Include="xbee.h" />
+    <ClInclude Include="config.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="geovis-util.cpp" />
@@ -26,7 +26,6 @@
     <ClCompile Include="inertial-measurement-unit.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="tinygps-plus.cpp" />
-    <ClCompile Include="updateable.cpp" />
     <ClCompile Include="radio.cpp" />
     <ClCompile Include="xbee.cpp" />
   </ItemGroup>

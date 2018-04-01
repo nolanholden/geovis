@@ -2,22 +2,22 @@
 #define RCR_STRATOCOMM_RADIO_H_
 
 #if defined(ARDUINO) && ARDUINO >= 100
-	#include "arduino.h"
+#include "arduino.h"
 #else
-	#include "WProgram.h"
+#include "WProgram.h"
 #endif
 
 #include "constants.h"
-#include "initializable.h"
-#include "updateable.h"
 
 #include "xbee.h"
 
 namespace rcr {
 namespace stratocomm {
 
-class Radio : public virtual Initializable, public virtual Updateable {
- public:
+constexpr size_t kMaxPayloadLength = 95;
+
+class Radio {
+public:
   Radio(HardwareSerial& serial);
 
   bool Init();
@@ -32,10 +32,12 @@ class Radio : public virtual Initializable, public virtual Updateable {
 
   void Update();
 
- private:
+private:
   XBeeWithCallbacks xbee_;
   HardwareSerial& radio_serial_;
   bool has_new_message_ = false;
+
+  void send_octet_buffer(uint8_t length);
 
   // reused outbound packet
   ZBTxRequest outbound_packet_;
@@ -43,7 +45,7 @@ class Radio : public virtual Initializable, public virtual Updateable {
   // SH & SL Address of receiving XBee
   XBeeAddress64 addr64_; // "broadcast" address
 
-  // reused buffer
+                          // reused buffer
   uint8_t octets_buffer_[kMaxPayloadLength];
 
   // reused buffer

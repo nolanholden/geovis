@@ -7,7 +7,6 @@
 	#include "WProgram.h"
 #endif
 
-#include "kalman.h"
 #include "sensor.h"
 #include "updateable.h"
 
@@ -59,18 +58,6 @@ class InertialMeasurementUnit : public Sensor, public Updateable {
   imu::Quaternion orientation_;
   imu::Vector<3> linear_accel_;
   imu::Vector<3> gravitational_accel_;
-
-  // Orientation quaternion:
-  Kalman<double, kImuKalmanProcessNoise, kImuKalmanMeasurementNoise, kImuKalmanError>
-    quat_w_, quat_x_, quat_y_, quat_z_;
-
-  // Linear accelleration:
-  Kalman<double, kImuKalmanProcessNoise, kImuKalmanMeasurementNoise, kImuKalmanError>
-    linear_x_, linear_y_, linear_z_;
-
-  // Gravitational accelleration:
-  Kalman<double, kImuKalmanProcessNoise, kImuKalmanMeasurementNoise, kImuKalmanError>
-    gravity_x_, gravity_y_, gravity_z_;
 };
 
 } // namespace geovis
